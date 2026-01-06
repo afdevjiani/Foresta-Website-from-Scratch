@@ -9,7 +9,7 @@ class ProductConfigurator {
         this.categories = {
             kitchen: {
                 name: 'Kitchen',
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M6 11V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><line x1="8" y1="16" x2="8" y2="16.01"/><line x1="12" y1="16" x2="12" y2="16.01"/><line x1="16" y1="16" x2="16" y2="16.01"/></svg>',
+                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
                 designs: {
                     'modern-modular': {
                         name: 'Modern Modular Kitchen',
@@ -48,7 +48,7 @@ class ProductConfigurator {
             },
             bedroom: {
                 name: 'Bedroom',
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><rect x="2" y="12" width="20" height="8" rx="1"/><path d="M7 12V8a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v4"/></svg>',
+                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></svg>',
                 designs: {
                     'modern-bedroom': {
                         name: 'Modern Bedroom Set',
@@ -84,7 +84,7 @@ class ProductConfigurator {
             },
             wardrobe: {
                 name: 'Wardrobe',
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="2" x2="12" y2="22"/><circle cx="9" cy="12" r="0.5" fill="currentColor"/><circle cx="15" cy="12" r="0.5" fill="currentColor"/></svg>',
+                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="18" height="20" rx="2"/><path d="M12 2v20"/><path d="M12 6h.01"/><path d="M12 18h.01"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="15" cy="12" r="1" fill="currentColor"/></svg>',
                 designs: {
                     'sliding-wardrobe': {
                         name: 'Modern Sliding Wardrobe',
@@ -171,10 +171,15 @@ class ProductConfigurator {
         // Show designs section
         document.getElementById('designsSection').classList.add('active');
         
-        // Scroll to designs section
+        // Scroll to designs section with better positioning
         setTimeout(() => {
-            document.getElementById('designsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+            const designsSection = document.getElementById('designsSection');
+            if (designsSection) {
+                const yOffset = -100; // Offset from top
+                const y = designsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }, 300);
     }
 
     renderColors(categoryId, designId) {
@@ -199,10 +204,15 @@ class ProductConfigurator {
         // Show colors section
         document.getElementById('colorsSection').classList.add('active');
         
-        // Scroll to colors section
+        // Scroll to colors section with better positioning
         setTimeout(() => {
-            document.getElementById('colorsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+            const colorsSection = document.getElementById('colorsSection');
+            if (colorsSection) {
+                const yOffset = -100; // Offset from top
+                const y = colorsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }, 300);
     }
 
     updatePreview(imageSrc, designName) {
@@ -234,31 +244,26 @@ class ProductConfigurator {
         const canvas = document.getElementById('previewCanvas');
         
         if (previewImage) {
-            // Add blend out class
-            previewImage.classList.add('blend-out');
+            // Preload the new image first
+            const newImage = new Image();
+            newImage.src = imageSrc;
             
-            // Minimal delay for smooth transition
-            setTimeout(() => {
-                previewImage.src = imageSrc;
-                previewImage.alt = designName;
+            newImage.onload = () => {
+                // Once loaded, do instant crossfade
+                previewImage.style.opacity = '0';
                 
-                // Store original image for color transformation
-                previewImage.onload = () => {
-                    // Immediate transition to blend in
-                    previewImage.classList.remove('blend-out');
-                    previewImage.classList.add('blend-in');
-                    
-                    // Remove blend-in class after animation
-                    setTimeout(() => {
-                        previewImage.classList.remove('blend-in');
-                    }, 500);
+                // Change source immediately after fade starts
+                setTimeout(() => {
+                    previewImage.src = imageSrc;
+                    previewImage.alt = designName;
+                    previewImage.style.opacity = '1';
                     
                     if (canvas) {
                         this.originalImage = previewImage;
                         this.resetCanvas();
                     }
-                };
-            }, 250);
+                }, 50);
+            };
         }
         
         if (previewTitle) {
