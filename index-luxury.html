@@ -107,16 +107,28 @@
           
           <div class="stats-luxury">
             <div class="stat-box">
-              <span class="stat-number-large">45+</span>
-              <span class="stat-label-large">Years of Mastery</span>
+              <div class="stat-card-inner">
+                <div class="stat-card-front">
+                  <span class="stat-number-large">45+</span>
+                  <span class="stat-label-large">Years of Mastery</span>
+                </div>
+                <div class="stat-card-back">
+                  <span class="stat-number-large">45+</span>
+                  <span class="stat-label-large">Years of Mastery</span>
+                </div>
+              </div>
             </div>
             <div class="stat-box">
-              <span class="stat-number-large">100%</span>
-              <span class="stat-label-large">Quality Assured</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number-large">MENA</span>
-              <span class="stat-label-large">Regional Leader</span>
+              <div class="stat-card-inner">
+                <div class="stat-card-front">
+                  <span class="stat-number-large">100%</span>
+                  <span class="stat-label-large">Quality Assured</span>
+                </div>
+                <div class="stat-card-back">
+                  <span class="stat-number-large">100%</span>
+                  <span class="stat-label-large">Quality Assured</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,18 +137,6 @@
           <div class="image-wrapper">
             <img src="assets/img1.jpg" alt="Foresta craftsmanship" loading="lazy">
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Philosophy Section -->
-    <section class="philosophy-section">
-      <div class="philosophy-container">
-        <div class="philosophy-quote">
-          <blockquote>
-            "Excellence is not a destination, but a journey of continuous refinement. Every panel we create is a testament to our philosophy of perfection."
-          </blockquote>
-          <cite>— Foresta Wood Industries</cite>
         </div>
       </div>
     </section>
@@ -172,6 +172,49 @@
           <div id="categoriesGrid"></div>
         </div>
 
+        <!-- Product Catalogs -->
+        <div id="catalog" class="configurator-section">
+          <h3 class="section-title">Product Catalogs</h3>
+          <p style="text-align: center; color: #b8b8b8; margin-bottom: 30px;">Explore our complete range of products and specifications</p>
+          <div class="catalog-grid">
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <h3>Lami Gloss Catalog</h3>
+              <p>Complete color range and specifications</p>
+              <a href="assets/LAMI-GLOSS-PALETTE.pdf" target="_blank" class="download-btn">View Catalog</a>
+            </div>
+
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <h3>Lami Matt Catalog</h3>
+              <p>Complete color range and specifications</p>
+              <a href="assets/LAMI MATT PALETTE .pdf" target="_blank" class="download-btn">View Catalog</a>
+            </div>
+
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <h3>Marble & Acrylic Catalog</h3>
+              <p>Complete pattern range and specifications</p>
+              <a href="assets/MARBLE & ACRYLIC .pdf" target="_blank" class="download-btn">View Catalog</a>
+            </div>
+          </div>
+        </div>
+
         <!-- Designs Selection -->
         <div id="designsSection" class="configurator-section">
           <h3 class="section-title">Select Your Design</h3>
@@ -202,277 +245,6 @@
 
         <!-- Selection Summary -->
         <div id="selectionSummary"></div>
-      </div>
-    </section>
-
-    <!-- Products Showcase Section -->
-    <section id="products" class="products-showcase-section">
-      <div class="section-intro">
-        <span class="section-label">Our Products</span>
-        <h2 class="section-heading">Premium Wood Solutions</h2>
-        <p class="section-description">
-          Discover our exquisite range of MDF panels, each crafted to perfection with cutting-edge technology and timeless elegance.
-        </p>
-      </div>
-
-      <!-- Product Categories Tabs -->
-      <div class="products-tabs">
-        <button class="product-tab active" data-category="lami-gloss">Lami Gloss</button>
-        <button class="product-tab" data-category="lami-matt">Lami Matt</button>
-        <button class="product-tab" data-category="marble-acrylic">Marble & Acrylic</button>
-      </div>
-
-      <!-- Product Grid Container -->
-      <div class="products-grid-container">
-        
-        <!-- Lami Gloss Products -->
-        <div class="products-category active" id="lami-gloss-products">
-          <div class="category-header">
-            <h3>Lami Gloss Collection</h3>
-            <p>Quantum gloss technology delivers an unmatched, mirror-like finish with superior durability</p>
-          </div>
-          <div class="products-grid">
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/ICEBERG WHITE GLOSS FWI-09-101.png" alt="Iceberg White Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Iceberg White Gloss</h4>
-                <span class="product-code">FWI-09-101</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/IVORY WHITE GLOSS FWI-09-102.png" alt="Ivory White Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Ivory White Gloss</h4>
-                <span class="product-code">FWI-09-102</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/CREAM GLOSS FWI-09-103.png" alt="Cream Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Cream Gloss</h4>
-                <span class="product-code">FWI-09-103</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/TWILIGHT GRAY GLOSS FWI-09-104.png" alt="Twilight Gray Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Twilight Gray Gloss</h4>
-                <span class="product-code">FWI-09-104</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/IVORY GRAY GLOSS FWI-09-115.png" alt="Ivory Gray Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Ivory Gray Gloss</h4>
-                <span class="product-code">FWI-09-115</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/CARADAMOM GREEN GLOSS FWI-09-116.png" alt="Cardamom Green Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Cardamom Green Gloss</h4>
-                <span class="product-code">FWI-09-116</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/GRAPHITE GRAY GLOSS FWI-09-140.png" alt="Graphite Gray Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Graphite Gray Gloss</h4>
-                <span class="product-code">FWI-09-140</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami Gloss Color Range/EMERALD GLOSS FWI-09-143.png" alt="Emerald Gloss" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Emerald Gloss</h4>
-                <span class="product-code">FWI-09-143</span>
-              </div>
-            </div>
-          </div>
-          <a href="#" class="view-all-btn" onclick="showCollection('lami-gloss')">View All Lami Gloss Colors</a>
-        </div>
-
-        <!-- Lami Matt Products -->
-        <div class="products-category" id="lami-matt-products">
-          <div class="category-header">
-            <h3>Lami Matt Collection</h3>
-            <p>Genesis anti-smudge finish offers understated elegance with superior fingerprint resistance</p>
-          </div>
-          <div class="products-grid">
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami matt 2.0/FWI-10-101 ICEBERG WHITE MATT.png" alt="Iceberg White Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Iceberg White Matt</h4>
-                <span class="product-code">FWI-10-101</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/lami Matt Color Range/IVORY WHITE FWI-01-102.png" alt="Ivory White Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Ivory White Matt</h4>
-                <span class="product-code">FWI-01-102</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/lami Matt Color Range/CREAM FWI-01-103.png" alt="Cream Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Cream Matt</h4>
-                <span class="product-code">FWI-01-103</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami matt 2.0/FWI-04-113 ACACIA GRAY (2).png" alt="Acacia Gray Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Acacia Gray Matt</h4>
-                <span class="product-code">FWI-04-113</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/lami Matt Color Range/EARTH BROWN FWI-01-105.png" alt="Earth Brown Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Earth Brown Matt</h4>
-                <span class="product-code">FWI-01-105</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami matt 2.0/FWI-04-138 ALMOND YELLOW.png" alt="Almond Yellow Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Almond Yellow Matt</h4>
-                <span class="product-code">FWI-04-138</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Lami matt 2.0/Sapphire Blue FWI-04-121.png" alt="Sapphire Blue Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Sapphire Blue Matt</h4>
-                <span class="product-code">FWI-04-121</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/lami Matt Color Range/WISDOM BLACK FWI-01-122.png" alt="Wisdom Black Matt" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Wisdom Black Matt</h4>
-                <span class="product-code">FWI-01-122</span>
-              </div>
-            </div>
-          </div>
-          <a href="#" class="view-all-btn" onclick="showCollection('lami-matt')">View All Lami Matt Colors</a>
-        </div>
-
-        <!-- Marble & Acrylic Products -->
-        <div class="products-category" id="marble-acrylic-products">
-          <div class="category-header">
-            <h3>Marble & Acrylic Collection</h3>
-            <p>Natural stone aesthetics with superior engineering for stunning visual impact</p>
-          </div>
-          <div class="products-grid">
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/AURA MARBLE FWI-05-501.png" alt="Aura Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Aura Marble</h4>
-                <span class="product-code">FWI-05-501</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/CALACATTA MARBLE FWI-05-502.png" alt="Calacatta Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Calacatta Marble</h4>
-                <span class="product-code">FWI-05-502</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/STATUARIO MARBLE FWI-05-503.png" alt="Statuario Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Statuario Marble</h4>
-                <span class="product-code">FWI-05-503</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/CARRARA MARBLE FWI-05-504.png" alt="Carrara Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Carrara Marble</h4>
-                <span class="product-code">FWI-05-504</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/ONYX MARBLE FWI-05-505.png" alt="Onyx Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Onyx Marble</h4>
-                <span class="product-code">FWI-05-505</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/EMPERADOR MARBLE FWI-05-506.png" alt="Emperador Marble" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Emperador Marble</h4>
-                <span class="product-code">FWI-05-506</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/NERO MARQUINA FWI-05-507.png" alt="Nero Marquina" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Nero Marquina</h4>
-                <span class="product-code">FWI-05-507</span>
-              </div>
-            </div>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="assets/Marble and acrylic color Range/TRAVERTINE FWI-05-508.png" alt="Travertine" loading="lazy">
-              </div>
-              <div class="product-info">
-                <h4>Travertine</h4>
-                <span class="product-code">FWI-05-508</span>
-              </div>
-            </div>
-          </div>
-          <a href="#" class="view-all-btn" onclick="showCollection('marble-acrylic')">View All Marble & Acrylic Patterns</a>
-        </div>
       </div>
     </section>
 
@@ -532,135 +304,6 @@
       </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="collections-section">
-      <div class="section-intro">
-        <span class="section-label">Collections</span>
-        <h2 class="section-heading">Curated Excellence</h2>
-        <p class="section-description">
-          Each collection represents the pinnacle of design and engineering, crafted for those who accept nothing but the finest.
-        </p>
-      </div>
-
-      <div class="collections-grid">
-        <!-- Lami Gloss Collection -->
-        <div class="collection-card" data-collection="lami-gloss">
-          <div class="collection-image">
-            <img src="assets/Lam Gloss 1.jpg" alt="Lami Gloss Collection" loading="lazy">
-            <div class="collection-overlay">
-              <div class="overlay-content">
-                <h3>Lami Gloss</h3>
-                <p>Quantum gloss technology delivers an unmatched, mirror-like finish</p>
-                <button class="explore-btn" onclick="showCollection('lami-gloss')">Explore Collection</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lami Matt Collection -->
-        <div class="collection-card" data-collection="lami-matt">
-          <div class="collection-image">
-            <img src="assets/Lam Matt 1.jpg" alt="Lami Matt Collection" loading="lazy">
-            <div class="collection-overlay">
-              <div class="overlay-content">
-                <h3>Lami Matt</h3>
-                <p>Genesis anti-smudge finish offers understated elegance and refinement</p>
-                <button class="explore-btn" onclick="showCollection('lami-matt')">Explore Collection</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Marble & Acrylic Collection -->
-        <div class="collection-card" data-collection="marble-acrylic">
-          <div class="collection-image">
-            <img src="assets/Marble 1 .jpg" alt="Marble & Acrylic Collection" loading="lazy">
-            <div class="collection-overlay">
-              <div class="overlay-content">
-                <h3>Marble & Acrylic</h3>
-                <p>Natural stone aesthetics with superior engineering</p>
-                <button class="explore-btn" onclick="showCollection('marble-acrylic')">Explore Collection</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Applications Section -->
-    <section class="applications-section">
-      <div class="section-intro">
-        <span class="section-label">Applications</span>
-        <h2 class="section-heading">Transforming Spaces</h2>
-        <p class="section-description">
-          From residential elegance to commercial grandeur, our panels define the spaces of tomorrow.
-        </p>
-      </div>
-
-      <div class="applications-grid">
-        <div class="app-card">
-          <div class="app-image" style="background-image: url('assets/img2.jpg')"></div>
-          <div class="app-content">
-            <h3>Residential Interiors</h3>
-            <p>Kitchens, wardrobes, and living spaces that exude sophistication</p>
-          </div>
-        </div>
-
-        <div class="app-card">
-          <div class="app-image" style="background-image: url('assets/img4.jpg')"></div>
-          <div class="app-content">
-            <h3>Commercial Projects</h3>
-            <p>Offices and retail spaces designed to impress</p>
-          </div>
-        </div>
-
-        <div class="app-card">
-          <div class="app-image" style="background-image: url('assets/thumbnail 1.jpg')"></div>
-          <div class="app-content">
-            <h3>Hospitality Design</h3>
-            <p>Creating memorable experiences in hotels and restaurants</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Trust Section -->
-    <section class="trust-section">
-      <div class="trust-container">
-        <div class="trust-content">
-          <span class="section-label">Trust & Certification</span>
-          <h2 class="section-heading">Built on Integrity</h2>
-          <p class="large-text">
-            Our commitment to quality is backed by rigorous standards and certifications that ensure every panel meets the highest benchmarks of excellence.
-          </p>
-          
-          <div class="trust-features">
-            <div class="trust-item">
-              <div class="trust-icon">✓</div>
-              <div>
-                <h4>ISO Certified</h4>
-                <p>International quality standards</p>
-              </div>
-            </div>
-            <div class="trust-item">
-              <div class="trust-icon">✓</div>
-              <div>
-                <h4>Eco-Friendly</h4>
-                <p>Sustainable sourcing practices</p>
-              </div>
-            </div>
-            <div class="trust-item">
-              <div class="trust-icon">✓</div>
-              <div>
-                <h4>Warranty Protected</h4>
-                <p>Comprehensive coverage for peace of mind</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="contact-luxury-section">
       <div class="contact-container">
@@ -678,8 +321,8 @@
                 <circle cx="12" cy="10" r="3"/>
               </svg>
               <div>
-                <h4>Visit Our Showroom</h4>
-                <p>Jebel Ali, Dubai, UAE</p>
+                <h4>Visit Our Factory</h4>
+                <p>Warehouse #3, Plot #1961<br>Umm Dera – Emirate of Umm Al Quwain<br>United Arab Emirates</p>
               </div>
             </div>
 
@@ -688,8 +331,8 @@
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               <div>
-                <h4>Call Us</h4>
-                <p>+971 XX XXX XXXX</p>
+                <h4>Phone</h4>
+                <p>+971 54 786 2986</p>
               </div>
             </div>
 
@@ -700,9 +343,22 @@
               </svg>
               <div>
                 <h4>Email</h4>
-                <p>info@foresta.ae</p>
+                <p>reachus@foresta.ae</p>
               </div>
             </div>
+          </div>
+
+          <!-- Map Container -->
+          <div class="map-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.842!2d55.5547!3d25.5647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zRm9yZXN0YSBXb29kIEluZHVzdHJpZXMgTExD!5e0!3m2!1sen!2sae!4v1234567890!5m2!1sen!2sae&q=Foresta+Wood+Industries+LLC+Warehouse+3+Plot+1961+Umm+Dera+Umm+Al+Quwain+UAE" 
+              width="100%" 
+              height="400" 
+              style="border:0; border-radius: 12px;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
           </div>
         </div>
 
@@ -745,54 +401,7 @@
       </div>
     </section>
 
-    <!-- Catalog Section -->
-    <section id="catalog" class="catalog-section">
-      <div class="section-intro">
-        <span class="section-label">Resources</span>
-        <h2 class="section-heading">Product Catalogs</h2>
-        <p class="section-description">
-          Explore our complete range of products and specifications
-        </p>
-      </div>
 
-      <div class="catalog-grid">
-        <div class="catalog-card-luxury">
-          <div class="catalog-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-          </div>
-          <h3>Lami Gloss Catalog</h3>
-          <p>Complete color range and specifications</p>
-          <a href="assets/LAMI-GLOSS-PALETTE.pdf" target="_blank" class="download-btn">View Catalog</a>
-        </div>
-
-        <div class="catalog-card-luxury">
-          <div class="catalog-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-          </div>
-          <h3>Lami Matt Catalog</h3>
-          <p>Complete color range and specifications</p>
-          <a href="assets/LAMI MATT PALETTE .pdf" target="_blank" class="download-btn">View Catalog</a>
-        </div>
-
-        <div class="catalog-card-luxury">
-          <div class="catalog-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-          </div>
-          <h3>Marble & Acrylic Catalog</h3>
-          <p>Complete pattern range and specifications</p>
-          <a href="assets/MARBLE & ACRYLIC .pdf" target="_blank" class="download-btn">View Catalog</a>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- Footer -->
@@ -800,35 +409,34 @@
     <div class="footer-container">
       <div class="footer-brand">
         <img src="assets/logo.png" alt="Foresta" width="60" height="60">
-        <p>Craftsmanship Refined Since 1980</p>
       </div>
 
       <div class="footer-links">
         <div class="footer-column">
-          <h4>Explore</h4>
+          <h4>Quick Links</h4>
           <ul>
-            <li><a href="#heritage">Our Heritage</a></li>
-            <li><a href="#collections">Collections</a></li>
-            <li><a href="#craftsmanship">Craftsmanship</a></li>
-            <li><a href="#catalog">Catalogs</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#catalog">Product Links</a></li>
           </ul>
         </div>
 
         <div class="footer-column">
-          <h4>Connect</h4>
+          <h4>Contact Us</h4>
           <ul>
-            <li><a href="#contact">Contact Us</a></li>
-            <li><a href="blog.html">Insights</a></li>
-            <li><a href="#showroom">Showroom</a></li>
+            <li><a href="#contact">Get in Touch</a></li>
+            <li><a href="tel:+971547862986">+971 54 786 2986</a></li>
+            <li><a href="mailto:reachus@foresta.ae">reachus@foresta.ae</a></li>
           </ul>
         </div>
 
         <div class="footer-column">
           <h4>Follow</h4>
           <div class="social-links-luxury">
-            <a href="#" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <a href="#" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-            <a href="#" aria-label="Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+            <a href="https://api.whatsapp.com/send/?phone=971547862986&text&type=phone_number&app_absent=0" target="_blank" aria-label="WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+            <a href="https://www.instagram.com/foresta.ae/#" target="_blank" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Aorganization%3A106847134&keywords=foresta%20wood%20industries%20llc&origin=RICH_QUERY_SUGGESTION&position=0&searchId=eb20ada1-ad6e-472c-b2c5-5f3a0abe538b&sid=7iq&spellCorrectionEnabled=false" target="_blank" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
           </div>
         </div>
       </div>

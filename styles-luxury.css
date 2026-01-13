@@ -578,46 +578,118 @@ h1, h2, h3, h4, h5, h6 {
 
 .stats-luxury {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
   margin-top: var(--spacing-xl);
+  perspective: 1000px;
 }
 
 .stat-box {
+  position: relative;
+  height: 220px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Removed flip effect - cards no longer rotate on hover */
+/* .stat-box:hover .stat-card-inner {
+  transform: rotateY(180deg);
+} */
+
+.stat-card-front,
+.stat-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-md);
-  border-left: 2px solid var(--color-deep-green);
+  justify-content: center;
+  padding: var(--spacing-lg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(12, 67, 38, 0.1);
+}
+
+.stat-card-front {
+  background: linear-gradient(135deg, #f8faf9 0%, #ffffff 100%);
+  border-left: 4px solid var(--color-deep-green);
+  animation: cardFloat 3s ease-in-out infinite;
+}
+
+.stat-card-back {
+  background: linear-gradient(135deg, var(--color-deep-green) 0%, #0c4326 100%);
+  color: white;
+  transform: rotateY(180deg);
+  align-items: center;
+  text-align: center;
 }
 
 .stat-number-large {
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: 300;
   color: var(--color-deep-green);
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   display: inline-block;
-}
-
-.stat-number-large.count-up {
-  animation: countUp 2s ease-out forwards;
+  animation: numberPulse 2s ease-in-out infinite;
 }
 
 .stat-label-large {
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
   color: var(--color-charcoal-light);
+  text-transform: uppercase;
 }
 
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: iconSpin 4s linear infinite;
+}
+
+.stat-card-back p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+@keyframes cardFloat {
+  0%, 100% {
     transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes numberPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes iconSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -1165,16 +1237,53 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .trust-icon {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: var(--color-deep-green);
+  background: linear-gradient(135deg, var(--color-deep-green) 0%, #0c4326 100%);
   color: var(--color-off-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   flex-shrink: 0;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(12, 67, 38, 0.3);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: checkPulse 3s ease-in-out infinite;
+}
+
+.trust-icon::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-deep-green), #4ade80);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.trust-item:hover .trust-icon {
+  transform: scale(1.1) rotate(360deg);
+  box-shadow: 0 8px 25px rgba(12, 67, 38, 0.5);
+}
+
+.trust-item:hover .trust-icon::before {
+  opacity: 1;
+}
+
+@keyframes checkPulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(12, 67, 38, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(12, 67, 38, 0.5), 0 0 0 8px rgba(12, 67, 38, 0.1);
+  }
 }
 
 .trust-item h4 {
@@ -1214,6 +1323,25 @@ h1, h2, h3, h4, h5, h6 {
 .contact-info-side .section-heading,
 .contact-info-side .large-text {
   color: var(--color-off-white);
+}
+
+.map-container {
+  margin-top: var(--spacing-md);
+  margin-bottom: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.map-container iframe {
+  display: block;
+  width: 100%;
 }
 
 .contact-details {
