@@ -363,29 +363,9 @@ class ProductConfigurator {
     }
 
     selectColor(colorId) {
-        this.selectedColor = colorId;
-
-        // Update UI - mark selected color
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.classList.remove('selected');
-        });
-        document.querySelector(`[data-color="${colorId}"]`).classList.add('selected');
-
-        // Get color details
-        const design = this.categories[this.selectedCategory].designs[this.selectedDesign];
-        const color = design.colors.find(c => c.id === colorId);
-
-        // Use previewImage for kitchen/design view, or sample if no previewImage exists
-        const imageToShow = color.previewImage || color.sample;
-        if (imageToShow) {
-            this.updatePreviewWithFade(imageToShow, `${design.name} - ${color.name}`);
-        } else {
-            // Apply real-time color transformation to canvas
-            this.applyColorToCanvas(color.hex);
-        }
-
-        // Show selection summary
-        this.showSelectionSummary();
+        // Navigate to color detail page
+        const url = `color-detail.html?category=${this.selectedCategory}&design=${this.selectedDesign}&color=${colorId}`;
+        window.location.href = url;
     }
 
     showSelectionSummary() {

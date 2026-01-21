@@ -765,24 +765,18 @@
     }
 
     function openProductDetail(productName, productCode, imagePath, categoryType) {
-      const modal = document.getElementById('productDetailModal');
-      const modalImage = document.getElementById('modalProductImage');
-      const modalTitle = document.getElementById('modalProductTitle');
-      const modalBreadcrumb = document.getElementById('modalBreadcrumb');
+      // Navigate to color detail page instead of showing modal
+      const categoryMap = {
+        'Lami Gloss': { category: 'kitchen', design: 'modern-modular' },
+        'Lami Matt': { category: 'kitchen', design: 'classic-wood' },
+        'Marble & Acrylic': { category: 'kitchen', design: 'luxury-marble' }
+      };
       
-      // Set product image
-      modalImage.src = imagePath;
-      modalImage.alt = productName;
+      const colorId = productCode ? productCode.toLowerCase().replace(/[^a-z0-9]/g, '-') : productName.toLowerCase().replace(/\s+/g, '-');
+      const mapping = categoryMap[categoryType] || { category: 'kitchen', design: 'modern-modular' };
       
-      // Set product title
-      modalTitle.textContent = `${productCode} – ${categoryType} Panel`;
-      
-      // Set breadcrumb
-      modalBreadcrumb.textContent = `Home / Panel / ${categoryType} / ${productCode}`;
-      
-      // Show modal
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      const url = `color-detail.html?category=${mapping.category}&design=${mapping.design}&color=${colorId}&name=${encodeURIComponent(productName)}&code=${encodeURIComponent(productCode)}&image=${encodeURIComponent(imagePath)}&type=${encodeURIComponent(categoryType)}`;
+      window.location.href = url;
     }
 
     function closeProductDetail() {

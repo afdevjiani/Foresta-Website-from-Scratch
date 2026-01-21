@@ -6,6 +6,27 @@
 // Add page transition class
 document.body.classList.add('page-transition');
 
+// ===== PRODUCT DETAIL NAVIGATION =====
+// Function to navigate to color detail page
+window.openProductDetail = function(colorName, colorCode, imagePath, category) {
+  // Map category names to design and category IDs
+  const categoryMap = {
+    'Lami Gloss': { category: 'kitchen', design: 'modern-modular' },
+    'Lami Matt': { category: 'kitchen', design: 'classic-wood' },
+    'Marble & Acrylic': { category: 'kitchen', design: 'luxury-marble' }
+  };
+  
+  // Create color ID from color code or name
+  const colorId = colorCode ? colorCode.toLowerCase().replace(/[^a-z0-9]/g, '-') : colorName.toLowerCase().replace(/\s+/g, '-');
+  
+  // Get the mapping or use defaults
+  const mapping = categoryMap[category] || { category: 'kitchen', design: 'modern-modular' };
+  
+  // Navigate to color detail page
+  const url = `color-detail.html?category=${mapping.category}&design=${mapping.design}&color=${colorId}&name=${encodeURIComponent(colorName)}&code=${encodeURIComponent(colorCode)}&image=${encodeURIComponent(imagePath)}&type=${encodeURIComponent(category)}`;
+  window.location.href = url;
+};
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
   // Remove transition class after load
