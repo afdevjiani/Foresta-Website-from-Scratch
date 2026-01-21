@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Foresta Wood Industries - Color Details">
+  <title>Color Details | Foresta Wood Industries</title>
+  <link rel="stylesheet" href="styles-luxury.css">
+  <link rel="stylesheet" href="color-detail.css">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <!-- Minimal Premium Navigation -->
+  <header class="luxury-header">
+    <nav class="luxury-nav">
+      <!-- Hamburger Menu -->
+      <button class="hamburger-menu" id="hamburgerMenu" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="logo">
+        <a href="index-luxury.html" aria-label="Foresta Wood Industries">
+          <img src="assets/logo.png" alt="Foresta" width="50" height="50">
+        </a>
+      </div>
+
+      <div class="nav-cta">
+        <button onclick="openContactModal()" class="cta-button">Contact Us</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Color Detail Content -->
+  <main class="color-detail-container">
+
+    <!-- Color Header -->
+    <div class="color-header">
+      <div class="color-breadcrumb" id="colorBreadcrumb">
+        <a href="index-luxury.html" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-category">Lami Gloss</span>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Color Range</span>
+      </div>
+      <h1 class="color-title" id="colorTitle">Loading...</h1>
+      <p class="color-code" id="colorCode"></p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="color-content-grid">
+      
+      <!-- Left Column - Images -->
+      <div class="color-images">
+        <!-- Main Image -->
+        <div class="main-image-container">
+          <img id="mainColorImage" src="" alt="Color sample" class="main-color-image">
+          <div class="color-swatch" id="colorSwatch"></div>
+        </div>
+
+        <!-- Additional Images Gallery -->
+        <div class="image-gallery" id="imageGallery">
+          <!-- Dynamic gallery images will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Right Column - Details -->
+      <div class="color-details">
+        
+        <!-- Color Information -->
+        <div class="detail-section">
+          <h2>Product Information</h2>
+          <div class="info-grid" id="infoGrid">
+            <div class="info-item">
+              <span class="info-label">Category:</span>
+              <span class="info-value" id="categoryInfo">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Color:</span>
+              <span class="info-value" id="colorInfo">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Color Code:</span>
+              <span class="info-value" id="codeInfo">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Finish:</span>
+              <span class="info-value" id="finishInfo">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specifications -->
+        <div class="detail-section">
+          <h2>Specifications</h2>
+          <div class="specs-list" id="specsList">
+            <div class="spec-item">
+              <span class="spec-label">Material:</span>
+              <span class="spec-value">Premium MDF Panel</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Surface:</span>
+              <span class="spec-value" id="surfaceSpec">Glossy Laminate</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Thickness:</span>
+              <span class="spec-value">18mm / 25mm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Size:</span>
+              <span class="spec-value">2440mm x 1220mm</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Applications:</span>
+              <span class="spec-value">Kitchen, Bedroom, Wardrobe, Living Room</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="detail-section">
+          <h2>Features</h2>
+          <ul class="features-list">
+            <li>High-quality scratch-resistant surface</li>
+            <li>Easy to clean and maintain</li>
+            <li>Moisture resistant properties</li>
+            <li>Long-lasting durability</li>
+            <li>Environmentally friendly</li>
+            <li>Available in custom sizes</li>
+          </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="detail-actions">
+          <button class="btn-secondary" onclick="requestColorQuote()">
+            <span>Request Quote</span>
+          </button>
+          <button class="btn-primary" onclick="bookAppointment()">
+            <span>Book an Appointment</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Related Colors Section -->
+    <div class="related-colors-section">
+      <h2>Related Colors</h2>
+      <div class="related-colors-grid" id="relatedColorsGrid">
+        <!-- Dynamic related colors will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Back Navigation -->
+    <div class="back-navigation">
+      <button class="back-button" onclick="history.back()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Categories
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Request Quote Modal -->
+  <div class="quote-modal" id="quoteModal">
+    <div class="quote-modal-overlay" onclick="closeQuoteModal()"></div>
+    <div class="quote-modal-content">
+      <button class="quote-modal-close" onclick="closeQuoteModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <h2 class="quote-modal-title">Request a Quote</h2>
+      <p class="quote-modal-subtitle">Fill in your details and we'll get back to you shortly</p>
+      
+      <form id="quoteForm" class="quote-form">
+        <div class="form-group">
+          <label for="quoteName">Full Name *</label>
+          <input type="text" id="quoteName" name="name" required placeholder="Enter your name">
+        </div>
+        
+        <div class="form-group">
+          <label for="quotePhone">Phone Number *</label>
+          <input type="tel" id="quotePhone" name="phone" required placeholder="+971 XX XXX XXXX">
+        </div>
+        
+        <div class="form-group">
+          <label for="quoteCompany">Company Name</label>
+          <input type="text" id="quoteCompany" name="company" placeholder="Enter your company name">
+        </div>
+        
+        <div class="form-group">
+          <label for="quoteColor">Product Color</label>
+          <input type="text" id="quoteColor" name="color" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="quoteCode">Color Code</label>
+          <input type="text" id="quoteCode" name="code" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="quoteQuantity">Quantity (Panels) *</label>
+          <input type="number" id="quoteQuantity" name="quantity" required min="1" placeholder="Enter quantity">
+        </div>
+        
+        <button type="submit" class="quote-submit-btn">
+          <span>Submit Request</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="quote-modal" id="contactModal">
+    <div class="quote-modal-overlay" onclick="closeContactModal()"></div>
+    <div class="quote-modal-content">
+      <button class="quote-modal-close" onclick="closeContactModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <h2 class="quote-modal-title">Contact Us</h2>
+      <p class="quote-modal-subtitle">We'd love to hear from you. Fill in your details below</p>
+      
+      <form id="contactForm" class="quote-form">
+        <div class="form-group">
+          <label for="contactName">Full Name *</label>
+          <input type="text" id="contactName" name="name" required placeholder="Enter your name">
+        </div>
+        
+        <div class="form-group">
+          <label for="contactEmail">Email Address *</label>
+          <input type="email" id="contactEmail" name="email" required placeholder="your.email@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="contactPhone">Phone Number *</label>
+          <input type="tel" id="contactPhone" name="phone" required placeholder="+971 XX XXX XXXX">
+        </div>
+        
+        <div class="form-group">
+          <label for="contactCompany">Company Name</label>
+          <input type="text" id="contactCompany" name="company" placeholder="Enter your company name">
+        </div>
+        
+        <div class="form-group">
+          <label for="contactMessage">Message *</label>
+          <textarea id="contactMessage" name="message" required placeholder="How can we help you?" rows="4"></textarea>
+        </div>
+        
+        <button type="submit" class="quote-submit-btn">
+          <span>Send Message</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer (Simple) -->
+  <footer class="simple-footer">
+    <p>&copy; 2026 Foresta Wood Industries LLC. All rights reserved.</p>
+  </footer>
+
+  <script src="color-detail.js"></script>
+</body>
+</html>
