@@ -468,6 +468,7 @@ function initQuoteForm() {
         const company = document.getElementById('quoteCompany').value;
         const color = document.getElementById('quoteColor').value;
         const code = document.getElementById('quoteCode').value;
+        const size = document.getElementById('quoteSize').value;
         const quantity = document.getElementById('quoteQuantity').value;
         
         // Get current date
@@ -488,6 +489,7 @@ function initQuoteForm() {
                            `🎨 *Product Information*\n` +
                            `• Color: ${color}\n` +
                            `• Code: ${code}\n` +
+                           `• Size: ${size}\n` +
                            `• Quantity: ${quantity} panels\n\n` +
                            `━━━━━━━━━━━━━━━━━━\n` +
                            `⏰ Request Date: ${currentDate}\n\n` +

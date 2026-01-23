@@ -112,8 +112,8 @@
               <span class="spec-value">18mm / 25mm</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Size:</span>
-              <span class="spec-value">2440mm x 1220mm</span>
+              <span class="spec-label">Available Sizes:</span>
+              <span class="spec-value">2440mm x 1220mm, 2800mm x 1220mm, 3050mm x 1220mm</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">Applications:</span>
@@ -206,6 +206,16 @@
         <div class="form-group">
           <label for="quoteCode">Color Code</label>
           <input type="text" id="quoteCode" name="code" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="quoteSize">Panel Size *</label>
+          <select id="quoteSize" name="size" required>
+            <option value="">Select size</option>
+            <option value="2440mm x 1220mm">2440mm x 1220mm (Standard)</option>
+            <option value="2800mm x 1220mm">2800mm x 1220mm</option>
+            <option value="3050mm x 1220mm">3050mm x 1220mm</option>
+          </select>
         </div>
         
         <div class="form-group">
