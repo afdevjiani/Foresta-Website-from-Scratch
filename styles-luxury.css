@@ -3,6 +3,25 @@
    Premium, minimal, immersive design
    ======================================== */
 
+/* ===== CUSTOM FONTS ===== */
+@font-face {
+  font-family: 'Matt Complete Family';
+  src: local('Matt Complete Family'), local('Matt-Complete-Family'),
+       local('Matt'), local('MattComplete');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Matt Variable Roman';
+  src: local('Matt Variable Roman'), local('Matt-Variable-Roman'),
+       local('Matt Variable'), local('MattVariable');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== CSS RESET & BASE ===== */
 *, *::before, *::after {
   margin: 0;
@@ -25,8 +44,8 @@
   --color-gold-subtle: #ffffff;
   
   /* Typography */
-  --font-display: 'Cormorant Garamond', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Matt Complete Family', 'Inter', sans-serif;
+  --font-body: 'Matt Variable Roman', 'Inter', sans-serif;
   
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -56,18 +75,39 @@ body {
   font-family: var(--font-body);
   background-color: var(--color-off-white);
   color: var(--color-charcoal);
-  line-height: 1.7;
+  line-height: 1.65;
   overflow-x: hidden;
-  font-weight: 300;
-  letter-spacing: 0.01em;
+  font-weight: 400;
+  letter-spacing: 0.015em;
 }
 
 /* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+h2 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+p, li, label, input, button, textarea, select {
+  font-family: var(--font-body);
+  letter-spacing: 0.015em;
+  line-height: 1.65;
 }
 
 .section-label {
@@ -98,14 +138,16 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto var(--spacing-lg);
   color: var(--color-charcoal-light);
   line-height: 1.8;
+  font-family: var(--font-body);
 }
 
 .large-text {
   font-size: 1.25rem;
   line-height: 1.8;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--color-charcoal);
   margin-bottom: var(--spacing-md);
+  font-family: var(--font-body);
 }
 
 /* ===== LUXURY HEADER & NAVIGATION ===== */
@@ -574,27 +616,21 @@ h1, h2, h3, h4, h5, h6 {
 
 .stat-box {
   position: relative;
-  height: 220px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  height: 240px;
+  cursor: default;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-box:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
 }
 
 .stat-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s;
   transform-style: preserve-3d;
 }
-
-/* Removed flip effect - cards no longer rotate on hover */
-/* .stat-box:hover .stat-card-inner {
-  transform: rotateY(180deg);
-} */
 
 .stat-card-front,
 .stat-card-back {
@@ -605,15 +641,34 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--spacing-lg);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(12, 67, 38, 0.1);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(12, 67, 38, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-card-front {
-  background: linear-gradient(135deg, #f8faf9 0%, #ffffff 100%);
-  border-left: 4px solid var(--color-deep-green);
-  animation: cardFloat 3s ease-in-out infinite;
+  background: #ffffff;
+  border: 2px solid transparent;
+  border-left: 5px solid var(--color-deep-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card-front::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(12, 67, 38, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.stat-box:hover .stat-card-front {
+  border-color: rgba(12, 67, 38, 0.1);
+  box-shadow: 0 12px 40px rgba(12, 67, 38, 0.15);
 }
 
 .stat-card-back {
@@ -627,19 +682,21 @@ h1, h2, h3, h4, h5, h6 {
 .stat-number-large {
   font-family: var(--font-display);
   font-size: 4.5rem;
-  font-weight: 300;
+  font-weight: 600;
   color: var(--color-deep-green);
   line-height: 1;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
   display: inline-block;
-  animation: numberPulse 2s ease-in-out infinite;
+  letter-spacing: -0.02em;
 }
 
 .stat-label-large {
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
-  color: var(--color-charcoal-light);
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  color: #6b7280;
   text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .stat-icon {
@@ -684,16 +741,21 @@ h1, h2, h3, h4, h5, h6 {
 .heritage-image {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding: 0;
+  margin: -80px 0 0 0;
 }
 
 .image-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 8px;
   box-shadow: 0 20px 60px rgba(12, 67, 38, 0.15);
   transition: box-shadow 0.6s ease;
   width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
 }
 
 .image-wrapper img {
@@ -701,6 +763,8 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
   display: block;
   object-fit: contain;
+  object-position: center;
+  border-radius: 8px;
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
@@ -3001,6 +3065,33 @@ h1, h2, h3, h4, h5, h6 {
     --spacing-xl: 4rem;
   }
 
+  /* Responsive typography scaling for mobile */
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 5vw, 2rem);
+    line-height: 1.35;
+  }
+
+  p, li, label, button {
+    font-size: clamp(0.9375rem, 4vw, 1rem);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+
   .luxury-header {
     padding: 1rem 1.5rem;
   }
@@ -3069,12 +3160,74 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(2rem, 8vw, 3rem);
   }
 
+  .heritage-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .heritage-content {
+    padding-right: 0;
+    order: 1;
+  }
+
+  .heritage-image {
+    order: 2;
+    margin: 0;
+  }
+
+  .image-wrapper {
+    min-height: 300px;
+  }
+
+  .image-wrapper img {
+    min-height: 300px;
+  }
+
   .stats-luxury {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .stat-box {
+    height: 200px;
+  }
+
+  .stat-number-large {
+    font-size: 3.5rem;
+  }
+
+  .stat-label-large {
+    font-size: 0.8125rem;
   }
 
   .products-section {
     padding: calc(var(--spacing-xl) * 2) var(--spacing-md);
+  }
+
+  .filter-tabs-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .filter-tab {
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .filter-tab-content h3 {
+    font-size: 1rem;
+  }
+
+  .filter-tab-content p {
+    font-size: 0.8125rem;
+  }
+
+  .filter-tab-count {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
   }
 
   .products-grid {
@@ -3095,12 +3248,45 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .color-item {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(26, 69, 46, 0.1);
+    background: white;
+  }
+
+  .color-item-image-wrapper {
+    height: 450px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    display: block;
   }
 
   .color-item img {
-    height: 220px;
+    border-radius: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+    vertical-align: bottom;
+  }
+
+  .color-name {
+    font-size: 0.8125rem;
+    padding: 0.875rem 1rem;
+    background: white;
+    font-weight: 600;
+    margin: 0;
+    color: var(--primary-green);
+    display: block;
+    line-height: 1.3;
   }
 
   .gallery-header {
@@ -3193,8 +3379,36 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--spacing-lg);
   }
 
+  .footer-links-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-column h4 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-social-links {
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
   .footer-brand-section {
     padding-bottom: var(--spacing-lg);
+    text-align: center;
+  }
+
+  .footer-logo-text {
+    font-size: 1.5rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
   }
 
   .footer-newsletter {
