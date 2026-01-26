@@ -36,6 +36,27 @@
     </nav>
   </header>
 
+  <!-- Half-Width Sidebar Menu -->
+  <div class="sidebar-overlay" id="sidebarOverlay">
+    <div class="sidebar-content">
+      <!-- Close X Button -->
+      <button class="sidebar-x-close" id="decorativeXClose" aria-label="Close menu">
+        <span class="x-icon">✕</span>
+      </button>
+      
+      <nav class="sidebar-nav" role="navigation" aria-label="Sidebar navigation">
+        <ul class="sidebar-links">
+          <li><a href="index-luxury.html#home" class="sidebar-link">Home</a></li>
+          <li><a href="index-luxury.html#about" class="sidebar-link">About Us</a></li>
+          <li><a href="index-luxury.html#products" class="sidebar-link">Products</a></li>
+          <li><a href="index-luxury.html#gallery" class="sidebar-link">Gallery</a></li>
+          <li><a href="blog.html" class="sidebar-link">Blog</a></li>
+          <li><a href="index-luxury.html#contact" class="sidebar-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
   <!-- Color Detail Content -->
   <main class="color-detail-container">
 
@@ -59,7 +80,10 @@
       <div class="color-images">
         <!-- Main Image -->
         <div class="main-image-container">
-          <img id="mainColorImage" src="" alt="Color sample" class="main-color-image">
+          <div class="image-wrapper-detail">
+            <img id="mainColorImage" src="" alt="Color sample" class="main-color-image color-swatch-detail">
+            <img id="kitchenPreviewImage" src="" alt="Kitchen Preview" class="kitchen-preview-detail">
+          </div>
           <div class="color-swatch" id="colorSwatch"></div>
         </div>
 

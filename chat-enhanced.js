@@ -4,8 +4,9 @@
  * Powered by Google Gemini AI with Role-Based Personalization
  */
 
-// Gemini API Configuration
-const GEMINI_API_KEY = 'AIzaSyAuONT5-aL_iXMSHWaKCpF3Jje7EJQk-Ec';
+// Gemini API Configuration - Global
+window.GEMINI_API_KEY = 'AIzaSyAuONT5-aL_iXMSHWaKCpF3Jje7EJQk-Ec';
+const GEMINI_API_KEY = window.GEMINI_API_KEY;
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
 // Company context for AI - Enhanced with role awareness
@@ -61,12 +62,42 @@ const ROLE_AI_CONTEXTS = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.log('✅ Chat script loading...');
+  
   const chatButton = document.getElementById('chatButton');
   const chatContainer = document.getElementById('chatContainer');
   const closeChat = document.getElementById('closeChat');
   const chatMessages = document.getElementById('chatMessages');
   const chatInput = document.getElementById('chatInput');
   const sendChat = document.getElementById('sendChat');
+
+  console.log('✅ Chat elements found:', {
+    chatButton: !!chatButton,
+    chatContainer: !!chatContainer,
+    closeChat: !!closeChat,
+    chatMessages: !!chatMessages,
+    chatInput: !!chatInput,
+    sendChat: !!sendChat
+  });
+
+  // Safety check - ensure all elements exist
+  if (!chatButton || !chatContainer || !chatMessages || !chatInput || !sendChat) {
+    console.error('❌ Chat initialization failed - missing elements');
+    return;
+  }
+
+  // Global function for inline onclick
+  window.openChat = function() {
+    console.log('🚀 Opening chat via global function');
+    if (chatContainer) {
+      chatContainer.classList.add('active');
+      if (chatButton) chatButton.style.display = 'none';
+      initChat();
+      console.log('✅ Chat opened successfully');
+    } else {
+      console.error('❌ Chat container not found');
+    }
+  };
 
   let isTyping = false;
   let conversationContext = [];
@@ -395,14 +426,23 @@ INSTRUCTIONS:
   // Event Listeners
   if (chatButton) {
     chatButton.addEventListener('click', function() {
-      chatContainer.classList.add('active');
-      chatButton.style.display = 'none';
-      initChat();
+      console.log('🖱️ Chat button clicked');
+      if (chatContainer) {
+        chatContainer.classList.add('active');
+        chatButton.style.display = 'none';
+        initChat();
+        console.log('✅ Chat opened via click');
+      } else {
+        console.error('❌ Chat container not found!');
+      }
     });
+  } else {
+    console.error('❌ Chat button not found!');
   }
 
   if (closeChat) {
     closeChat.addEventListener('click', function() {
+      console.log('🔒 Closing chat');
       chatContainer.classList.remove('active');
       chatButton.style.display = 'flex';
     });
@@ -420,5 +460,5 @@ INSTRUCTIONS:
     });
   }
 
-  console.log('Modern Omniyat-style chat initialized successfully!');
+  console.log('✅ Modern chat initialized successfully! Click the green button to start.');
 });

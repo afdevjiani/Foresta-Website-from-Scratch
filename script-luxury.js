@@ -63,7 +63,7 @@ function initSmoothScroll() {
         });
 
         // Close mobile menu if open
-        closeMobileMenu();
+        // closeMobileMenu(); // Function not defined
       }
     });
   });
@@ -916,8 +916,7 @@ function initProductTabs() {
 
 // ===== EXPORT FOR USE IN OTHER SCRIPTS =====
 window.ForestaLuxury = {
-  showNotification,
-  showCollection
+  showNotification
 };
 
 console.log('🌲 Foresta Luxury Website Initialized');

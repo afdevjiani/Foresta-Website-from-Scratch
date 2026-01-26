@@ -126,6 +126,14 @@ class ColorDetailPage {
     }
 
     init() {
+        // Check if we have direct gallery parameters
+        if (this.colorName && this.colorImage) {
+            this.loadDirectColorDetails();
+            this.setupEventListeners();
+            return;
+        }
+        
+        // Otherwise, check for configurator parameters
         if (!this.categoryId || !this.designId || !this.colorId) {
             this.showError();
             return;
@@ -286,10 +294,86 @@ class ColorDetailPage {
 
     updateMainImageDirect(colorData) {
         const mainImage = document.getElementById('mainColorImage');
+        const kitchenImage = document.getElementById('kitchenPreviewImage');
+        
         if (mainImage && colorData.image) {
             mainImage.src = colorData.image;
             mainImage.alt = colorData.name;
         }
+        
+        // Load kitchen preview image
+        if (kitchenImage && colorData.image) {
+            const kitchenPath = this.getKitchenImagePath(colorData.image, colorData.type);
+            if (kitchenPath) {
+                kitchenImage.src = kitchenPath;
+                kitchenImage.alt = `${colorData.name} Kitchen Preview`;
+            }
+        }
+    }
+    
+    getKitchenImagePath(colorImagePath, type) {
+        // Extract filename from color image path
+        const filename = colorImagePath.split('/').pop();
+        
+        // Determine kitchen images folder based on type
+        if (type && type.toLowerCase().includes('gloss')) {
+            // Lami Gloss has different naming convention for some images
+            const codeMatch = filename.match(/FWI[-\s]*(\d{2})[-\s]*(\d{3})/i);
+            
+            if (codeMatch) {
+                const code = `FWI-${codeMatch[1]}-${codeMatch[2]}`;
+                
+                // Map to known kitchen image filenames
+                const glossKitchenMap = {
+                    'FWI-03-113': 'ACACIA GRAY - FWI-03-113.png',
+                    'FWI-09-142': 'BROWN FWI-09-142.png',
+                    'FWI-03-116': 'CARDAMOM GREEN FWI-03-117.png',
+                    'FWI-03-117': 'CARDAMOM GREEN FWI-03-117.png',
+                    'FWI-03-118': 'carmine red FWI-03-118.png'
+                };
+                
+                const kitchenFilename = glossKitchenMap[code];
+                if (kitchenFilename) {
+                    return `assets/Lami Gloss kitchen images/${kitchenFilename}`;
+                }
+            }
+            // Fallback to same filename
+            return `assets/Lami Gloss kitchen images/${filename}`;
+        } else if (type && type.toLowerCase().includes('matt')) {
+            // Lami Matt has different naming convention
+            // Front: "ALMOND YELLOW - FWI - 04-138.png"
+            // Kitchen: "FWI-04-138 ALMOND YELLOW.png"
+            const codeMatch = filename.match(/FWI[-\s]*(\d{2})[-\s]*(\d{3})/i);
+            const nameMatch = filename.match(/^([^-]+)/);
+            
+            if (codeMatch && nameMatch) {
+                const code = `FWI-${codeMatch[1]}-${codeMatch[2]}`;
+                const colorName = nameMatch[1].trim();
+                
+                // Map to known kitchen image filenames
+                const mattKitchenMap = {
+                    'FWI-04-113': 'FWI-04-113 ACACIA GRAY (2).png',
+                    'FWI-04-138': 'FWI-04-138 ALMOND YELLOW.png',
+                    'FWI-03-101': 'FWI-10-101 ICEBERG WHITE MATT.png',
+                    'FWI-10-101': 'FWI-10-101 ICEBERG WHITE MATT.png',
+                    'FWI-10-142': 'Bronze Gold Matt -  FWI-10-142.png',
+                    'FWI-04-121': 'Sapphire Blue FWI-04-121.png'
+                };
+                
+                const kitchenFilename = mattKitchenMap[code];
+                if (kitchenFilename) {
+                    return `assets/Lami Matt kitchen images/${kitchenFilename}`;
+                }
+            }
+            return null;
+        } else if (type && type.toLowerCase().includes('marble') || type && type.toLowerCase().includes('acrylic')) {
+            // For marble, extract just the FMA number
+            const match = filename.match(/FMA[-]?(\d+)/i);
+            if (match) {
+                return `assets/Marble and acrylic kitchen images/FMA-${match[1].padStart(2, '0')}.png`;
+            }
+        }
+        return null;
     }
 
     updateColorSwatchDirect(colorData) {
@@ -591,3 +675,51 @@ function initContactForm() {
         }, 500);
     });
 }
+
+// Sidebar Menu Functionality
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const decorativeXClose = document.getElementById('decorativeXClose');
+
+// Open sidebar
+if (hamburgerMenu) {
+    hamburgerMenu.addEventListener('click', function() {
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+// Close sidebar with X button
+if (decorativeXClose) {
+    decorativeXClose.addEventListener('click', function() {
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}
+
+// Close sidebar when clicking outside
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', function(e) {
+        if (e.target === sidebarOverlay) {
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// Close sidebar when clicking on any link
+const sidebarLinks = document.querySelectorAll('.sidebar-link');
+sidebarLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+});
+
+// Close sidebar with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && sidebarOverlay.classList.contains('active')) {
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});

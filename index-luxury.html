@@ -10,12 +10,12 @@
   <link rel="stylesheet" href="styles-luxury.css">
   <link rel="stylesheet" href="role-personalization.css">
   <link rel="stylesheet" href="product-configurator.css">
+  <link rel="stylesheet" href="chat-styles-modern.css">
   <link rel="icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <!-- Preload critical resources -->
-  <link rel="preload" href="assets/hero.jpg" as="image">
   <link rel="preload" href="assets/logo.png" as="image">
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -150,53 +150,67 @@
           <p class="section-description">Discover our premium range of wood-based panels, each meticulously crafted to transform your spaces</p>
         </div>
 
-        <div class="products-grid">
-          <!-- Lami Gloss -->
-          <div class="product-category-card" data-category="lami-gloss" onclick="filterProducts('lami-gloss')">
-            <div class="product-category-image">
-              <img src="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.png" alt="Lami Gloss" loading="lazy">
-              <div class="product-category-overlay">
+        <!-- Product Filter Tabs -->
+        <div class="product-filter-container">
+          <div class="filter-tabs-wrapper">
+            <button class="filter-tab active" data-category="all" onclick="filterProducts('all')">
+              <div class="filter-tab-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </div>
+              <div class="filter-tab-content">
+                <h3>All Products</h3>
+                <p>View complete collection</p>
+              </div>
+              <span class="filter-tab-count">12</span>
+            </button>
+
+            <button class="filter-tab" data-category="lami-gloss" onclick="filterProducts('lami-gloss')">
+              <div class="filter-tab-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <div class="filter-tab-content">
                 <h3>Lami Gloss</h3>
-                <p>High-shine finish panels with vibrant colors and exceptional durability</p>
-                <button class="product-explore-btn">View Colors</button>
+                <p>Premium high-gloss laminated panels</p>
               </div>
-            </div>
-            <div class="product-category-info">
-              <h3>Lami Gloss</h3>
-              <p>Premium high-gloss laminated panels</p>
-            </div>
-          </div>
+              <span class="filter-tab-count">4</span>
+            </button>
 
-          <!-- Lami Matt -->
-          <div class="product-category-card" data-category="lami-matt" onclick="filterProducts('lami-matt')">
-            <div class="product-category-image">
-              <img src="assets/Lami matt front images/ACACIA GRAY - FWI-04-113.png" alt="Lami Matt" loading="lazy">
-              <div class="product-category-overlay">
+            <button class="filter-tab" data-category="lami-matt" onclick="filterProducts('lami-matt')">
+              <div class="filter-tab-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="9" y1="3" x2="9" y2="21"/>
+                </svg>
+              </div>
+              <div class="filter-tab-content">
                 <h3>Lami Matt</h3>
-                <p>Elegant matte finish panels offering sophisticated, fingerprint-resistant surfaces</p>
-                <button class="product-explore-btn">View Colors</button>
+                <p>Sophisticated matte laminated panels</p>
               </div>
-            </div>
-            <div class="product-category-info">
-              <h3>Lami Matt</h3>
-              <p>Sophisticated matte laminated panels</p>
-            </div>
-          </div>
+              <span class="filter-tab-count">4</span>
+            </button>
 
-          <!-- Marble & Acrylic -->
-          <div class="product-category-card" data-category="marble-acrylic" onclick="filterProducts('marble-acrylic')">
-            <div class="product-category-image">
-              <img src="assets/Marble and acrylic images/FMA02.png" alt="Marble & Acrylic" loading="lazy">
-              <div class="product-category-overlay">
-                <h3>Marble & Acrylic</h3>
-                <p>Luxurious marble patterns and acrylic finishes for premium aesthetics</p>
-                <button class="product-explore-btn">View Colors</button>
+            <button class="filter-tab" data-category="marble-acrylic" onclick="filterProducts('marble-acrylic')">
+              <div class="filter-tab-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                  <polyline points="2 17 12 22 22 17"/>
+                  <polyline points="2 12 12 17 22 12"/>
+                </svg>
               </div>
-            </div>
-            <div class="product-category-info">
-              <h3>Marble & Acrylic</h3>
-              <p>Luxury marble and acrylic patterns</p>
-            </div>
+              <div class="filter-tab-content">
+                <h3>Marble & Acrylic</h3>
+                <p>Luxury marble and acrylic patterns</p>
+              </div>
+              <span class="filter-tab-count">4</span>
+            </button>
           </div>
         </div>
 
@@ -214,56 +228,92 @@
           
           <div class="gallery-grid" id="galleryGrid">
             <!-- Lami Gloss Colors -->
-            <div class="color-item" data-category="lami-gloss" onclick="openProductDetail('ACACIA GRAY', 'FWI-03-113', 'assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.png', 'Lami Gloss')">
-              <img src="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.png" alt="ACACIA GRAY" loading="lazy">
+            <div class="color-item" data-category="lami-gloss" onclick="window.location.href='color-detail.html?name=ACACIA%20GRAY&code=FWI-03-113&image=assets/Lami%20gloss%20front%20images/ACACIA%20GRAY%20-%20FWI-03-113.png&type=Lami%20Gloss'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.png" alt="ACACIA GRAY" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/ACACIA GRAY - FWI-03-113.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">ACACIA GRAY</p>
             </div>
-            <div class="color-item" data-category="lami-gloss" onclick="openProductDetail('Bronze Gold Gloss', 'FWI-09-142', 'assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.png', 'Lami Gloss')">
-              <img src="assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.png" alt="Bronze Gold Gloss" loading="lazy">
-              <p class="color-name">Bronze Gold Gloss</p>
+            <div class="color-item" data-category="lami-gloss" onclick="window.location.href='color-detail.html?name=BRONZE%20GOLD%20GLOSS&code=FWI-09-142&image=assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png&type=Lami%20Gloss'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.png" alt="Bronze Gold Gloss" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/BROWN FWI-09-142.png" alt="Bronze Gold Gloss Kitchen Preview" loading="lazy">
+              </div>
+              <p class="color-name">BRONZE GOLD GLOSS</p>
             </div>
-            <div class="color-item" data-category="lami-gloss" onclick="openProductDetail('CARDAMOM GREEN', 'FWI-03-116', 'assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.png', 'Lami Gloss')">
-              <img src="assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.png" alt="CARDAMOM GREEN" loading="lazy">
+            <div class="color-item" data-category="lami-gloss" onclick="window.location.href='color-detail.html?name=CARDAMOM%20GREEN&code=FWI-03-116&image=assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-03-116.png&type=Lami%20Gloss'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.png" alt="CARDAMOM GREEN" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/CARDAMOM GREEN FWI-03-117.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">CARDAMOM GREEN</p>
             </div>
-            <div class="color-item" data-category="lami-gloss" onclick="openProductDetail('CARDAMOM GREEN Glitter', 'FWI-07-116', 'assets/Lami gloss front images/CARDAMOM GREEN - FWI-07-116.png', 'Lami Gloss')">
-              <img src="assets/Lami gloss front images/CARDAMOM GREEN - FWI-07-116.png" alt="CARDAMOM GREEN Glitter" loading="lazy">
-              <p class="color-name">CARDAMOM GREEN Glitter</p>
+            <div class="color-item" data-category="lami-gloss" onclick="window.location.href='color-detail.html?name=Carmine%20Red&code=FWI-03-118&image=assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png&type=Lami%20Gloss'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami gloss front images/Carmine Red FWI- 03-118.png" alt="Carmine Red" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/carmine red FWI-03-118.png" alt="Kitchen Preview" loading="lazy">
+              </div>
+              <p class="color-name">CARMINE RED</p>
             </div>
 
             <!-- Lami Matt Colors -->
-            <div class="color-item" data-category="lami-matt" onclick="openProductDetail('ACACIA GRAY', 'FWI-04-113', 'assets/Lami matt front images/ACACIA GRAY - FWI-04-113.png', 'Lami Matt')">
-              <img src="assets/Lami matt front images/ACACIA GRAY - FWI-04-113.png" alt="ACACIA GRAY" loading="lazy">
+            <div class="color-item" data-category="lami-matt" onclick="window.location.href='color-detail.html?name=ACACIA%20GRAY&code=FWI-04-113&image=assets/Lami%20matt%20front%20images/ACACIA%20GRAY%20-%20FWI-04-113.png&type=Lami%20Matt'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami matt front images/ACACIA GRAY - FWI-04-113.png" alt="ACACIA GRAY" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Matt kitchen images/FWI-04-113 ACACIA GRAY (2).png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">ACACIA GRAY</p>
             </div>
-            <div class="color-item" data-category="lami-matt" onclick="openProductDetail('ALMOND YELLOW', 'FWI-04-138', 'assets/Lami matt front images/ALMOND YELLOW - FWI - 04-138.png', 'Lami Matt')">
-              <img src="assets/Lami matt front images/ALMOND YELLOW - FWI - 04-138.png" alt="ALMOND YELLOW" loading="lazy">
+            <div class="color-item" data-category="lami-matt" onclick="window.location.href='color-detail.html?name=ALMOND%20YELLOW&code=FWI-04-138&image=assets/Lami%20matt%20front%20images/ALMOND%20YELLOW%20-%20FWI%20-%2004-138.png&type=Lami%20Matt'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami matt front images/ALMOND YELLOW - FWI - 04-138.png" alt="ALMOND YELLOW" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Matt kitchen images/FWI-04-138 ALMOND YELLOW.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">ALMOND YELLOW</p>
             </div>
-            <div class="color-item" data-category="lami-matt" onclick="openProductDetail('Barbie Pink', 'FWI-04-124', 'assets/Lami matt front images/Barbie pink - FWI - 04 -124.png', 'Lami Matt')">
-              <img src="assets/Lami matt front images/Barbie pink - FWI - 04 -124.png" alt="Barbie Pink" loading="lazy">
-              <p class="color-name">Barbie Pink</p>
+            <div class="color-item" data-category="lami-matt" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE&code=FWI-03-101&image=assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png&type=Lami%20Matt'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami matt front images/ICEBERG WHITE - FWI-03-101.png" alt="ICEBERG WHITE" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Matt kitchen images/FWI-10-101 ICEBERG WHITE MATT.png" alt="Kitchen Preview" loading="lazy">
+              </div>
+              <p class="color-name">ICEBERG WHITE</p>
             </div>
-            <div class="color-item" data-category="lami-matt" onclick="openProductDetail('Bronze Gold Matt', 'FWI-10-142', 'assets/Lami matt front images/Bronze Gold Matt - FWI-10-142.png', 'Lami Matt')">
-              <img src="assets/Lami matt front images/Bronze Gold Matt - FWI-10-142.png" alt="Bronze Gold Matt" loading="lazy">
-              <p class="color-name">Bronze Gold Matt</p>
+            <div class="color-item" data-category="lami-matt" onclick="window.location.href='color-detail.html?name=Bronze%20Gold%20Matt&code=FWI-10-142&image=assets/Lami%20matt%20front%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png&type=Lami%20Matt'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Lami matt front images/Bronze Gold Matt - FWI-10-142.png" alt="Bronze Gold Matt" loading="lazy">
+                <img class="kitchen-preview" src="assets/Lami Matt kitchen images/Bronze Gold Matt -  FWI-10-142.png" alt="Kitchen Preview" loading="lazy">
+              </div>
+              <p class="color-name">BRONZE GOLD MATT</p>
             </div>
 
             <!-- Marble & Acrylic Colors -->
-            <div class="color-item" data-category="marble-acrylic" onclick="openProductDetail('Marble Pattern FMA02', 'FMA02', 'assets/Marble and acrylic images/FMA02.png', 'Marble & Acrylic')">
-              <img src="assets/Marble and acrylic images/FMA02.png" alt="Marble Pattern FMA02" loading="lazy">
+            <div class="color-item" data-category="marble-acrylic" onclick="window.location.href='color-detail.html?name=Marble%20Pattern%20FMA02&code=FMA02&image=assets/Marble%20and%20acrylic%20images/FMA02.png&type=Marble%20%26%20Acrylic'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Marble and acrylic images/FMA02.png" alt="Marble Pattern FMA02" loading="lazy">
+                <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-02.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">Marble Pattern FMA02</p>
             </div>
-            <div class="color-item" data-category="marble-acrylic" onclick="openProductDetail('Marble Pattern FMA03', 'FMA03', 'assets/Marble and acrylic images/FMA03.png', 'Marble & Acrylic')">
-              <img src="assets/Marble and acrylic images/FMA03.png" alt="Marble Pattern FMA03" loading="lazy">
+            <div class="color-item" data-category="marble-acrylic" onclick="window.location.href='color-detail.html?name=Marble%20Pattern%20FMA03&code=FMA03&image=assets/Marble%20and%20acrylic%20images/FMA03.png&type=Marble%20%26%20Acrylic'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Marble and acrylic images/FMA03.png" alt="Marble Pattern FMA03" loading="lazy">
+                <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-03.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">Marble Pattern FMA03</p>
             </div>
-            <div class="color-item" data-category="marble-acrylic" onclick="openProductDetail('Marble Pattern FMA05', 'FMA05', 'assets/Marble and acrylic images/FMA05.png', 'Marble & Acrylic')">
-              <img src="assets/Marble and acrylic images/FMA05.png" alt="Marble Pattern FMA05" loading="lazy">
+            <div class="color-item" data-category="marble-acrylic" onclick="window.location.href='color-detail.html?name=Marble%20Pattern%20FMA05&code=FMA05&image=assets/Marble%20and%20acrylic%20images/FMA05.png&type=Marble%20%26%20Acrylic'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Marble and acrylic images/FMA05.png" alt="Marble Pattern FMA05" loading="lazy">
+                <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-05.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">Marble Pattern FMA05</p>
             </div>
-            <div class="color-item" data-category="marble-acrylic" onclick="openProductDetail('Marble Pattern FMA07', 'FMA07', 'assets/Marble and acrylic images/FMA07.png', 'Marble & Acrylic')">
-              <img src="assets/Marble and acrylic images/FMA07.png" alt="Marble Pattern FMA07" loading="lazy">
+            <div class="color-item" data-category="marble-acrylic" onclick="window.location.href='color-detail.html?name=Marble%20Pattern%20FMA07&code=FMA07&image=assets/Marble%20and%20acrylic%20images/FMA07.png&type=Marble%20%26%20Acrylic'">
+              <div class="color-item-image-wrapper">
+                <img class="color-swatch" src="assets/Marble and acrylic images/FMA07.png" alt="Marble Pattern FMA07" loading="lazy">
+                <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-07.png" alt="Kitchen Preview" loading="lazy">
+              </div>
               <p class="color-name">Marble Pattern FMA07</p>
             </div>
           </div>
@@ -271,92 +321,88 @@
       </div>
     </section>
 
-    <!-- Product Detail Modal -->
-    <div class="product-detail-modal" id="productDetailModal">
-      <div class="modal-backdrop" onclick="closeProductDetail()"></div>
-      <div class="modal-content">
-        <button class="modal-close" onclick="closeProductDetail()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
-        
-        <div class="modal-layout">
-          <!-- Left Side - Product Image -->
-          <div class="modal-image-section">
-            <div class="modal-image-container">
-              <img id="modalProductImage" src="" alt="Product" />
-            </div>
-          </div>
-
-          <!-- Right Side - Product Details -->
-          <div class="modal-details-section">
-            <div class="product-breadcrumb" id="modalBreadcrumb">
-              Home / Panel / Matte & Glossy PVC Panel
-            </div>
-
-            <h2 class="product-detail-title" id="modalProductTitle">
-              Product Name
-            </h2>
-
-            <div class="technical-info-section">
-              <h3 class="info-section-title">Technical Information</h3>
-              
-              <table class="tech-specs-table">
-                <tr>
-                  <td class="spec-label">Width (mm)</td>
-                  <td class="spec-value">1220</td>
-                </tr>
-                <tr>
-                  <td class="spec-label">Length (mm)</td>
-                  <td class="spec-value">2800</td>
-                </tr>
-                <tr>
-                  <td class="spec-label">Thickness (mm)</td>
-                  <td class="spec-value">18, 8</td>
-                </tr>
-              </table>
-
-              <p class="thickness-note">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 16v-4M12 8h.01"/>
+    <!-- Product Configurator Section -->
+    <section id="productConfigurator">
+      <div class="configurator-container">
+        <!-- Product Catalogs -->
+        <div id="catalog" class="configurator-section">
+          <h3 class="section-title">Product Catalogs</h3>
+          <p style="text-align: center; color: #b8b8b8; margin-bottom: 30px;">Explore our complete range of products and specifications</p>
+          <div class="catalog-grid">
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
                 </svg>
-                Upon request: Thickness options available
-              </p>
+              </div>
+              <h3>Lami Gloss Catalog</h3>
+              <p>Complete color range and specifications</p>
+              <a href="assets/LAMI-GLOSS-PALETTE.pdf" target="_blank" class="download-btn">View Catalog</a>
             </div>
 
-            <button class="request-quotation-btn" onclick="requestQuotation()">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 11H3v10h18V11h-6M7 3h10l2 8H5L7 3z"/>
-              </svg>
-              Request a Quotation
-            </button>
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <h3>Lami Matt Catalog</h3>
+              <p>Complete color range and specifications</p>
+              <a href="assets/LAMI MATT PALETTE .pdf" target="_blank" class="download-btn">View Catalog</a>
+            </div>
 
-            <div class="consultation-card">
-              <div class="consultation-content">
-                <h4>Are you furnishing your home, office, or hotel?</h4>
-                <p class="consultation-greeting">Güncelleme</p>
-                <a href="#contact" class="consultation-btn" onclick="closeProductDetail()">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                  Book a free consultation
-                </a>
+            <div class="catalog-card-luxury">
+              <div class="catalog-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
               </div>
-              <div class="consultation-image">
-                <img src="assets/consultation-rep.png" alt="Consultant" onerror="this.style.display='none'" />
-              </div>
+              <h3>Marble & Acrylic Catalog</h3>
+              <p>Complete pattern range and specifications</p>
+              <a href="assets/MARBLE & ACRYLIC .pdf" target="_blank" class="download-btn">View Catalog</a>
             </div>
           </div>
         </div>
+
+        <!-- Designs Selection -->
+        <div id="designsSection" class="configurator-section">
+          <h3 class="section-title">Select Your Design</h3>
+          <div id="designsGrid"></div>
+        </div>
+
+        <!-- Colors & Preview -->
+        <div id="colorsSection" class="configurator-section">
+          <h3 class="section-title">Choose Your Color & Preview</h3>
+          <div class="colors-preview-wrapper">
+            <!-- Color Selection -->
+            <div class="colors-selection">
+              <h3>Available Colors</h3>
+              <div id="colorsGrid"></div>
+            </div>
+
+            <!-- Preview -->
+            <div class="preview-container">
+              <h3>Live Preview</h3>
+              <div class="preview-image-wrapper">
+                <img id="previewImage" src="" alt="Design Preview">
+                <canvas id="previewCanvas"></canvas>
+              </div>
+              <p id="previewTitle" style="text-align: center; color: #ffffff; margin-top: 15px; font-size: 1.1rem;"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selection Summary -->
+        <div id="selectionSummary"></div>
       </div>
-    </div>
+    </section>
 
     <!-- Quality Features Section -->
     <section class="craftsmanship-section">
       <div class="section-intro">
-        <span class="section-label">The Foresta Difference</span>
         <h2 class="section-heading">Uncompromising Quality</h2>
         <p class="section-description">
           Our commitment to excellence is reflected in every detail, from material selection to final finish.
@@ -601,9 +647,56 @@
     </div>
   </footer>
 
+  <!-- AI Chat Widget -->
+  <div id="chatButton" class="chat-fab" title="Chat with us">
+    <svg class="chat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </div>
+
+  <div id="chatContainer" class="chat-container">
+    <div class="chat-header">
+      <div class="chat-header-content">
+        <div class="chat-avatar">
+          <img src="assets/logo.png" alt="Foresta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🌲</text></svg>'">
+        </div>
+        <div class="chat-header-info">
+          <div class="chat-company-name">Foresta Wood Industries</div>
+          <div class="chat-status">Online • Typically replies instantly</div>
+        </div>
+      </div>
+      <button id="closeChat" aria-label="Close chat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <!-- Messages will be dynamically inserted here -->
+    </div>
+
+    <div class="chat-input-wrapper">
+      <div class="chat-input-container">
+        <input 
+          type="text" 
+          id="chatInput" 
+          class="chat-input" 
+          placeholder="Ask me anything..."
+          autocomplete="off"
+        >
+        <button id="sendChat" class="send-button" aria-label="Send message">
+          <svg class="send-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="script-luxury.js"></script>
-  <script src="role-personalization.js"></script>
   <script src="chat-enhanced.js"></script>
+  <script src="role-personalization.js"></script>
   <script src="product-configurator.js"></script>
 
   <!-- Product Filter Script -->
@@ -612,12 +705,22 @@
       const gallery = document.getElementById('productGallery');
       const galleryTitle = document.getElementById('galleryTitle');
       const colorItems = document.querySelectorAll('.color-item');
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      
+      // Update active tab
+      filterTabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.category === category) {
+          tab.classList.add('active');
+        }
+      });
       
       // Show gallery section
       gallery.classList.add('active');
       
       // Update title based on category
       const titles = {
+        'all': 'All Products - Complete Collection',
         'lami-gloss': 'Lami Gloss - Color Range',
         'lami-matt': 'Lami Matt - Color Range',
         'marble-acrylic': 'Marble & Acrylic - Pattern Range'
@@ -625,15 +728,18 @@
       galleryTitle.textContent = titles[category] || 'Products';
       
       // Filter and show relevant items with animation
-      colorItems.forEach((item, index) => {
+      let visibleIndex = 0;
+      colorItems.forEach((item) => {
         item.classList.remove('show');
         
-        if (item.dataset.category === category) {
+        if (category === 'all' || item.dataset.category === category) {
           setTimeout(() => {
             item.classList.add('show');
-          }, index * 50); // Stagger animation
+          }, visibleIndex * 50); // Stagger animation
+          visibleIndex++;
         }
       });
+      
       
       // Smooth scroll to gallery
       setTimeout(() => {
@@ -644,6 +750,15 @@
     function resetFilter() {
       const gallery = document.getElementById('productGallery');
       const colorItems = document.querySelectorAll('.color-item');
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      
+      // Reset to 'All Products' tab
+      filterTabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.category === 'all') {
+          tab.classList.add('active');
+        }
+      });
       
       // Hide all items
       colorItems.forEach(item => {
@@ -657,39 +772,7 @@
       document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function openProductDetail(productName, productCode, imagePath, categoryType) {
-      // Navigate to color detail page instead of showing modal
-      const categoryMap = {
-        'Lami Gloss': { category: 'kitchen', design: 'modern-modular' },
-        'Lami Matt': { category: 'kitchen', design: 'classic-wood' },
-        'Marble & Acrylic': { category: 'kitchen', design: 'luxury-marble' }
-      };
-      
-      const colorId = productCode ? productCode.toLowerCase().replace(/[^a-z0-9]/g, '-') : productName.toLowerCase().replace(/\s+/g, '-');
-      const mapping = categoryMap[categoryType] || { category: 'kitchen', design: 'modern-modular' };
-      
-      const url = `color-detail.html?category=${mapping.category}&design=${mapping.design}&color=${colorId}&name=${encodeURIComponent(productName)}&code=${encodeURIComponent(productCode)}&image=${encodeURIComponent(imagePath)}&type=${encodeURIComponent(categoryType)}`;
-      window.location.href = url;
-    }
-
-    function closeProductDetail() {
-      const modal = document.getElementById('productDetailModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function requestQuotation() {
-      const modalTitle = document.getElementById('modalProductTitle').textContent;
-      alert(`Quotation request for: ${modalTitle}\n\nOur team will contact you shortly!`);
-      // You can replace this with actual form submission or WhatsApp integration
-    }
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeProductDetail();
-      }
-    });
+    // Product navigation functions removed - now using direct page navigation to color-detail.html
   </script>
 </body>
 </html>

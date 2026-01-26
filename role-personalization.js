@@ -6,8 +6,9 @@
  */
 
 // Gemini API Configuration
-const GEMINI_API_KEY = 'AIzaSyAuONT5-aL_iXMSHWaKCpF3Jje7EJQk-Ec';
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+// Using shared API key from window scope (set by chat-enhanced.js)
+const GEMINI_API_KEY_ROLE = window.GEMINI_API_KEY || 'AIzaSyAuONT5-aL_iXMSHWaKCpF3Jje7EJQk-Ec';
+const GEMINI_API_URL_ROLE = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY_ROLE}`;
 
 // Role Definitions with AI Context
 const ROLE_PROFILES = {
@@ -133,8 +134,8 @@ const ROLE_PROFILES = {
   }
 };
 
-// Company Context for AI
-const COMPANY_CONTEXT = `You are Foresta's intelligent assistant - a premium MDF and wood solutions company in UAE.
+// Company Context for AI (using shared context from chat-enhanced.js if available)
+const COMPANY_CONTEXT_ROLE = window.COMPANY_CONTEXT || `You are Foresta's intelligent assistant - a premium MDF and wood solutions company in UAE.
 
 COMPANY FACTS:
 - 45+ years of manufacturing excellence
@@ -347,7 +348,7 @@ class RolePersonalization {
     const roleContext = this.currentRole ? ROLE_PROFILES[this.currentRole].aiContext : '';
     
     try {
-      const response = await fetch(GEMINI_API_URL, {
+      const response = await fetch(GEMINI_API_URL_ROLE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -355,7 +356,7 @@ class RolePersonalization {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `${COMPANY_CONTEXT}
+              text: `${COMPANY_CONTEXT_ROLE}
 
 USER ROLE CONTEXT:
 ${roleContext}
