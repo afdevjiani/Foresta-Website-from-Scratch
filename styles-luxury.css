@@ -1687,7 +1687,7 @@ p, li, label, input, button, textarea, select {
 
 /* ===== PRODUCTS SECTION ===== */
 .products-section {
-  padding: calc(var(--spacing-xl) * 3) var(--spacing-lg);
+  padding: calc(var(--spacing-xl) * 0.5) var(--spacing-lg);
   background: linear-gradient(180deg, #ffffff 0%, #f8faf9 100%);
   position: relative;
 }
