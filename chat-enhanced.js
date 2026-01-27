@@ -7,7 +7,9 @@
 // Gemini API Configuration - Global
 window.GEMINI_API_KEY = 'AIzaSyAuONT5-aL_iXMSHWaKCpF3Jje7EJQk-Ec';
 const GEMINI_API_KEY = window.GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+// Updated to use gemini-1.5-flash (faster and more reliable)
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const USE_AI = false; // Set to true when API key is valid, false to use smart fallback
 
 // Company context for AI - Enhanced with role awareness
 const COMPANY_CONTEXT = `You are Foresta's premium AI assistant - a luxury MDF and wood solutions company in UAE.
@@ -101,6 +103,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let isTyping = false;
   let conversationContext = [];
+
+  // Enhanced typing indicator
+  function showTypingIndicator() {
+    if (isTyping) return;
+    
+    isTyping = true;
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <span style="color: #64748b; font-size: 12px; margin-left: 8px;">Foresta is typing...</span>
+    `;
+    typingDiv.id = 'typingIndicator';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+      typingIndicator.remove();
+    }
+    isTyping = false;
+  }
 
   // Enhanced response database with context awareness
   const responses = {
@@ -207,21 +237,53 @@ document.addEventListener('DOMContentLoaded', function () {
     const optionsDiv = document.createElement('div');
     optionsDiv.className = 'chat-options';
     
-    options.forEach(option => {
+    options.forEach((option, index) => {
       const btn = document.createElement('button');
       btn.className = 'chat-option-btn';
       btn.textContent = option.text;
-      btn.onclick = () => handleOptionClick(option);
+      btn.style.animationDelay = `${index * 0.1}s`;
+      
+      // Add hover sound effect simulation (visual feedback)
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'translateY(-3px) scale(1.02)';
+      });
+      
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+      
+      // Enhanced click handling
+      btn.onclick = () => {
+        // Add click feedback
+        btn.style.transform = 'scale(0.95)';
+        btn.style.opacity = '0.7';
+        
+        setTimeout(() => {
+          handleOptionClick(option);
+        }, 150);
+      };
+      
       optionsDiv.appendChild(btn);
     });
     
     chatMessages.appendChild(optionsDiv);
-    scrollToBottom();
+    
+    // Smooth scroll to show new options
+    setTimeout(() => {
+      scrollToBottom();
+    }, options.length * 100 + 200);
   }
 
   function handleOptionClick(option) {
-    // Remove all option buttons
-    document.querySelectorAll('.chat-options').forEach(el => el.remove());
+    // Remove all option buttons with fade-out animation
+    const existingOptions = document.querySelectorAll('.chat-options');
+    existingOptions.forEach(optionsContainer => {
+      optionsContainer.style.opacity = '0.5';
+      optionsContainer.style.transform = 'scale(0.95)';
+      optionsContainer.style.pointerEvents = 'none';
+      optionsContainer.style.transition = 'all 0.3s ease';
+      setTimeout(() => optionsContainer.remove(), 300);
+    });
     
     // Add user message
     addMessage(option.text, 'user');
@@ -229,11 +291,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show typing indicator
     showTypingIndicator();
     
-    // Handle the action
+    // Handle the action with realistic delay
+    const responseDelay = 1000 + Math.random() * 500; // 1-1.5 seconds
     setTimeout(() => {
       removeTypingIndicator();
       handleAction(option.action);
-    }, 800 + Math.random() * 400);
+    }, responseDelay);
   }
 
   function handleAction(action) {
@@ -272,10 +335,39 @@ document.addEventListener('DOMContentLoaded', function () {
   function addMessage(text, type) {
     const messageDiv = document.createElement('div');
     messageDiv.className = type;
-    messageDiv.textContent = text;
     messageDiv.style.whiteSpace = 'pre-line';
-    chatMessages.appendChild(messageDiv);
-    scrollToBottom();
+    
+    // Add typing simulation for bot messages
+    if (type === 'bot') {
+      messageDiv.style.opacity = '0';
+      messageDiv.textContent = '';
+      chatMessages.appendChild(messageDiv);
+      
+      // Simulate typing character by character
+      let charIndex = 0;
+      const typingSpeed = 15; // milliseconds per character
+      
+      const typeCharacter = () => {
+        if (charIndex < text.length) {
+          messageDiv.textContent += text.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeCharacter, typingSpeed);
+          scrollToBottom();
+        }
+      };
+      
+      // Fade in and start typing
+      setTimeout(() => {
+        messageDiv.style.opacity = '1';
+        messageDiv.style.transition = 'opacity 0.3s ease';
+        typeCharacter();
+      }, 100);
+    } else {
+      // User messages appear immediately with animation
+      messageDiv.textContent = text;
+      chatMessages.appendChild(messageDiv);
+      scrollToBottom();
+    }
   }
 
   function showTypingIndicator() {
@@ -299,15 +391,39 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function scrollToBottom() {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Use smooth scroll with animation
+    const scrollOptions = {
+      top: chatMessages.scrollHeight,
+      behavior: 'smooth'
+    };
+    
+    requestAnimationFrame(() => {
+      chatMessages.scrollTo(scrollOptions);
+    });
+    
+    // Fallback for browsers that don't support smooth scroll
+    if (!('scrollBehavior' in document.documentElement.style)) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
 
   function sendMessage() {
     const text = chatInput.value.trim();
     if (!text || isTyping) return;
     
+    // Add visual feedback to send button
+    sendChat.style.transform = 'scale(0.9) rotate(0deg)';
+    sendChat.style.transition = 'all 0.2s ease';
+    
+    setTimeout(() => {
+      sendChat.style.transform = '';
+    }, 200);
+    
     addMessage(text, 'user');
     chatInput.value = '';
+    
+    // Auto-resize input if needed
+    chatInput.style.height = 'auto';
     
     // Show typing indicator
     showTypingIndicator();
@@ -350,6 +466,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   async function getAIResponse(userMessage) {
+    // Check if AI is enabled
+    if (!USE_AI) {
+      return getSmartFallbackResponse(userMessage);
+    }
+    
     // Get user role context for personalized responses
     const userRole = window.forestaUserRole || sessionStorage.getItem('forestaUserRole') || 'general';
     const roleContext = ROLE_AI_CONTEXTS[userRole] || '';
@@ -396,8 +517,62 @@ INSTRUCTIONS:
       return aiResponse.trim();
     } catch (error) {
       console.error('Gemini API Error:', error);
-      return "I'd be happy to help! For immediate assistance, please contact our team at +971 54 786 2986 or email reachus@foresta.ae";
+      console.log('🔄 Falling back to smart response system');
+      return getSmartFallbackResponse(userMessage);
     }
+  }
+  
+  // Smart fallback response system
+  function getSmartFallbackResponse(userMessage) {
+    const msg = userMessage.toLowerCase();
+    
+    // Product inquiries
+    if (msg.includes('product') || msg.includes('catalog') || msg.includes('lami') || msg.includes('marble')) {
+      return "We offer premium MDF solutions: Lami Gloss (high-shine), Lami Matt (elegant matte), and Marble & Acrylic (luxury finishes). Would you like to see our catalogs or get pricing?";
+    }
+    
+    // Pricing inquiries
+    if (msg.includes('price') || msg.includes('cost') || msg.includes('quote')) {
+      return "Our pricing varies by product and quantity. For accurate quotes, please contact us at +971 54 786 2986 or email reachus@foresta.ae with your requirements.";
+    }
+    
+    // Contact inquiries
+    if (msg.includes('contact') || msg.includes('phone') || msg.includes('email') || msg.includes('reach')) {
+      return "You can reach us at:\n📞 +971 54 786 2986\n📧 reachus@foresta.ae\n🕐 Sunday-Thursday, 9 AM - 6 PM GST\n📍 Umm Al Quwain, UAE";
+    }
+    
+    // Quality/certification inquiries
+    if (msg.includes('quality') || msg.includes('certif') || msg.includes('eco') || msg.includes('sustain')) {
+      return "Foresta maintains the highest standards:\n✓ ISO 9001:2015 certified\n✓ E1 Grade emissions\n✓ FSC certified\n✓ 100% eco-friendly materials\n✓ 45+ years of excellence";
+    }
+    
+    // Company information
+    if (msg.includes('about') || msg.includes('company') || msg.includes('who') || msg.includes('foresta')) {
+      return "Foresta Wood Industries: 45+ years of manufacturing excellence in UAE. We specialize in premium MDF panels with eco-friendly materials. Trusted by developers, joineries, and architects across the region.";
+    }
+    
+    // Location inquiries
+    if (msg.includes('location') || msg.includes('where') || msg.includes('address')) {
+      return "We're located in Umm Al Quwain, UAE - strategically positioned at the world's busiest port for efficient delivery. Open Sunday-Thursday, 9 AM - 6 PM GST.";
+    }
+    
+    // Delivery inquiries
+    if (msg.includes('delivery') || msg.includes('shipping') || msg.includes('time')) {
+      return "We offer quick delivery across UAE and international shipping. Timeline depends on order size and destination. Contact us for specific delivery estimates.";
+    }
+    
+    // Greeting responses
+    if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
+      return "Hello! 👋 Welcome to Foresta Wood Industries. How can I assist you today? I can help with products, pricing, or any questions about our MDF solutions.";
+    }
+    
+    // Thank you responses
+    if (msg.includes('thank') || msg.includes('thanks')) {
+      return "You're welcome! Feel free to ask if you need anything else. We're here to help! 😊";
+    }
+    
+    // Default helpful response
+    return "I'd be happy to help! I can assist with:\n• Product information\n• Pricing and quotes\n• Quality certifications\n• Contact details\n\nWhat would you like to know?";
   }
 
   function handleUserMessage(text) {
@@ -461,4 +636,5 @@ INSTRUCTIONS:
   }
 
   console.log('✅ Modern chat initialized successfully! Click the green button to start.');
+  console.log(`🤖 AI Mode: ${USE_AI ? '✅ ENABLED (Gemini 1.5 Flash)' : '⚡ SMART FALLBACK (Instant responses)'}`);
 });

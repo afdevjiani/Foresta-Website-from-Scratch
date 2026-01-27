@@ -43,6 +43,19 @@
     z-index: 1;
 }
 
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    .configurator-container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .configurator-container {
+        padding: 0 10px;
+    }
+}
+
 /* Header */
 .configurator-header {
     text-align: center;
@@ -141,6 +154,8 @@
     letter-spacing: 3px;
     font-family: 'Matt Complete Family', 'Inter', sans-serif;
     text-shadow: 0 2px 4px rgba(12, 67, 38, 0.08);
+    line-height: 1.3;
+    transition: all 0.3s ease;
 }
 
 .section-subtitle {
@@ -170,7 +185,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 
         0 15px 50px rgba(12, 67, 38, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -188,7 +203,7 @@
     bottom: 0;
     background: linear-gradient(180deg, transparent 0%, rgba(12, 67, 38, 0.85) 100%);
     z-index: 1;
-    transition: all 0.5s ease;
+    transition: all 0.2s ease;
 }
 
 /* Add unique background images for each category */
@@ -201,7 +216,7 @@
     bottom: 0;
     background: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?w=800&q=80') center/cover no-repeat;
     z-index: 0;
-    transition: transform 0.6s ease;
+    transition: transform 0.25s ease;
 }
 
 .category-card[data-category="bedroom"]::after {
@@ -213,7 +228,7 @@
     bottom: 0;
     background: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80') center/cover no-repeat;
     z-index: 0;
-    transition: transform 0.6s ease;
+    transition: transform 0.25s ease;
 }
 
 .category-card[data-category="wardrobe"]::after {
@@ -225,7 +240,7 @@
     bottom: 0;
     background: url('assets/wardrobe image(2).jpg') center/cover no-repeat;
     z-index: 0;
-    transition: transform 0.6s ease;
+    transition: transform 0.25s ease;
 }
 
 .category-card:hover::after {
@@ -348,7 +363,7 @@
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: all 0.6s ease;
+    transition: all 0.3s ease;
 }
 
 #designsSection.active {
@@ -369,7 +384,7 @@
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     box-shadow: 
         0 8px 30px rgba(12, 67, 38, 0.08),
@@ -428,7 +443,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    transition: transform 0.25s ease;
 }
 
 .design-card:hover .design-image img {
@@ -483,7 +498,7 @@
     background: linear-gradient(135deg, #2d8f5f 0%, #0c4326 100%);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
+    transition: width 0.3s ease, height 0.3s ease;
 }
 
 .select-design-btn:hover::before {
@@ -514,7 +529,7 @@
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: all 0.6s ease;
+    transition: all 0.3s ease;
 }
 
 #colorsSection.active {
@@ -788,7 +803,7 @@
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: all 0.5s ease;
+    transition: all 0.2s ease;
     margin-top: 40px;
 }
 
@@ -865,7 +880,7 @@
     background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
+    transition: width 0.2s ease, height 0.2s ease;
 }
 
 .btn-primary:hover::before,
@@ -931,51 +946,86 @@
     #colorsGrid {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }
+
+    .configurator-container {
+        padding: 0 25px;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+        letter-spacing: 2.5px;
+    }
+
+    .catalog-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
 }
 
 @media (max-width: 768px) {
     #productConfigurator {
-        padding: 80px 0;
+        padding: 60px 0;
     }
 
     .configurator-header h2 {
-        font-size: 2.5rem;
-        letter-spacing: 2px;
+        font-size: 2.2rem;
+        letter-spacing: 1.5px;
+        line-height: 1.2;
+        margin-bottom: 15px;
     }
 
     .configurator-header p {
-        font-size: 1rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        max-width: 90%;
+        margin: 0 auto;
     }
 
     .configurator-steps {
-        gap: 15px;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .step-item {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .step-number {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
     }
 
     #categoriesGrid {
         grid-template-columns: 1fr;
-        max-width: 450px;
+        max-width: 400px;
+        gap: 20px;
     }
 
     .category-card {
-        padding: 50px 30px;
+        padding: 40px 25px;
+        border-radius: 16px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(45, 143, 95, 0.15);
     }
 
     #designsGrid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     #colorsGrid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 18px;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 15px;
     }
 
     .summary-actions {
@@ -986,59 +1036,157 @@
     .btn-primary,
     .btn-secondary {
         width: 100%;
+        padding: 16px 24px;
+        font-size: 1rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(45, 143, 95, 0.3);
     }
 
     .section-title {
-        font-size: 1.8rem;
+        font-size: 1.9rem;
+        letter-spacing: 2px;
+        margin-bottom: 25px;
+    }
+
+    .catalog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .catalog-card-luxury {
+        padding: 30px 20px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8faf8 100%);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .catalog-card-luxury:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 48px rgba(45, 143, 95, 0.12);
     }
 }
 
 @media (max-width: 480px) {
+    #productConfigurator {
+        padding: 40px 0;
+    }
+
+    .configurator-header {
+        margin-bottom: 50px;
+    }
+
     .configurator-header h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         letter-spacing: 1px;
+        line-height: 1.3;
+        margin-bottom: 12px;
     }
 
     .configurator-header p {
         font-size: 0.95rem;
+        line-height: 1.5;
+        padding: 0 10px;
+    }
+
+    .configurator-container {
+        padding: 0 15px;
     }
 
     .category-card {
-        padding: 40px 25px;
+        padding: 35px 20px;
+        border-radius: 14px;
     }
 
     .category-icon {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
+        margin-bottom: 15px;
     }
 
     .category-name {
-        font-size: 1.4rem;
-        letter-spacing: 1px;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
     }
 
     .section-title {
-        font-size: 1.5rem;
-        letter-spacing: 2px;
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 25px;
     }
 
     .design-name {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        line-height: 1.3;
     }
 
     .colors-selection,
     .preview-container {
-        padding: 25px;
+        padding: 20px;
+        border-radius: 14px;
     }
 
     #colorsGrid {
-        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        gap: 12px;
     }
 
     .btn-primary,
     .btn-secondary {
-        padding: 14px 35px;
+        padding: 14px 20px;
         font-size: 0.95rem;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+
+    .catalog-card-luxury {
+        padding: 25px 18px;
+        border-radius: 14px;
+        margin-bottom: 15px;
+    }
+
+    .catalog-card-luxury h4 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+        margin-bottom: 8px;
+    }
+
+    .catalog-card-luxury p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 18px;
+    }
+
+    .catalog-card-luxury .btn-primary {
+        padding: 12px 18px;
+        font-size: 0.9rem;
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .step-item {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        margin: 2px;
+    }
+
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
     }
 }
