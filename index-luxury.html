@@ -7,18 +7,21 @@
   <meta name="description" content="Foresta Wood Industries LLC - Where craftsmanship meets innovation. Premium MDF & wood solutions for discerning professionals.">
   <meta name="keywords" content="luxury MDF panels, premium wood solutions, sustainable wood, UAE wood industry, high-end wood panels">
   <title>Foresta Wood Industries | Craftsmanship Refined</title>
+  <!-- Critical CSS inline or main stylesheet -->
   <link rel="stylesheet" href="styles-luxury.css">
-  <link rel="stylesheet" href="role-personalization.css">
-  <link rel="stylesheet" href="product-configurator.css">
-  <link rel="stylesheet" href="chat-styles-modern.css">
+  <!-- Defer non-critical CSS -->
+  <link rel="stylesheet" href="role-personalization.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="product-configurator.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="chat-styles-modern.css" media="print" onload="this.media='all'">
   <link rel="icon" href="assets/logo.png">
+  <!-- Preconnect and preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Preload critical resources -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
   <link rel="preload" href="assets/logo.png" as="image">
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Defer EmailJS SDK -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   
@@ -69,7 +72,7 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <video autoplay muted loop playsinline class="hero-video">
+        <video autoplay muted loop playsinline class="hero-video" preload="metadata" poster="assets/logo.png">
           <source src="assets/Foresta_video.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
@@ -632,10 +635,10 @@
     </div>
   </div>
 
-  <script src="script-luxury.js"></script>
-  <script src="chat-enhanced.js"></script>
-  <script src="role-personalization.js"></script>
-  <script src="product-configurator.js"></script>
+  <script defer src="script-luxury.js"></script>
+  <script defer src="chat-enhanced.js"></script>
+  <script defer src="role-personalization.js"></script>
+  <script defer src="product-configurator.js"></script>
 
   <!-- Product Filter Script -->
   <script>
@@ -717,6 +720,6 @@
       filterProducts('all');
     });
   </script>
-  <script src="video-control.js"></script>
+  <script defer src="video-control.js"></script>
 </body>
 </html>
