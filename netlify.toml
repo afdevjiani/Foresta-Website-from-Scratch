@@ -3,10 +3,14 @@
   command = "echo 'No build step required for static site'"
 
 [[redirects]]
-  from = "/*"
+  from = "/"
   to = "/index-luxury.html"
   status = 200
-  force = false
+
+[[redirects]]
+  from = "/*"
+  to = "/index-luxury.html"
+  status = 404
 
 [[headers]]
   for = "/*"
