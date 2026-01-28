@@ -72,7 +72,7 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <video autoplay muted loop playsinline class="hero-video" preload="metadata" poster="assets/logo.png">
+        <video autoplay muted loop playsinline class="hero-video" preload="auto" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
           <source src="assets/Foresta_video.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
@@ -682,10 +682,10 @@
       });
       
       
-      // Smooth scroll to gallery
-      setTimeout(() => {
-        gallery.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+      // Don't auto-scroll on page load
+      // setTimeout(() => {
+      //   gallery.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // }, 100);
     }
     
     function resetFilter() {

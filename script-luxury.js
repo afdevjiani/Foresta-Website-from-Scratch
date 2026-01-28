@@ -29,6 +29,14 @@ window.openProductDetail = function(colorName, colorCode, imagePath, category) {
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
+  // Prevent scroll restoration on page load
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  
+  // Scroll to top on page load/refresh
+  window.scrollTo(0, 0);
+  
   // Remove transition class after load
   setTimeout(() => {
     document.body.classList.remove('page-transition');
@@ -609,20 +617,31 @@ if (window.innerWidth > 768) {
 
 // ===== VIDEO OPTIMIZATION FOR MOBILE =====
 function optimizeVideoForMobile() {
-  if (window.innerWidth <= 768) {
-    const heroVideo = document.querySelector('.hero-video');
-    
-    if (heroVideo) {
-      // Pause video on mobile to save bandwidth
-      heroVideo.pause();
+  const heroVideo = document.querySelector('.hero-video');
+  
+  if (heroVideo) {
+    // Force play on mobile devices
+    if (window.innerWidth <= 768) {
+      // Ensure video is muted and can autoplay
+      heroVideo.muted = true;
+      heroVideo.setAttribute('muted', '');
+      heroVideo.setAttribute('playsinline', '');
       
-      // Optionally, replace with poster image
-      const videoPoster = heroVideo.getAttribute('poster');
-      if (videoPoster) {
-        heroVideo.style.backgroundImage = `url(${videoPoster})`;
-        heroVideo.style.backgroundSize = 'cover';
-        heroVideo.style.backgroundPosition = 'center';
+      // Attempt to play with error handling
+      const playPromise = heroVideo.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Autoplay prevented, attempting user interaction trigger');
+          // Add a play button overlay or handle the error
+          document.addEventListener('touchstart', function() {
+            heroVideo.play().catch(e => console.log('Play failed:', e));
+          }, { once: true });
+        });
       }
+    } else {
+      // Desktop - ensure video plays
+      heroVideo.play().catch(e => console.log('Video play error:', e));
     }
   }
 }
