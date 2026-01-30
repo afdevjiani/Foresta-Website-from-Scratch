@@ -83,19 +83,38 @@ function initScrollAnimations() {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+  
+  // Use requestAnimationFrame to batch DOM updates
+  let pendingUpdates = [];
+  let updateScheduled = false;
+  
+  const processPendingUpdates = () => {
+    pendingUpdates.forEach(({ target, action }) => {
+      if (action === 'visible') {
+        target.classList.add('visible');
         
         // Trigger number animation for stats
-        if (entry.target.classList.contains('stat-box')) {
-          const numberEl = entry.target.querySelector('.stat-number-large');
+        if (target.classList.contains('stat-box')) {
+          const numberEl = target.querySelector('.stat-number-large');
           if (numberEl && !numberEl.classList.contains('counted')) {
             numberEl.classList.add('counted');
             animateNumber(numberEl);
           }
+        }
+      }
+    });
+    pendingUpdates = [];
+    updateScheduled = false;
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        pendingUpdates.push({ target: entry.target, action: 'visible' });
+        
+        if (!updateScheduled) {
+          updateScheduled = true;
+          requestAnimationFrame(processPendingUpdates);
         }
       }
     });
@@ -295,8 +314,11 @@ function initNavigation() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
   const header = document.querySelector('.luxury-header');
-
-  window.addEventListener('scroll', () => {
+  
+  let scrollTicking = false;
+  
+  const updateOnScroll = () => {
+    scrollTicking = false;
     // Update active navigation
     let current = '';
     const scrollPosition = window.pageYOffset + 150;
@@ -333,7 +355,14 @@ function initNavigation() {
     
     // Apply progress width to ::after pseudo-element
     document.documentElement.style.setProperty('--scroll-width', `${scrolled}%`);
-  });
+  };
+  
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      requestAnimationFrame(updateOnScroll);
+      scrollTicking = true;
+    }
+  }, { passive: true });
 }
 
 // Add CSS variable support for progress bar

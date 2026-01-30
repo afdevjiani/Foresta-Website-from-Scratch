@@ -1713,6 +1713,7 @@ p, li, label, input, button, textarea, select {
   position: relative;
   contain: layout style paint;
   content-visibility: auto;
+  contain-intrinsic-size: auto 3000px;
 }
 
 .products-container {
@@ -2131,11 +2132,13 @@ p, li, label, input, button, textarea, select {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(26, 69, 46, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(26, 69, 46, 0.08);
   display: none;
   cursor: pointer;
   position: relative;
+  contain: layout style paint;
+  content-visibility: auto;
 }
 
 .color-item::after {
@@ -2178,6 +2181,7 @@ p, li, label, input, button, textarea, select {
   box-shadow: 0 15px 40px rgba(26, 69, 46, 0.2);
   border-color: var(--color-forest-green);
   z-index: 10;
+  will-change: transform, box-shadow;
 }
 
 /* Desktop: Show kitchen preview on hover with fade effect */
@@ -2247,12 +2251,22 @@ p, li, label, input, button, textarea, select {
   transition: opacity 0.5s ease;
 }
 
-/* Mobile: Use slider with clip-path */
+/* Mobile: Use transform instead of clip-path for better performance */
 @media (max-width: 1024px) {
+  .color-item-image-wrapper {
+    overflow: hidden;
+  }
+  
   .color-item .kitchen-preview {
     opacity: 1;
-    clip-path: inset(0 50% 0 0);
-    transition: clip-path 0.05s ease-out;
+    transform: translateX(0);
+    transition: transform 0.05s ease-out;
+    will-change: transform;
+  }
+  
+  /* Use mask-image as fallback for better performance */
+  .color-item .kitchen-preview[data-position] {
+    transform: translateX(calc((var(--slider-position, 50) - 100) * 1%));
   }
 }
 
@@ -2266,9 +2280,10 @@ p, li, label, input, button, textarea, select {
     height: 100%;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
     z-index: 3;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateZ(0);
     pointer-events: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+    will-change: left;
   }
 
   .comparison-slider-handle::before {

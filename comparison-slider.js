@@ -36,10 +36,12 @@ class ComparisonSlider {
     document.addEventListener('mousemove', this.drag.bind(this));
     document.addEventListener('mouseup', this.stopDrag.bind(this));
     
-    // Touch events
+    // Touch events - optimized for performance
     this.imageWrapper.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
-    this.imageWrapper.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
-    this.imageWrapper.addEventListener('touchend', this.handleTouchEnd.bind(this));
+    // Use passive: false only when necessary for preventDefault
+    this.boundTouchMove = this.handleTouchMove.bind(this);
+    this.imageWrapper.addEventListener('touchmove', this.boundTouchMove, { passive: false });
+    this.imageWrapper.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
     
     // Click to jump (desktop only)
     this.imageWrapper.addEventListener('click', (e) => {
@@ -71,6 +73,8 @@ class ComparisonSlider {
     this.touchStartTime = Date.now();
     this.isDragging = false;
     this.wasDragging = false;
+    this.scrollIntentDetermined = false;
+    this.isHorizontalDrag = false;
   }
   
   handleTouchMove(e) {
@@ -81,8 +85,14 @@ class ComparisonSlider {
     const deltaX = Math.abs(touchX - this.touchStartX);
     const deltaY = Math.abs(touchY - this.touchStartY);
     
-    // If horizontal movement is greater than vertical, it's a slider interaction
-    if (deltaX > deltaY && deltaX > 10) {
+    // Determine scroll intent early to minimize preventDefault impact
+    if (!this.scrollIntentDetermined) {
+      this.scrollIntentDetermined = true;
+      this.isHorizontalDrag = deltaX > deltaY;
+    }
+    
+    // Only prevent default if user intends horizontal drag
+    if (this.isHorizontalDrag && deltaX > 10) {
       e.preventDefault(); // Prevent scrolling only when sliding
       this.isDragging = true;
       this.wasDragging = true;
@@ -134,18 +144,31 @@ class ComparisonSlider {
   updateSlider(percentage, animated = false) {
     this.currentPosition = percentage;
     
-    // Update clip-path with smooth transition
-    const clipValue = `inset(0 ${100 - percentage}% 0 0)`;
+    // Use transform for better performance on mobile
+    const isMobile = window.innerWidth <= 1024;
     
-    if (animated) {
-      this.afterImage.style.transition = 'clip-path 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    if (isMobile) {
+      // Use transform instead of clip-path
+      const translateValue = (percentage - 100);
+      if (animated) {
+        this.afterImage.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      } else {
+        this.afterImage.style.transition = 'transform 0.05s ease-out';
+      }
+      this.afterImage.style.transform = `translateX(${translateValue}%)`;
     } else {
-      this.afterImage.style.transition = 'clip-path 0.05s ease-out';
+      // Desktop: use clip-path for fade effect
+      const clipValue = `inset(0 ${100 - percentage}% 0 0)`;
+      if (animated) {
+        this.afterImage.style.transition = 'clip-path 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      } else {
+        this.afterImage.style.transition = 'clip-path 0.05s ease-out';
+      }
+      this.afterImage.style.clipPath = clipValue;
     }
     
-    this.afterImage.style.clipPath = clipValue;
-    
-    // Update handle position
+    // Update handle position with transform for GPU acceleration
+    this.handle.style.transform = `translateX(-50%)`;
     this.handle.style.left = `${percentage}%`;
   }
   

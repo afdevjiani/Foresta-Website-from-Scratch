@@ -759,16 +759,15 @@
       };
       galleryTitle.textContent = titles[category] || 'Products';
       
-      // Filter and show relevant items with animation
-      let visibleIndex = 0;
+      // Filter and show relevant items instantly (no stagger delay for performance)
       colorItems.forEach((item) => {
         item.classList.remove('show');
         
         if (category === 'all' || item.dataset.category === category) {
-          setTimeout(() => {
+          // Use requestAnimationFrame for smooth rendering
+          requestAnimationFrame(() => {
             item.classList.add('show');
-          }, visibleIndex * 50); // Stagger animation
-          visibleIndex++;
+          });
         }
       });
       
