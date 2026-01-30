@@ -85,15 +85,25 @@ class ComparisonSlider {
     const deltaX = Math.abs(touchX - this.touchStartX);
     const deltaY = Math.abs(touchY - this.touchStartY);
     
-    // Determine scroll intent early to minimize preventDefault impact
+    // Determine scroll intent with priority to vertical scrolling
     if (!this.scrollIntentDetermined) {
-      this.scrollIntentDetermined = true;
-      this.isHorizontalDrag = deltaX > deltaY;
+      // If user moves vertically first or moves vertically more, it's a scroll
+      if (deltaY > 8 || (deltaY > 5 && deltaY >= deltaX)) {
+        this.scrollIntentDetermined = true;
+        this.isHorizontalDrag = false;
+        return; // Let native scroll happen
+      }
+      
+      // Only consider horizontal drag if clear horizontal intent
+      if (deltaX > 20 && deltaX > deltaY * 2.5) {
+        this.scrollIntentDetermined = true;
+        this.isHorizontalDrag = true;
+      }
     }
     
-    // Only prevent default if user intends horizontal drag
-    if (this.isHorizontalDrag && deltaX > 10) {
-      e.preventDefault(); // Prevent scrolling only when sliding
+    // Only handle horizontal drag if clear intent was established
+    if (this.isHorizontalDrag) {
+      e.preventDefault(); // Prevent scrolling only for confirmed horizontal drag
       this.isDragging = true;
       this.wasDragging = true;
       
