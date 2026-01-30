@@ -454,7 +454,7 @@ p, li, label, input, button, textarea, select {
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: url('assets/logo.png') center/cover no-repeat, linear-gradient(135deg, #0c4326 0%, #2d8f5f 100%);
+  background: #1a1a1a;
 }
 
 .hero-video {
@@ -462,6 +462,12 @@ p, li, label, input, button, textarea, select {
   height: 100%;
   object-fit: cover;
   background-color: transparent;
+  opacity: 0;
+  transition: opacity 0.8s ease-in;
+}
+
+.hero-video.loaded {
+  opacity: 1;
 }
 
 /* Force video play on mobile */
@@ -2198,6 +2204,13 @@ p, li, label, input, button, textarea, select {
   cursor: ew-resize;
   touch-action: none;
   user-select: none;
+  background: linear-gradient(135deg, #f5f2ed 0%, #e8e8e8 100%);
+}
+
+.color-item-image-wrapper picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .color-item img {
@@ -2205,6 +2218,13 @@ p, li, label, input, button, textarea, select {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease;
+}
+
+/* Loading state for images */
+.color-item img:not([src]),
+.color-item img[src=\"\"] {
+  opacity: 0;
 }
 
 .color-item .color-swatch {
