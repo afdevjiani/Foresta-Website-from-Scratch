@@ -723,3 +723,152 @@ document.addEventListener('keydown', function(e) {
         document.body.style.overflow = '';
     }
 });
+
+// ===== CART FUNCTIONALITY =====
+
+// Get or initialize cart from localStorage
+function getCart() {
+    try {
+        const cart = localStorage.getItem('forestaWizardState');
+        if (cart) {
+            const state = JSON.parse(cart);
+            return state.cart || [];
+        }
+    } catch (error) {
+        console.error('Error reading cart:', error);
+    }
+    return [];
+}
+
+// Save cart to localStorage
+function saveCart(cart) {
+    try {
+        const existingState = localStorage.getItem('forestaWizardState');
+        let state = existingState ? JSON.parse(existingState) : {};
+        state.cart = cart;
+        localStorage.setItem('forestaWizardState', JSON.stringify(state));
+        updateCartBadge();
+    } catch (error) {
+        console.error('Error saving cart:', error);
+    }
+}
+
+// Update cart badge count
+function updateCartBadge() {
+    const cart = getCart();
+    const cartBadge = document.getElementById('cartBadge');
+    const cartIconBtn = document.getElementById('cartIconBtn');
+    
+    if (cart.length > 0) {
+        cartBadge.textContent = cart.length;
+        cartIconBtn.style.display = 'inline-flex';
+    } else {
+        cartIconBtn.style.display = 'none';
+    }
+}
+
+// Check if current product is in cart
+function isProductInCart() {
+    const cart = getCart();
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('name');
+    const productCode = urlParams.get('code');
+    
+    return cart.some(item => 
+        item.name === productName && item.code === productCode
+    );
+}
+
+// Update Add to Cart button state
+function updateCartButtonState() {
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const cartBtnText = document.getElementById('cartBtnText');
+    
+    if (isProductInCart()) {
+        addToCartBtn.classList.add('added');
+        cartBtnText.textContent = 'Added to Cart';
+    } else {
+        addToCartBtn.classList.remove('added');
+        cartBtnText.textContent = 'Add to Cart';
+    }
+}
+
+// Add current product to cart
+function addToCart() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('name');
+    const productCode = urlParams.get('code');
+    const productImage = urlParams.get('image');
+    const productType = urlParams.get('type');
+    
+    if (!productName || !productCode) {
+        alert('Product information is missing.');
+        return;
+    }
+    
+    let cart = getCart();
+    
+    // Check if product already exists
+    const existingIndex = cart.findIndex(item => 
+        item.name === productName && item.code === productCode
+    );
+    
+    if (existingIndex >= 0) {
+        // Product already in cart, show message
+        alert('This product is already in your cart!');
+        return;
+    }
+    
+    // Add new product to cart
+    const newProduct = {
+        id: productCode.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+        name: productName,
+        code: productCode,
+        image: productImage || '',
+        quantity: 1,
+        type: productType || ''
+    };
+    
+    cart.push(newProduct);
+    saveCart(cart);
+    updateCartButtonState();
+    
+    // Show success message
+    showCartNotification('Product added to cart!');
+}
+
+// View cart (redirect to wizard)
+function viewCart() {
+    // Redirect to home page and open wizard
+    window.location.href = 'index-luxury.html?openWizard=true&step=4';
+}
+
+// Show cart notification
+function showCartNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // Hide and remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Initialize cart on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartBadge();
+    updateCartButtonState();
+});

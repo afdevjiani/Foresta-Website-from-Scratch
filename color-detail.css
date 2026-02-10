@@ -1,5 +1,43 @@
 /* Color Detail Page Styles */
 
+/* Cart Icon Button in Navigation */
+.cart-icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(45, 143, 95, 0.1);
+  border: 1px solid rgba(45, 143, 95, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 15px;
+}
+
+.cart-icon-btn:hover {
+  background: rgba(45, 143, 95, 0.2);
+  border-color: #2d8f5f;
+}
+
+.cart-icon-btn svg {
+  stroke: #2d8f5f;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #2d8f5f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
 .color-detail-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -276,10 +314,12 @@
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-cart {
   flex: 1;
   padding: 1rem 2rem;
   font-family: 'Inter', sans-serif;
@@ -289,6 +329,31 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.btn-cart {
+  background: linear-gradient(135deg, #2d8f5f 0%, #4ade80 100%);
+  color: white;
+  border: 2px solid transparent;
+}
+
+.btn-cart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(45, 143, 95, 0.4);
+}
+
+.btn-cart.added {
+  background: #0c4326;
+  border-color: #0c4326;
+}
+
+.btn-cart svg {
+  stroke: currentColor;
 }
 
 .btn-primary {
@@ -617,5 +682,44 @@
   .info-value,
   .spec-value {
     text-align: left;
+  }
+}
+
+/* Cart Notification */
+.cart-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: linear-gradient(135deg, #2d8f5f 0%, #4ade80 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(45, 143, 95, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.3s ease;
+}
+
+.cart-notification.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cart-notification svg {
+  stroke: white;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .cart-notification {
+    top: 80px;
+    right: 10px;
+    left: 10px;
+    justify-content: center;
   }
 }

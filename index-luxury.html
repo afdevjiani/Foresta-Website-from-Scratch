@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="role-personalization.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="product-configurator.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="chat-styles-modern.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="product-wizard.css" media="print" onload="this.media='all'">
   <link rel="icon" href="assets/logo.png">
   <!-- Preconnect and preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,7 +82,9 @@
       <div class="hero-content-luxury">
         <h1 class="hero-title fade-up">Craftsmanship Refined</h1>
         <p class="hero-subtitle fade-up-delay">Where four decades of mastery meet innovation in wood</p>
-        <a href="#gallery" class="hero-cta fade-up-delay-2">Explore Our World</a>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+          <a href="#gallery" class="hero-cta fade-up-delay-2">Explore Our World</a>
+        </div>
       </div>
 
       <div class="scroll-indicator">
@@ -183,17 +186,11 @@
               <div class="color-item-image-wrapper">
                 <picture>
                   <source srcset="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.webp" type="image/webp">
                   <img class="color-swatch" src="assets/Lami gloss front images/ACACIA GRAY - FWI-03-113.png" alt="ACACIA GRAY" loading="eager">
-                </picture>
                 </picture>
                 <picture>
                   <source srcset="assets/Lami Gloss kitchen images/ACACIA GRAY - FWI-03-113.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami Gloss kitchen images/ACACIA GRAY - FWI-03-113.webp" type="image/webp">
                   <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/ACACIA GRAY - FWI-03-113.png" alt="Kitchen Preview" loading="eager">
-                </picture>
                 </picture>
               </div>
               <p class="color-name">ACACIA GRAY</p>
@@ -202,17 +199,11 @@
               <div class="color-item-image-wrapper">
                 <picture>
                   <source srcset="assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.webp" type="image/webp">
                   <img class="color-swatch" src="assets/Lami gloss front images/Bronze Gold Gloss - FWI-09-142.png" alt="Bronze Gold Gloss" loading="eager">
-                </picture>
                 </picture>
                 <picture>
                   <source srcset="assets/Lami Gloss kitchen images/BROWN FWI-09-142.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami Gloss kitchen images/BROWN FWI-09-142.webp" type="image/webp">
                   <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/BROWN FWI-09-142.png" alt="Bronze Gold Gloss Kitchen Preview" loading="eager">
-                </picture>
                 </picture>
               </div>
               <p class="color-name">BRONZE GOLD GLOSS</p>
@@ -221,17 +212,11 @@
               <div class="color-item-image-wrapper">
                 <picture>
                   <source srcset="assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.webp" type="image/webp">
                   <img class="color-swatch" src="assets/Lami gloss front images/CARDAMOM GREEN - FWI-03-116.png" alt="CARDAMOM GREEN" loading="eager">
-                </picture>
                 </picture>
                 <picture>
                   <source srcset="assets/Lami Gloss kitchen images/CARDAMOM GREEN FWI-03-117.webp" type="image/webp">
-                  <picture>
-                  <source srcset="assets/Lami Gloss kitchen images/CARDAMOM GREEN FWI-03-117.webp" type="image/webp">
                   <img class="kitchen-preview" src="assets/Lami Gloss kitchen images/CARDAMOM GREEN FWI-03-117.png" alt="Kitchen Preview" loading="eager">
-                </picture>
                 </picture>
               </div>
               <p class="color-name">CARDAMOM GREEN</p>
@@ -725,6 +710,7 @@
     </div>
   </div>
 
+  <script src="product-wizard.js"></script>
   <script defer src="script-luxury.js"></script>
   <script defer src="chat-enhanced.js"></script>
   <script defer src="role-personalization.js"></script>
