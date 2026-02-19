@@ -1,0 +1,321 @@
+﻿            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ACACIA%20GRAY&code=FWI--03-113&image=assets/Lami%20gloss%20front%20images/ACACIA%20GRAY%20-%20FWI-03-113.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="ACACIA GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-113</p><p class="color-name">ACACIA GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=BRONZE%20GOLD%20GLOSS&code=FWI--09-142&image=assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png" alt="BRONZE GOLD GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-142</p><p class="color-name">BRONZE GOLD GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CARDAMOM%20GREEN&code=FWI--03-116&image=assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-03-116.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-03-116.png" alt="CARDAMOM GREEN" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-116</p><p class="color-name">CARDAMOM GREEN</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CARDAMOM%20GREEN&code=FWI--07-116&image=assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-07-116.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-07-116.png" alt="CARDAMOM GREEN" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-116</p><p class="color-name">CARDAMOM GREEN</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CARMINE%20RED&code=FWI--03-118&image=assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png" alt="CARMINE RED" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-118</p><p class="color-name">CARMINE RED</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CREAM&code=FWI--03-103&image=assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png" alt="CREAM" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-103</p><p class="color-name">CREAM</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CREAM%20GLOSS&code=FWI--09-103&image=assets/Lami%20gloss%20front%20images/CREAM%20GLOSS%20FWI-09-103.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20GLOSS%20FWI-09-103.png" alt="CREAM GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-103</p><p class="color-name">CREAM GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CRYSTAL%20GRAY&code=FWI--03-130&image=assets/Lami%20gloss%20front%20images/CRYSTAL%20GRAY%20FWI-03-130.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="CRYSTAL GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-130</p><p class="color-name">CRYSTAL GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=EARTH%20BROWN%20%20%20%20%20%20%20%20%20%20GLOSS&code=FWI--09-105&image=assets/Lami%20gloss%20front%20images/EARTH%20BROWN%20%20%20%20%20%20%20%20%20%20GLOSS%20-%20%20%20%20%20%20FWI%20-09%20-105.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN%20%20%20%20%20%20%20%20%20%20GLOSS%20-%20%20%20%20%20%20FWI%20-09%20-105.png" alt="EARTH BROWN          GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-105</p><p class="color-name">EARTH BROWN          GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=EARTH%20BROWN&code=FWI--03-105&image=assets/Lami%20gloss%20front%20images/EARTH%20BROWN-%20%20FWI%20-03%20-105.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN-%20%20FWI%20-03%20-105.png" alt="EARTH BROWN" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-105</p><p class="color-name">EARTH BROWN</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=EMERALD&code=FWI--09-143&image=assets/Lami%20gloss%20front%20images/EMERALD-%20%20FWI%20-09%20-143.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="EMERALD" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-143</p><p class="color-name">EMERALD</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=FANTASY%20BLUE&code=FWI--03-108&image=assets/Lami%20gloss%20front%20images/FANTASY%20BLUE%20FWI-03-108.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="FANTASY BLUE" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-108</p><p class="color-name">FANTASY BLUE</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=GENTLEMAN%20GRAY&code=FWI--03-120&image=assets/Lami%20gloss%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="GENTLEMAN GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-120</p><p class="color-name">GENTLEMAN GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=GRAPHITE%20GRAY&code=FWI--09-140&image=assets/Lami%20gloss%20front%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="GRAPHITE GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-140</p><p class="color-name">GRAPHITE GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE&code=FWI--03-101&image=assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="ICEBERG WHITE" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-101</p><p class="color-name">ICEBERG WHITE</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE%20GLITTER&code=FWI--07-101&image=assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="ICEBERG WHITE GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-101</p><p class="color-name">ICEBERG WHITE GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE%20GLOSS&code=FWI--09-101&image=assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="ICEBERG WHITE GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-101</p><p class="color-name">ICEBERG WHITE GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20GRAY&code=FWI--03-115&image=assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20-%20FWI-03-115.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="IVORY GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-115</p><p class="color-name">IVORY GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20GRAY%20GLITTER&code=FWI--07-115&image=assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="IVORY GRAY GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-115</p><p class="color-name">IVORY GRAY GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20GRAY%20GLOSS&code=FWI--09-115&image=assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="IVORY GRAY GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-115</p><p class="color-name">IVORY GRAY GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20WHITE&code=FWI--03-102&image=assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20-%20FWI-03-102.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="IVORY WHITE" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-102</p><p class="color-name">IVORY WHITE</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20WHITE%20GLITTER&code=FWI--07-102&image=assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="IVORY WHITE GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=LIGHT%20GRAY&code=FWI--03-123&image=assets/Lami%20gloss%20front%20images/LIGHT%20GRAY%20-%20FWI-03-123.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="LIGHT GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-123</p><p class="color-name">LIGHT GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=MILAN%20GRAY&code=FWI--03-114&image=assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20-%20FWI-03-114.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="MILAN GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-114</p><p class="color-name">MILAN GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=MILAN%20GRAY%20GLITTER&code=FWI--07-114&image=assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="MILAN GRAY GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-114</p><p class="color-name">MILAN GRAY GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=MODERN%20GRAY&code=FWI--03-127&image=assets/Lami%20gloss%20front%20images/MODERN%20GRAY%20-%20FWI-03-127.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="MODERN GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-127</p><p class="color-name">MODERN GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=OLIVE%20GREEN&code=FWI--03-109&image=assets/Lami%20gloss%20front%20images/OLIVE%20GREEN%20-%20FWI-03-109.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="OLIVE GREEN" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-109</p><p class="color-name">OLIVE GREEN</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=PINE%20GRAY&code=FWI--03-119&image=assets/Lami%20gloss%20front%20images/PINE%20GRAY%20-%20FWI-03-119.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="PINE GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-119</p><p class="color-name">PINE GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=PINE%20GRAY%20GLITTER&code=FWI--07-119&image=assets/Lami%20gloss%20front%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="PINE GRAY GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-119</p><p class="color-name">PINE GRAY GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=PUMPKIN%20RED&code=FWI--03-117&image=assets/Lami%20gloss%20front%20images/PUMPKIN%20RED%20-%20FWI-03-117.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="PUMPKIN RED" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-117</p><p class="color-name">PUMPKIN RED</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=PURE%20GRAY&code=FWI--03-107&image=assets/Lami%20gloss%20front%20images/PURE%20GRAY%20-%20FWI-03-107.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="PURE GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-107</p><p class="color-name">PURE GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=PURE%20GRAY&code=FWI--07-107&image=assets/Lami%20gloss%20front%20images/PURE%20GRAY%20-%20FWI-07-107.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PURE%20GRAY%20-%20FWI-07-107.png" alt="PURE GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-107</p><p class="color-name">PURE GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ROMANCE%20RED&code=FWI--09-141&image=assets/Lami%20gloss%20front%20images/ROMANCE%20RED%20-%20FWI-09-141.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="ROMANCE RED" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-141</p><p class="color-name">ROMANCE RED</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=SAPPHIRE%20BLUE&code=FWI--03-121&image=assets/Lami%20gloss%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="SAPPHIRE BLUE" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-121</p><p class="color-name">SAPPHIRE BLUE</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=SPACE%20GRAY&code=FWI--03-110&image=assets/Lami%20gloss%20front%20images/SPACE%20GRAY%20-%20FWI-03-110.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="SPACE GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-110</p><p class="color-name">SPACE GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=TECH%20GRAY&code=FWI--09-139&image=assets/Lami%20gloss%20front%20images/TECH%20GRAY%20-%20FWI-09-139.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="TECH GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-139</p><p class="color-name">TECH GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=TWILIGHT%20GRAY&code=FWI--03-104&image=assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="TWILIGHT GRAY" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-104</p><p class="color-name">TWILIGHT GRAY</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=TWILIGHT%20GRAY%20GLITTER&code=FWI--07-104&image=assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="TWILIGHT GRAY GLITTER" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--07-104</p><p class="color-name">TWILIGHT GRAY GLITTER</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=TWILIGHT%20GRAY%20GLOSS&code=FWI--09-104&image=assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="TWILIGHT GRAY GLOSS" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--09-104</p><p class="color-name">TWILIGHT GRAY GLOSS</p>
+            </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=WISDOM%20BLACK&code=FWI--03-122&image=assets/Lami%20gloss%20front%20images/WISDOM%20BLACK%20-%20FWI-03-122.png&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="WISDOM BLACK" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FWI--03-122</p><p class="color-name">WISDOM BLACK</p>
+            </div>
+

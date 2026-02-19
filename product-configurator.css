@@ -5,7 +5,7 @@
 #productConfigurator {
     background: #ffffff;
     background: linear-gradient(180deg, #f8faf8 0%, #ffffff 50%, #f8faf8 100%);
-    padding: 120px 0;
+    padding: 0;
     position: relative;
     overflow: hidden;
 }
