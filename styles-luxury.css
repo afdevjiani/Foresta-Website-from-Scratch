@@ -922,7 +922,7 @@ p, li, label, input, button, textarea, select {
   box-shadow: 0 4px 20px rgba(12, 67, 38, 0.08);
   transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), 
               box-shadow 0.5s ease;
-  cursor: pointer;
+  cursor: default;
 }
 
 .product-card:hover {
