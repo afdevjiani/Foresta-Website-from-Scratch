@@ -2629,7 +2629,7 @@ p, li, label, input, button, textarea, select {
   }
 
   .color-item-image-wrapper {
-    height: 450px;
+    height: 200px;
     margin: 0;
     padding: 0;
     line-height: 0;
@@ -2746,8 +2746,6 @@ p, li, label, input, button, textarea, select {
   display: none;
   cursor: pointer;
   position: relative;
-  contain: layout style paint;
-  content-visibility: auto;
 }
 
 .color-item::after {
@@ -2931,7 +2929,7 @@ p, li, label, input, button, textarea, select {
   text-align: center;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-forest);
+  color: var(--color-forest-green);
   margin: 0;
   background: var(--color-cream);
   display: block;
@@ -2967,8 +2965,8 @@ p, li, label, input, button, textarea, select {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .color-item:hover .add-to-cart-btn,
@@ -4062,7 +4060,7 @@ p, li, label, input, button, textarea, select {
   }
 
   .color-item-image-wrapper {
-    height: 450px;
+    height: 200px;
     margin: 0;
     padding: 0;
     line-height: 0;
