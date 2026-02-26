@@ -872,3 +872,19 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartBadge();
     updateCartButtonState();
 });
+
+// Navigate back to the gallery at the correct step (space + finish)
+function goBackToGallery() {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type') || '';
+    const space = params.get('space') || 'kitchens';
+
+    const categoryMap = {
+        'Lami Gloss': 'lami-gloss',
+        'Lami Matt': 'lami-matt',
+        'Marble & Acrylic': 'marble-acrylic'
+    };
+    const category = categoryMap[type] || 'all';
+
+    window.location.href = 'index-luxury.html?restoreSpace=' + space + '&restoreCategory=' + category + '#products';
+}
