@@ -910,22 +910,62 @@ body {
   color: white;
 }
 
+/* Continue Shopping - Bottom (next to Next button) */
+.continue-shopping-bottom {
+  display: none;
+}
+
 /* ===== Responsive Styles ===== */
 @media (max-width: 768px) {
+  .checkout-header {
+    padding: 0.75rem 1rem;
+  }
+
   .checkout-header .header-container {
-    flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .checkout-header .header-logo img {
+    height: 45px;
   }
   
   .checkout-header .header-title {
-    order: -1;
-    width: 100%;
-    text-align: center;
-    font-size: 1.25rem;
+    display: none;
   }
   
-  .checkout-header .continue-shopping span {
+  .checkout-header .continue-shopping {
     display: none;
+  }
+
+  .continue-shopping-bottom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--checkout-primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--checkout-primary);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .continue-shopping-bottom:hover {
+    background: rgba(12, 67, 38, 0.05);
+  }
+
+  .checkout-navigation {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .checkout-navigation .btn-primary,
+  .checkout-navigation .btn-secondary {
+    flex: 1;
+    padding: 1rem;
   }
   
   .checkout-main {

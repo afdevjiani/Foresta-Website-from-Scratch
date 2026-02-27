@@ -722,11 +722,11 @@ class ProductWizard {
     switch (this.currentStep) {
       case 1:
         canProceed = this.state.cart.length > 0;
-        nextBtn.textContent = 'Book Appointment →';
+        nextBtn.textContent = 'Next →';
         break;
       case 2:
         canProceed = this.validateForm();
-        nextBtn.textContent = 'Submit Appointment →';
+        nextBtn.textContent = 'Book Appointment →';
         nextBtn.onclick = () => this.submitAppointment();
         return; // Don't set default onclick
       case 3:
