@@ -325,11 +325,16 @@ class ColorDetailPage {
                 
                 // Map to known kitchen image filenames
                 const glossKitchenMap = {
+                    'FWI-03-103': 'CREAM -  FWI-03-103.png',
+                    'FWI-03-108': 'FANTASY BLUE FWI-03-108.png',
                     'FWI-03-113': 'ACACIA GRAY - FWI-03-113.png',
-                    'FWI-09-142': 'BROWN FWI-09-142.png',
-                    'FWI-03-116': 'CARDAMOM GREEN FWI-03-117.png',
-                    'FWI-03-117': 'CARDAMOM GREEN FWI-03-117.png',
-                    'FWI-03-118': 'carmine red FWI-03-118.png'
+                    'FWI-03-116': 'CARDAMOM GREEN FWI-03-116.png',
+                    'FWI-03-117': 'PUMPKIN RED - FWI-03-117.png',
+                    'FWI-03-118': 'carmine red FWI-03-118.webp',
+                    'FWI-03-130': 'CRYSTAL GRAY FWI-03-130.png',
+                    'FWI-07-107': 'PURE GRAY GLITTER  - FWI-07-107.png',
+                    'FWI-07-116': 'CARDAMOM GREEN GLITTER FWI-07-116.png',
+                    'FWI-09-142': 'BRONZE GOLD GLOSS  FWI-09-142.png'
                 };
                 
                 const kitchenFilename = glossKitchenMap[code];

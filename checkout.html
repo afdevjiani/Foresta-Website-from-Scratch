@@ -287,6 +287,12 @@
 
       <!-- Navigation Buttons -->
       <div class="checkout-navigation" id="checkoutNavigation">
+        <a href="index-luxury.html" class="continue-shopping-bottom" id="continueShoppingBottom">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span>Continue Shopping</span>
+        </a>
         <button type="button" class="btn-secondary" id="backBtn" onclick="previousStep()" style="display: none;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -314,6 +320,10 @@
       </div>
     </div>
   </footer>
+
+  <!-- PDF Generation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <script src="checkout.js"></script>
 </body>

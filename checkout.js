@@ -566,11 +566,25 @@ function updateNavigationButtons() {
   if (backBtn) {
     backBtn.style.display = currentStep > 1 ? 'inline-flex' : 'none';
   }
+
+  // Hide "Continue Shopping" bottom link when Back button is visible
+  const continueBottom = document.getElementById('continueShoppingBottom');
+  if (continueBottom) {
+    continueBottom.style.display = currentStep > 1 ? 'none' : '';
+  }
   
   if (nextBtn) {
-    if (currentStep === 3) {
+    if (currentStep === 1) {
       nextBtn.innerHTML = `
-        <span>Send Quotation</span>
+        <span>Next</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14"></path>
+          <path d="M12 5l7 7-7 7"></path>
+        </svg>
+      `;
+    } else if (currentStep === 3) {
+      nextBtn.innerHTML = `
+        <span>Book an Appointment</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14"></path>
           <path d="M12 5l7 7-7 7"></path>
@@ -588,6 +602,222 @@ function updateNavigationButtons() {
     
     nextBtn.disabled = currentStep === 1 && cart.length === 0;
   }
+}
+
+// ===== PDF Generation =====
+function generateAndDownloadPDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    console.error('jsPDF not loaded');
+    return null;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  const PAGE_W = 210;
+  const PAGE_H = 297;
+  const MARGIN = 20;
+  const CONTENT_W = PAGE_W - MARGIN * 2;
+
+  // Professional brand colors
+  const deepGreen = [12, 67, 38];
+  const headerGreen = [25, 82, 52];
+  const white = [255, 255, 255];
+  const black = [0, 0, 0];
+  const tableGray = [249, 250, 251];
+  const borderGray = [229, 231, 235];
+
+  let y = MARGIN;
+
+  // ═══════════════════════════════════════════════════
+  // HEADER - Clean and Corporate
+  // ═══════════════════════════════════════════════════
+  doc.setTextColor(...deepGreen);
+  doc.setFontSize(24);
+  doc.setFont('helvetica', 'bold');
+  doc.text('FORESTA WOOD INDUSTRIES', MARGIN, y);
+
+  y += 8;
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.text('QUOTATION REQUEST', MARGIN, y);
+
+  // Date on top right
+  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  doc.setTextColor(...black);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.text('DATE:', PAGE_W - MARGIN - 40, MARGIN);
+  doc.setFont('helvetica', 'normal');
+  doc.text(date, PAGE_W - MARGIN, MARGIN, { align: 'right' });
+
+  y += 10;
+
+  // Horizontal line separator
+  doc.setDrawColor(...borderGray);
+  doc.setLineWidth(0.5);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+
+  y += 10;
+
+  // ═══════════════════════════════════════════════════
+  // CUSTOMER DETAILS
+  // ═══════════════════════════════════════════════════
+  doc.setFillColor(...headerGreen);
+  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
+  
+  doc.setTextColor(...white);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('CUSTOMER DETAILS', MARGIN + 3, y + 4.5);
+
+  y += 10;
+
+  // Two-column layout
+  const col1X = MARGIN + 3;
+  const col2X = MARGIN + CONTENT_W / 2 + 3;
+  const labelWidth = 22;
+  const rowH = 7;
+
+  doc.setFontSize(9);
+  doc.setTextColor(...black);
+
+  // Row 1: Full Name | Phone
+  doc.setFont('helvetica', 'bold');
+  doc.text('Full Name:', col1X, y);
+  doc.setFont('helvetica', 'normal');
+  doc.text(customerData.name || '-', col1X + labelWidth, y);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Phone:', col2X, y);
+  doc.setFont('helvetica', 'normal');
+  doc.text(customerData.phone || '-', col2X + labelWidth, y);
+
+  y += rowH;
+
+  // Row 2: Email | Company
+  doc.setFont('helvetica', 'bold');
+  doc.text('Email:', col1X, y);
+  doc.setFont('helvetica', 'normal');
+  const emailText = (customerData.email || '-').substring(0, 40);
+  doc.text(emailText, col1X + labelWidth, y);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Company:', col2X, y);
+  doc.setFont('helvetica', 'normal');
+  doc.text(customerData.company || '-', col2X + labelWidth, y);
+
+  y += rowH + 8;
+
+  // ═══════════════════════════════════════════════════
+  // PRODUCT DETAILS - Clean Professional Table
+  // ═══════════════════════════════════════════════════
+  doc.setFillColor(...headerGreen);
+  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
+  
+  doc.setTextColor(...white);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PRODUCT DETAILS', MARGIN + 3, y + 4.5);
+
+  y += 10;
+
+  const tableHead = [['Product Name', 'Code', 'Category', 'Panel Size', 'Qty']];
+  const tableBody = cart.map((item) => [
+    item.name || '-',
+    item.code || '-',
+    item.type || '-',
+    item.size || 'Not selected',
+    String(item.quantity)
+  ]);
+
+  doc.autoTable({
+    startY: y,
+    head: tableHead,
+    body: tableBody,
+    margin: { left: MARGIN, right: MARGIN },
+    theme: 'grid',
+    headStyles: {
+      fillColor: deepGreen,
+      textColor: white,
+      fontStyle: 'bold',
+      fontSize: 9,
+      cellPadding: { top: 4, bottom: 4, left: 4, right: 4 },
+      halign: 'left',
+      lineWidth: 0.1,
+      lineColor: white
+    },
+    bodyStyles: {
+      fontSize: 9,
+      textColor: black,
+      cellPadding: { top: 4, bottom: 4, left: 4, right: 4 },
+      lineWidth: 0.1,
+      lineColor: borderGray,
+      overflow: 'linebreak',
+      cellWidth: 'wrap'
+    },
+    alternateRowStyles: {
+      fillColor: tableGray
+    },
+    columnStyles: {
+      0: { cellWidth: 55, halign: 'left', fontStyle: 'bold' },
+      1: { cellWidth: 30, halign: 'left', overflow: 'visible', cellWidth: 'auto' },
+      2: { cellWidth: 35, halign: 'left' },
+      3: { cellWidth: 40, halign: 'left' },
+      4: { cellWidth: 10, halign: 'center', fontStyle: 'bold' }
+    }
+  });
+
+  y = doc.lastAutoTable.finalY + 10;
+
+  // ═══════════════════════════════════════════════════
+  // QUOTATION SUMMARY - Clean Bar
+  // ═══════════════════════════════════════════════════
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalProducts = cart.length;
+
+  doc.setFillColor(...headerGreen);
+  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
+
+  doc.setTextColor(...white);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text('QUOTATION SUMMARY', MARGIN + 3, y + 4.5);
+
+  y += 10;
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...black);
+  doc.text(`Total Products: ${totalProducts}  |  Total Quantity: ${totalItems} panel(s)`, MARGIN + 3, y);
+
+  // ═══════════════════════════════════════════════════
+  // FOOTER - Minimal Professional
+  // ═══════════════════════════════════════════════════
+  const footerY = PAGE_H - 20;
+  
+  doc.setDrawColor(...borderGray);
+  doc.setLineWidth(0.5);
+  doc.line(MARGIN, footerY, PAGE_W - MARGIN, footerY);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(80, 80, 80);
+  doc.text('Thank you for choosing Foresta Wood Industries', PAGE_W / 2, footerY + 5, { align: 'center' });
+
+  doc.setFontSize(8);
+  doc.setTextColor(100, 100, 100);
+  doc.text('reachus@foresta.ae  |  +971 54 786 2986  |  foresta.ae', PAGE_W / 2, footerY + 10, { align: 'center' });
+
+  // ═══════════════════════════════════════════════════
+  // SAVE PDF
+  // ═══════════════════════════════════════════════════
+  const timestamp = Date.now().toString().slice(-5);
+  const fileName = `Foresta-Quotation-${timestamp}.pdf`;
+  doc.save(fileName);
+
+  return timestamp;
 }
 
 // ===== Booking Functions =====
@@ -747,53 +977,78 @@ window.closeBookingModal = function() {
 };
 
 window.bookViaWhatsApp = function() {
-  const message = generateBookingMessage();
+  // 1. Generate & download the PDF first
+  const refNum = generateAndDownloadPDF();
+
+  // 2. Build the WhatsApp text message (PDF already saved locally)
+  const message = generateBookingMessage(refNum);
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodedMessage}`;
-  
-  window.open(whatsappUrl, '_blank');
+
+  // 3. Short delay so browser triggers the PDF download before opening WhatsApp
+  setTimeout(() => {
+    window.open(whatsappUrl, '_blank');
+  }, 600);
+
   closeBookingModal();
   showSuccessStep('WhatsApp');
 };
 
 window.bookViaEmail = function() {
-  const subject = 'Appointment Request - Foresta Wood Industries';
-  const body = generateBookingMessage();
+  // 1. Generate & download the PDF first
+  const refNum = generateAndDownloadPDF();
+
+  // 2. Open email client with pre-filled subject + body
+  //    (Customer can attach the downloaded PDF manually)
+  const subject = 'Appointment Request - Foresta Wood Industries [' + (refNum || '') + ']';
+  const body    = generateBookingMessage(refNum);
   const encodedSubject = encodeURIComponent(subject);
-  const encodedBody = encodeURIComponent(body);
+  const encodedBody    = encodeURIComponent(body);
   const mailtoUrl = `mailto:${CONFIG.email}?subject=${encodedSubject}&body=${encodedBody}`;
-  
-  window.location.href = mailtoUrl;
+
+  // 3. Short delay so browser triggers the PDF download before switching to email client
+  setTimeout(() => {
+    window.location.href = mailtoUrl;
+  }, 600);
+
   closeBookingModal();
   showSuccessStep('Email');
 };
 
-function generateBookingMessage() {
-  let message = `*Appointment Request - Foresta Wood Industries*\n\n`;
-  
+function generateBookingMessage(refNum) {
+  const ref  = refNum || '';
+  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  let message = `*Appointment Request – Foresta Wood Industries*\n`;
+  if (ref) message += `Ref: ${ref}  |  Date: ${date}\n`;
+  message += `\n`;
+
+  // ── Customer Information ──
   message += `*Customer Information*\n`;
-  message += `Name: ${customerData.name}\n`;
-  message += `Phone: ${customerData.phone}\n`;
-  message += `Email: ${customerData.email}\n`;
+  message += `Name:    ${customerData.name  || '-'}\n`;
+  message += `Phone:   ${customerData.phone || '-'}\n`;
+  message += `Email:   ${customerData.email || '-'}\n`;
   if (customerData.company) message += `Company: ${customerData.company}\n`;
   message += `\n`;
-  
+
+  // ── Selected Products ──
   message += `*Selected Products*\n`;
   cart.forEach((item, index) => {
     message += `${index + 1}. ${item.name}\n`;
-    message += `   Code: ${item.code || '-'}\n`;
-    message += `   Type: ${item.type}\n`;
+    message += `   Code:     ${item.code || '-'}\n`;
+    message += `   Category: ${item.type}\n`;
+    message += `   Panel Size: ${item.size || 'Not selected'}\n`;
     message += `   Quantity: ${item.quantity}\n`;
-    message += `   Size: ${item.size || 'Not selected'}\n`;
     message += `\n`;
   });
-  
+
   if (customerData.notes) {
-    message += `*Additional Notes*\n${customerData.notes}\n`;
+    message += `*Additional Notes*\n${customerData.notes}\n\n`;
   }
-  
+
+  message += `📎 A detailed PDF quotation (${ref ? ref + '.pdf' : 'Foresta-Quotation.pdf'}) has been downloaded to your device – please attach it to this message.\n`;
   message += `\n---\nSent from Foresta Website`;
-  
+
   return message;
 }
 
