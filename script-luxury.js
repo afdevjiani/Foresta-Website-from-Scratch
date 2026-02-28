@@ -411,9 +411,17 @@ function initHamburgerMenu() {
   // Close sidebar when clicking on a link
   sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      // Only close if it's an anchor link (not external)
-      if (link.getAttribute('href').startsWith('#')) {
-        setTimeout(closeSidebar, 300);
+      const href = link.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        closeSidebar();
+        // Scroll to section after sidebar close animation
+        setTimeout(() => {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 350);
       }
     });
   });
@@ -439,14 +447,38 @@ function initMobileMenu() {
   // Kept for backward compatibility
 }
 
-// ===== CONTACT FORM SUBMISSION (EmailJS) =====
+// ===== CONTACT FORM SUBMISSION (EmailJS + Firebase) =====
 function initContactForm() {
   const form = document.getElementById('luxuryContactForm');
   
   if (!form) return;
 
-  // Initialize EmailJS (Replace with your public key)
-  // emailjs.init("YOUR_PUBLIC_KEY");
+  // Initialize EmailJS — wait for SDK if not loaded yet
+  function ensureEmailJS() {
+    return new Promise((resolve) => {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init("pXjb_eNTYwPMbAh7q");
+        resolve(true);
+      } else {
+        // SDK still loading, retry
+        let attempts = 0;
+        const check = setInterval(() => {
+          attempts++;
+          if (typeof emailjs !== 'undefined') {
+            clearInterval(check);
+            emailjs.init("pXjb_eNTYwPMbAh7q");
+            resolve(true);
+          } else if (attempts > 50) {
+            clearInterval(check);
+            console.warn('[EmailJS] SDK failed to load');
+            resolve(false);
+          }
+        }, 100);
+      }
+    });
+  }
+
+  const emailJSReady = ensureEmailJS();
   
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -456,8 +488,15 @@ function initContactForm() {
     
     // Disable button during submission
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.style.opacity = '0.6';
+    submitBtn.style.pointerEvents = 'none';
+    submitBtn.innerHTML = `
+      <svg class="btn-spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+      <span>Sending...</span>
+    `;
+    submitBtn.style.opacity = '0.85';
+    submitBtn.style.background = 'linear-gradient(135deg, var(--color-forest-green), var(--color-deep-green))';
     
     // Get form data
     const formData = {
@@ -469,93 +508,191 @@ function initContactForm() {
     };
 
     try {
-      // Replace with your EmailJS service
-      // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData);
+      // 1) Send email via EmailJS
+      const sdkLoaded = await emailJSReady;
+      if (sdkLoaded && typeof emailjs !== 'undefined') {
+        await emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+          to_email: 'afdevjiani@gmail.com',
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          interest: formData.interest,
+          message: formData.message,
+          title: formData.interest || 'General Inquiry'
+        });
+        console.log('[EmailJS] Email sent successfully');
+      } else {
+        console.warn('[EmailJS] SDK not available, skipping email');
+      }
+
+      // 2) Save inquiry to Firebase Firestore
+      if (window.firebaseSaveInquiry) {
+        await window.firebaseSaveInquiry(formData);
+      }
+
+      // 3) Also save/update the customer profile
+      if (window.firebaseSaveProfile && formData.email) {
+        await window.firebaseSaveProfile({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        });
+      }
+
+      // Success feedback — checkmark animation
+      submitBtn.style.opacity = '1';
+      submitBtn.style.background = 'linear-gradient(135deg, #1a6b3c, #0e5a2a)';
+      submitBtn.style.transform = 'scale(1.03)';
+      submitBtn.innerHTML = `
+        <svg class="btn-checkmark" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Message Sent!</span>
+      `;
       
-      // Simulate successful submission for now
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Reset form with field fade-out
+      const fields = form.querySelectorAll('.form-group');
+      fields.forEach((field, i) => {
+        field.style.transition = `opacity 0.3s ease ${i * 0.05}s, transform 0.3s ease ${i * 0.05}s`;
+        field.style.opacity = '0.4';
+        field.style.transform = 'translateY(-4px)';
+      });
       
-      // Success feedback
-      submitBtn.textContent = 'Message Sent Successfully!';
-      submitBtn.style.background = 'var(--color-forest-green)';
+      setTimeout(() => form.reset(), 400);
       
-      // Reset form
-      form.reset();
+      // Show success notification
+      showNotification('Thank you for your inquiry! Our team will get back to you within 1-2 business days.', 'success');
       
-      // Show success message
-      showNotification('Thank you for your inquiry. We will contact you shortly.', 'success');
-      
-      // Reset button after 3 seconds
+      // Restore form fields + button
       setTimeout(() => {
+        fields.forEach((field) => {
+          field.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          field.style.opacity = '1';
+          field.style.transform = 'translateY(0)';
+        });
+        submitBtn.style.transform = 'scale(1)';
         submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+        submitBtn.style.pointerEvents = '';
+        submitBtn.innerHTML = originalText;
         submitBtn.style.opacity = '1';
-        submitBtn.style.background = 'var(--color-deep-green)';
-      }, 3000);
+        submitBtn.style.background = 'linear-gradient(135deg, var(--color-forest-green), var(--color-deep-green))';
+      }, 4000);
       
     } catch (error) {
       console.error('Form submission error:', error);
       
-      // Error feedback
-      submitBtn.textContent = 'Failed to Send';
-      submitBtn.style.background = '#c41e3a';
+      // Error feedback — shake animation
+      submitBtn.style.opacity = '1';
+      submitBtn.style.background = 'linear-gradient(135deg, #c41e3a, #a01830)';
+      submitBtn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span>Failed to Send</span>
+      `;
+      submitBtn.style.animation = 'btn-shake 0.5s ease';
       
       showNotification('There was an error sending your message. Please try again or contact us directly.', 'error');
       
-      // Reset button after 3 seconds
+      // Reset button after 4 seconds
       setTimeout(() => {
         submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+        submitBtn.style.pointerEvents = '';
+        submitBtn.innerHTML = originalText;
         submitBtn.style.opacity = '1';
-        submitBtn.style.background = 'var(--color-deep-green)';
-      }, 3000);
+        submitBtn.style.background = 'linear-gradient(135deg, var(--color-forest-green), var(--color-deep-green))';
+        submitBtn.style.animation = '';
+      }, 4000);
     }
   });
 }
 
 // ===== NOTIFICATION SYSTEM =====
 function showNotification(message, type = 'success') {
-  // Create notification element
+  // Remove any existing notification
+  document.querySelectorAll('.foresta-notification').forEach(n => n.remove());
+
+  const icon = type === 'success'
+    ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 9 10.5 15 8 12.5"/></svg>'
+    : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+
   const notification = document.createElement('div');
-  notification.className = `notification notification-${type}`;
-  notification.textContent = message;
-  
-  // Style notification
+  notification.className = 'foresta-notification';
+  notification.innerHTML = `
+    <div style="display:flex;align-items:flex-start;gap:14px;">
+      <div style="flex-shrink:0;margin-top:1px;">${icon}</div>
+      <div>
+        <div style="font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">
+          ${type === 'success' ? 'Inquiry Sent' : 'Something Went Wrong'}
+        </div>
+        <div style="font-size:0.88rem;line-height:1.5;opacity:0.92;">${message}</div>
+      </div>
+    </div>
+    <div class="notif-progress" style="position:absolute;bottom:0;left:0;height:3px;background:rgba(255,255,255,0.4);border-radius:0 0 12px 12px;"></div>
+  `;
+
   notification.style.cssText = `
     position: fixed;
-    top: 100px;
-    right: 30px;
-    padding: 1.5rem 2rem;
-    background: ${type === 'success' ? 'var(--color-deep-green)' : '#c41e3a'};
-    color: var(--color-off-white);
-    border-radius: 4px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    top: 24px;
+    right: 24px;
+    padding: 20px 24px;
+    background: ${type === 'success'
+      ? 'linear-gradient(135deg, #1a6b3c, #0e5a2a)'
+      : 'linear-gradient(135deg, #c41e3a, #a01830)'};
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15);
     z-index: 10000;
     opacity: 0;
-    transform: translateX(100px);
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    max-width: 400px;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    transform: translateY(-20px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 420px;
+    min-width: 300px;
+    font-family: var(--font-body, system-ui, sans-serif);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    overflow: hidden;
   `;
-  
+
   document.body.appendChild(notification);
-  
+
   // Animate in
-  setTimeout(() => {
-    notification.style.opacity = '1';
-    notification.style.transform = 'translateX(0)';
-  }, 100);
-  
-  // Remove after 5 seconds
-  setTimeout(() => {
-    notification.style.opacity = '0';
-    notification.style.transform = 'translateX(100px)';
-    
-    setTimeout(() => {
-      notification.remove();
-    }, 500);
-  }, 5000);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      notification.style.opacity = '1';
+      notification.style.transform = 'translateY(0) scale(1)';
+    });
+  });
+
+  // Progress bar animation
+  const progress = notification.querySelector('.notif-progress');
+  if (progress) {
+    progress.style.width = '100%';
+    progress.style.transition = 'width 5s linear';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { progress.style.width = '0%'; });
+    });
+  }
+
+  // Click to dismiss
+  notification.addEventListener('click', () => dismissNotification(notification));
+
+  // Auto dismiss after 5 seconds
+  setTimeout(() => dismissNotification(notification), 5200);
+}
+
+function dismissNotification(el) {
+  if (!el || el._dismissed) return;
+  el._dismissed = true;
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(-10px) scale(0.95)';
+  el.style.transition = 'all 0.35s ease';
+  setTimeout(() => el.remove(), 400);
 }
 
 // ===== COLLECTION MODAL/GALLERY =====

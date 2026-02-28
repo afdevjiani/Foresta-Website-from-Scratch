@@ -730,28 +730,25 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ===== CART FUNCTIONALITY =====
+// Uses the same 'foresta_cart' key and product schema as the main product grid
 
-// Get or initialize cart from localStorage
+const CART_STORAGE_KEY = 'foresta_cart';
+
+// Get cart array from localStorage
 function getCart() {
     try {
-        const cart = localStorage.getItem('forestaWizardState');
-        if (cart) {
-            const state = JSON.parse(cart);
-            return state.cart || [];
-        }
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
     } catch (error) {
         console.error('Error reading cart:', error);
+        return [];
     }
-    return [];
 }
 
-// Save cart to localStorage
+// Save cart array to localStorage
 function saveCart(cart) {
     try {
-        const existingState = localStorage.getItem('forestaWizardState');
-        let state = existingState ? JSON.parse(existingState) : {};
-        state.cart = cart;
-        localStorage.setItem('forestaWizardState', JSON.stringify(state));
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         updateCartBadge();
     } catch (error) {
         console.error('Error saving cart:', error);
@@ -763,32 +760,28 @@ function updateCartBadge() {
     const cart = getCart();
     const cartBadge = document.getElementById('cartBadge');
     const cartIconBtn = document.getElementById('cartIconBtn');
-    
-    if (cart.length > 0) {
-        cartBadge.textContent = cart.length;
-        cartIconBtn.style.display = 'inline-flex';
-    } else {
-        cartIconBtn.style.display = 'none';
-    }
+
+    const count = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+    if (cartBadge) cartBadge.textContent = count;
+    if (cartIconBtn) cartIconBtn.style.display = count > 0 ? 'inline-flex' : 'none';
 }
 
 // Check if current product is in cart
 function isProductInCart() {
     const cart = getCart();
     const urlParams = new URLSearchParams(window.location.search);
-    const productName = urlParams.get('name');
-    const productCode = urlParams.get('code');
-    
-    return cart.some(item => 
-        item.name === productName && item.code === productCode
-    );
+    const code = urlParams.get('code') || '';
+    const space = urlParams.get('space') || '';
+    const id = `${code}_${space}`;
+    return cart.some(item => item.id === id);
 }
 
 // Update Add to Cart button state
 function updateCartButtonState() {
     const addToCartBtn = document.getElementById('addToCartBtn');
     const cartBtnText = document.getElementById('cartBtnText');
-    
+
     if (isProductInCart()) {
         addToCartBtn.classList.add('added');
         cartBtnText.textContent = 'Added to Cart';
@@ -798,78 +791,111 @@ function updateCartButtonState() {
     }
 }
 
-// Add current product to cart
+// Auth-gated Add to Cart wrapper
+function addToCartWithAuth() {
+    if (window.forestaAuthModal) {
+        window.forestaAuthModal.requireAuth(addToCart, []);
+    } else {
+        addToCart();
+    }
+}
+
+// Add current product to cart (same structure as main page grid)
 function addToCart() {
     const urlParams = new URLSearchParams(window.location.search);
-    const productName = urlParams.get('name');
-    const productCode = urlParams.get('code');
-    const productImage = urlParams.get('image');
-    const productType = urlParams.get('type');
-    
+    const productName = urlParams.get('name') || '';
+    const productCode = urlParams.get('code') || '';
+    const productImage = urlParams.get('image') || '';
+    const productType = urlParams.get('type') || '';
+    const productSpace = urlParams.get('space') || '';
+
     if (!productName || !productCode) {
         alert('Product information is missing.');
         return;
     }
-    
+
+    const id = `${productCode}_${productSpace}`;
+
     let cart = getCart();
-    
-    // Check if product already exists
-    const existingIndex = cart.findIndex(item => 
-        item.name === productName && item.code === productCode
-    );
-    
-    if (existingIndex >= 0) {
-        // Product already in cart, show message
-        alert('This product is already in your cart!');
-        return;
+    const existingIndex = cart.findIndex(item => item.id === id);
+
+    if (existingIndex !== -1) {
+        // Same behaviour as the main grid: increment quantity
+        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+    } else {
+        cart.push({
+            id,
+            name: productName,
+            code: productCode,
+            type: productType,
+            category: productSpace,
+            frontImage: productImage,
+            quantity: 1,
+            width: '',
+            height: '',
+            depth: ''
+        });
     }
-    
-    // Add new product to cart
-    const newProduct = {
-        id: productCode.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-        name: productName,
-        code: productCode,
-        image: productImage || '',
-        quantity: 1,
-        type: productType || ''
-    };
-    
-    cart.push(newProduct);
+
     saveCart(cart);
     updateCartButtonState();
-    
-    // Show success message
-    showCartNotification('Product added to cart!');
+    showCartNotification(productName);
 }
 
-// View cart (redirect to wizard)
+// View cart → go to checkout
 function viewCart() {
-    // Redirect to home page and open wizard
-    window.location.href = 'index-luxury.html?openWizard=true&step=4';
+    window.location.href = 'checkout.html';
 }
 
-// Show cart notification
-function showCartNotification(message) {
-    // Create notification element
+// Show notification (same style as main page)
+function showCartNotification(productName) {
+    const existing = document.querySelector('.cart-add-notification');
+    if (existing) existing.remove();
+
     const notification = document.createElement('div');
-    notification.className = 'cart-notification';
+    notification.className = 'cart-add-notification';
     notification.innerHTML = `
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
-        <span>${message}</span>
+        <span>${productName} added to cart!</span>
+        <a href="checkout.html">View Cart</a>
     `;
-    
+
+    Object.assign(notification.style, {
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        background: 'linear-gradient(135deg, #0c4326, #2d8f5f)',
+        color: 'white',
+        padding: '1rem 1.5rem',
+        borderRadius: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        boxShadow: '0 10px 30px rgba(12, 67, 38, 0.3)',
+        zIndex: '10000',
+        fontFamily: 'inherit',
+        fontSize: '0.9rem',
+        animation: 'slideInRight 0.4s ease, fadeOut 0.4s ease 2.6s forwards'
+    });
+    const link = notification.querySelector('a');
+    if (link) Object.assign(link.style, { color: '#fff', textDecoration: 'underline', marginLeft: '0.5rem', whiteSpace: 'nowrap' });
+
+    // Inject keyframes if not already present
+    if (!document.getElementById('cart-notif-keyframes')) {
+        const style = document.createElement('style');
+        style.id = 'cart-notif-keyframes';
+        style.textContent = `
+            @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+            @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+        `;
+        document.head.appendChild(style);
+    }
+
     document.body.appendChild(notification);
-    
-    // Show notification
-    setTimeout(() => notification.classList.add('show'), 10);
-    
-    // Hide and remove after 3 seconds
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    setTimeout(() => notification.remove(), 3200);
 }
 
 // Initialize cart on page load

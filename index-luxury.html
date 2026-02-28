@@ -9,6 +9,7 @@
   <title>Foresta Wood Industries | Craftsmanship Refined</title>
   <!-- Critical CSS inline or main stylesheet -->
   <link rel="stylesheet" href="styles-luxury.css">
+  <link rel="stylesheet" href="auth-modal.css">
   <!-- Defer non-critical CSS -->
   <link rel="stylesheet" href="role-personalization.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="product-configurator.css" media="print" onload="this.media='all'">
@@ -70,10 +71,7 @@
       <nav class="sidebar-nav" role="navigation" aria-label="Sidebar navigation">
         <ul class="sidebar-links">
           <li><a href="#home" class="sidebar-link">Home</a></li>
-          <li><a href="#about" class="sidebar-link">About Us</a></li>
           <li><a href="#products" class="sidebar-link">Products</a></li>
-          <li><a href="#gallery" class="sidebar-link">Gallery</a></li>
-          <li><a href="blog.html" class="sidebar-link">Blog</a></li>
           <li><a href="#contact" class="sidebar-link">Contact</a></li>
         </ul>
       </nav>
@@ -94,7 +92,7 @@
         <h1 class="hero-title fade-up">Craftsmanship Refined</h1>
         <p class="hero-subtitle fade-up-delay">Where four decades of mastery meet innovation in wood</p>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-          <a href="#gallery" class="hero-cta fade-up-delay-2">Explore Our World</a>
+          <a href="#products" class="hero-cta fade-up-delay-2">Explore Our World</a>
         </div>
       </div>
 
@@ -3454,7 +3452,7 @@
               <div class="contact-detail-content">
                 <h4>Visit Our Factory</h4>
                 <p>Warehouse #3, Plot #1961</p>
-                <p>Umm Dera ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Emirate of Umm Al Quwain</p>
+                <p>Umm Dera – Emirate of Umm Al Quwain</p>
                 <p>United Arab Emirates</p>
               </div>
             </div>
@@ -3626,11 +3624,11 @@
     <div class="chat-header">
       <div class="chat-header-content">
         <div class="chat-avatar">
-          <img src="assets/logo.png" alt="Foresta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â²</text></svg>'">
+          <img src="assets/logo.png" alt="Foresta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🌲</text></svg>'">
         </div>
         <div class="chat-header-info">
           <div class="chat-company-name">Foresta Wood Industries</div>
-          <div class="chat-status">Online ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Typically replies instantly</div>
+          <div class="chat-status">Online · Typically replies instantly</div>
         </div>
       </div>
       <button id="closeChat" aria-label="Close chat">
@@ -3813,13 +3811,21 @@
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            addProductToCart(productData, e);
+            if (window.forestaAuthModal) {
+              window.forestaAuthModal.requireAuth(addProductToCart, [productData, e]);
+            } else {
+              addProductToCart(productData, e);
+            }
           });
           cartBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            addProductToCart(productData, e);
+            if (window.forestaAuthModal) {
+              window.forestaAuthModal.requireAuth(addProductToCart, [productData, e]);
+            } else {
+              addProductToCart(productData, e);
+            }
           });
           
           // Insert after color-name
@@ -4039,5 +4045,9 @@
     });
   </script>
   <script defer src="video-control.js"></script>
+  <!-- Firebase -->
+  <script type="module" src="firebase-init.js"></script>
+  <!-- Auth Modal -->
+  <script src="auth-modal.js"></script>
 </body>
 </html>

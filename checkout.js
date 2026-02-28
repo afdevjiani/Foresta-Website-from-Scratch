@@ -8,7 +8,9 @@ const CONFIG = {
   whatsappNumber: '971547862986',
   email: 'reachus@foresta.ae',
   storageKey: 'foresta_cart',
-  customerKey: 'foresta_customer'
+  customerKey: 'foresta_customer',
+  ordersKey: 'foresta_orders',
+  profilesKey: 'foresta_profiles'
 };
 
 // ===== State Management =====
@@ -17,12 +19,36 @@ let cart = [];
 let customerData = {};
 
 // ===== Initialization =====
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   loadCartFromStorage();
   loadCustomerFromStorage();
   initializeCheckout();
   updateCartDisplay();
   updateProgressIndicator();
+  await renderPreviousOrders();
+  await showWelcomeBack();
+
+  // Listen for auth state changes to auto-fill customer data
+  window.addEventListener('forestaAuthChanged', async (e) => {
+    const user = e.detail.user;
+    if (user && user.email) {
+      // Auto-fill customer stored data from auth
+      if (!customerData.email || customerData.email !== user.email) {
+        customerData.email = user.email;
+        customerData.name = customerData.name || user.displayName || '';
+        saveCustomerToStorage();
+      }
+      // Re-fill form if on step 2
+      const emailInput = document.getElementById('customerEmail');
+      if (emailInput && !emailInput.value) emailInput.value = user.email;
+      const nameInput = document.getElementById('customerName');
+      if (nameInput && !nameInput.value) nameInput.value = user.displayName || '';
+
+      // Refresh previous orders
+      await renderPreviousOrders();
+      await showWelcomeBack();
+    }
+  });
 });
 
 // ===== Cart Storage Functions =====
@@ -54,9 +80,11 @@ function loadCustomerFromStorage() {
       const nameInput = document.getElementById('customerName');
       if (nameInput) nameInput.value = customerData.name;
     }
-    if (customerData.phone) {
+    if (customerData.phoneRaw) {
       const phoneInput = document.getElementById('customerPhone');
-      if (phoneInput) phoneInput.value = customerData.phone;
+      if (phoneInput) phoneInput.value = customerData.phoneRaw;
+      const codeSelect = document.getElementById('countryCode');
+      if (codeSelect && customerData.countryCode) codeSelect.value = customerData.countryCode;
     }
     if (customerData.email) {
       const emailInput = document.getElementById('customerEmail');
@@ -79,9 +107,245 @@ function loadCustomerFromStorage() {
 function saveCustomerToStorage() {
   try {
     localStorage.setItem(CONFIG.customerKey, JSON.stringify(customerData));
+    // Also save/update the email-keyed profile locally + Firestore
+    if (customerData.email) {
+      saveCustomerProfile(customerData.email, customerData);
+    }
   } catch (e) {
     console.error('Error saving customer data:', e);
   }
+}
+
+// ===== Customer Profile (keyed by email) =====
+function getAllProfiles() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.profilesKey) || '{}');
+  } catch (_) { return {}; }
+}
+
+function saveCustomerProfile(email, data) {
+  // Save locally
+  const profiles = getAllProfiles();
+  const key = email.toLowerCase().trim();
+  profiles[key] = {
+    name: data.name || '',
+    phone: data.phone || '',
+    phoneRaw: data.phoneRaw || '',
+    countryCode: data.countryCode || '+971',
+    email: data.email || '',
+    company: data.company || '',
+    lastVisit: new Date().toISOString()
+  };
+  localStorage.setItem(CONFIG.profilesKey, JSON.stringify(profiles));
+
+  // Sync to Firestore (fire-and-forget)
+  if (window.firebaseSaveProfile) {
+    window.firebaseSaveProfile(profiles[key]).catch(() => {});
+  }
+}
+
+async function getProfileByEmail(email) {
+  if (!email) return null;
+  const key = email.toLowerCase().trim();
+
+  // Try local first
+  const local = getAllProfiles()[key];
+  if (local) return local;
+
+  // Fallback to Firestore
+  if (window.firebaseGetProfile) {
+    try {
+      const remote = await window.firebaseGetProfile(email);
+      if (remote) {
+        // Cache locally
+        const profiles = getAllProfiles();
+        profiles[key] = remote;
+        localStorage.setItem(CONFIG.profilesKey, JSON.stringify(profiles));
+        return remote;
+      }
+    } catch (_) {}
+  }
+  return null;
+}
+
+// ===== Order History =====
+function getOrderHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.ordersKey) || '[]');
+  } catch (_) { return []; }
+}
+
+function saveOrder(orderData) {
+  // Save locally
+  const orders = getOrderHistory();
+  orders.unshift(orderData);
+  if (orders.length > 50) orders.length = 50;
+  localStorage.setItem(CONFIG.ordersKey, JSON.stringify(orders));
+
+  // Sync to Firestore (fire-and-forget)
+  if (window.firebaseSaveOrder) {
+    window.firebaseSaveOrder({
+      ...orderData,
+      email: (orderData.email || '').toLowerCase().trim()
+    }).catch(() => {});
+  }
+
+  // Log analytics event
+  if (window.firebaseLogEvent) {
+    window.firebaseLogEvent('purchase', {
+      ref: orderData.ref,
+      items_count: (orderData.items || []).length
+    });
+  }
+}
+
+function getOrdersForEmail(email) {
+  if (!email) return [];
+  const key = email.toLowerCase().trim();
+  return getOrderHistory().filter(o => (o.email || '').toLowerCase().trim() === key);
+}
+
+// Async version that also checks Firestore
+async function getOrdersForEmailAsync(email) {
+  if (!email) return [];
+  const key = email.toLowerCase().trim();
+
+  // Get local orders
+  let orders = getOrdersForEmail(email);
+
+  // Try fetching from Firestore for any orders not stored locally
+  if (window.firebaseGetOrders) {
+    try {
+      const remote = await window.firebaseGetOrders(email, 20);
+      if (remote.length > 0) {
+        // Merge: add remote orders not already in local
+        const localRefs = new Set(orders.map(o => o.ref));
+        const newOrders = remote.filter(o => !localRefs.has(o.ref));
+        if (newOrders.length > 0) {
+          orders = [...newOrders, ...orders].sort((a, b) =>
+            new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt)
+          );
+          // Update local cache
+          const allLocal = getOrderHistory();
+          newOrders.forEach(o => allLocal.unshift(o));
+          if (allLocal.length > 50) allLocal.length = 50;
+          localStorage.setItem(CONFIG.ordersKey, JSON.stringify(allLocal));
+        }
+      }
+    } catch (_) {}
+  }
+  return orders;
+}
+
+// Show a welcome-back message if returning customer
+async function showWelcomeBack() {
+  const stored = customerData;
+  if (!stored || !stored.email) return;
+  const profile = await getProfileByEmail(stored.email);
+  if (!profile) return;
+  const orders = await getOrdersForEmailAsync(stored.email);
+  if (orders.length === 0) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'welcome-back-banner';
+  banner.innerHTML = `
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span>Welcome back, <strong>${profile.name || stored.email}</strong>! You have <strong>${orders.length}</strong> previous order${orders.length !== 1 ? 's' : ''}.</span>
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;margin-left:auto;padding:4px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  `;
+  const stepContent = document.querySelector('.checkout-content');
+  if (stepContent) stepContent.parentElement.insertBefore(banner, stepContent);
+}
+
+// Render previous orders section
+async function renderPreviousOrders() {
+  const container = document.getElementById('previousOrders');
+  if (!container) return;
+
+  const email = customerData.email;
+  const orders = await getOrdersForEmailAsync(email);
+
+  if (orders.length === 0) {
+    container.closest('.previous-orders-section').style.display = 'none';
+    return;
+  }
+
+  container.closest('.previous-orders-section').style.display = 'block';
+  container.innerHTML = orders.slice(0, 10).map((order, i) => {
+    const date = new Date(order.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const items = (order.items || []).map(it => it.name).join(', ');
+    const totalQty = (order.items || []).reduce((s, it) => s + (it.quantity || 1), 0);
+    return `
+      <div class="prev-order-card">
+        <div class="prev-order-header">
+          <span class="prev-order-ref">#${order.ref || (i + 1)}</span>
+          <span class="prev-order-date">${date}</span>
+        </div>
+        <div class="prev-order-body">
+          <p class="prev-order-items">${items || 'No items'}</p>
+          <span class="prev-order-qty">${totalQty} panel${totalQty !== 1 ? 's' : ''}</span>
+        </div>
+        <button class="prev-order-reorder" onclick="reorderFromHistory(${i})">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Reorder
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+// Reorder: load items from a previous order back into the cart
+window.reorderFromHistory = async function(index) {
+  const email = customerData.email;
+  const orders = await getOrdersForEmailAsync(email);
+  if (!orders[index]) return;
+
+  const order = orders[index];
+  (order.items || []).forEach(item => {
+    const exists = cart.findIndex(c => c.id === item.id);
+    if (exists !== -1) {
+      cart[exists].quantity += item.quantity || 1;
+    } else {
+      cart.push({ ...item });
+    }
+  });
+  saveCartToStorage();
+  updateCartDisplay();
+  updateCartBadge();
+
+  // Show confirmation
+  const note = document.createElement('div');
+  note.className = 'cart-add-notification';
+  note.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${order.items.length} item(s) added to cart from order #${order.ref || (index+1)}</span>`;
+  Object.assign(note.style, { position:'fixed', bottom:'20px', right:'20px', background:'linear-gradient(135deg,#0c4326,#2d8f5f)', color:'white', padding:'1rem 1.5rem', borderRadius:'12px', display:'flex', alignItems:'center', gap:'0.75rem', boxShadow:'0 10px 30px rgba(12,67,38,0.3)', zIndex:'10000', fontSize:'0.9rem' });
+  document.body.appendChild(note);
+  setTimeout(() => note.remove(), 3000);
+};
+
+// Auto-fill from profile when email is entered
+function setupEmailAutoFill() {
+  const emailInput = document.getElementById('customerEmail');
+  if (!emailInput) return;
+  emailInput.addEventListener('blur', async () => {
+    const email = emailInput.value.trim();
+    if (!email) return;
+    const profile = await getProfileByEmail(email);
+    if (!profile) return;
+    // Auto-fill only empty fields
+    const nameInput = document.getElementById('customerName');
+    if (nameInput && !nameInput.value) nameInput.value = profile.name || '';
+    const phoneInput = document.getElementById('customerPhone');
+    if (phoneInput && !phoneInput.value) phoneInput.value = profile.phoneRaw || '';
+    const codeSelect = document.getElementById('countryCode');
+    if (codeSelect && profile.countryCode) codeSelect.value = profile.countryCode;
+    const companyInput = document.getElementById('customerCompany');
+    if (companyInput && !companyInput.value) companyInput.value = profile.company || '';
+  });
 }
 
 // ===== Cart Management Functions =====
@@ -375,6 +639,9 @@ function setupFormValidation() {
       }
     });
   });
+  
+  // Setup email auto-fill from saved profiles
+  setupEmailAutoFill();
 }
 
 function validateField(input) {
@@ -446,9 +713,13 @@ function validateStep2() {
 }
 
 function collectFormData() {
+  const countryCode = document.getElementById('countryCode')?.value || '+971';
+  const phoneNum = document.getElementById('customerPhone')?.value || '';
   customerData = {
     name: document.getElementById('customerName')?.value || '',
-    phone: document.getElementById('customerPhone')?.value || '',
+    phone: phoneNum ? `${countryCode} ${phoneNum}` : '',
+    phoneRaw: phoneNum,
+    countryCode: countryCode,
     email: document.getElementById('customerEmail')?.value || '',
     company: document.getElementById('customerCompany')?.value || '',
     notes: document.getElementById('customerNotes')?.value || ''
@@ -505,10 +776,6 @@ function goToNextStep() {
     goToStep(2);
   } else if (currentStep === 2) {
     collectFormData();
-    if (!validateStep2()) {
-      alert('Please fill in all required fields and provide sizes for all products.');
-      return;
-    }
     goToStep(3);
   } else if (currentStep === 3) {
     // Show booking options
@@ -602,10 +869,58 @@ function updateNavigationButtons() {
     
     nextBtn.disabled = currentStep === 1 && cart.length === 0;
   }
+
+  // Show/hide Download PDF button (only on step 3)
+  const pdfBtn = document.getElementById('downloadPdfBtn');
+  if (pdfBtn) {
+    pdfBtn.style.display = currentStep === 3 ? '' : 'none';
+  }
 }
 
 // ===== PDF Generation =====
-function generateAndDownloadPDF() {
+
+// Global download PDF handler
+window.downloadPDF = async function() {
+  const btn = document.getElementById('downloadPdfBtn');
+  if (btn) {
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Generating...';
+  }
+  try {
+    await generateAndDownloadPDF();
+  } catch (err) {
+    console.error('PDF generation failed:', err);
+    alert('Failed to generate PDF. Please try again.');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Download PDF';
+    }
+  }
+};
+
+// Helper: convert image URL to base64 data URL for embedding in PDF
+function _imgToBase64(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth;
+      c.height = img.naturalHeight;
+      c.getContext('2d').drawImage(img, 0, 0);
+      resolve(c.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
+/**
+ * Generate the quotation PDF and return { blob, fileName, refNum }.
+ * Does NOT trigger a download – callers decide what to do with the blob.
+ */
+async function generatePDFBlob() {
   if (!window.jspdf || !window.jspdf.jsPDF) {
     console.error('jsPDF not loaded');
     return null;
@@ -616,115 +931,167 @@ function generateAndDownloadPDF() {
 
   const PAGE_W = 210;
   const PAGE_H = 297;
-  const MARGIN = 20;
+  const MARGIN = 18;
   const CONTENT_W = PAGE_W - MARGIN * 2;
 
-  // Professional brand colors
-  const deepGreen = [12, 67, 38];
-  const headerGreen = [25, 82, 52];
-  const white = [255, 255, 255];
-  const black = [0, 0, 0];
-  const tableGray = [249, 250, 251];
-  const borderGray = [229, 231, 235];
+  // Brand palette
+  const forestGreen   = [12, 67, 38];
+  const darkGreen     = [8, 48, 28];
+  const accentGold    = [183, 150, 88];
+  const lightGold     = [245, 238, 220];
+  const lightBg       = [247, 249, 247];
+  const white         = [255, 255, 255];
+  const black         = [33, 33, 33];
+  const mediumGray    = [120, 120, 120];
+  const lightGray     = [220, 225, 220];
+  const tableStripe   = [245, 248, 245];
 
-  let y = MARGIN;
+  let y = 0;
+
+  // ─── Try to load logo (white version for dark header) ───
+  let logoData = null;
+  try {
+    const origB64 = await _imgToBase64('assets/logo.png');
+    // Convert logo to all-white via canvas
+    const tmpImg = new Image();
+    tmpImg.src = origB64;
+    await new Promise((res, rej) => { tmpImg.onload = res; tmpImg.onerror = rej; });
+    const cvs = document.createElement('canvas');
+    cvs.width = tmpImg.naturalWidth;
+    cvs.height = tmpImg.naturalHeight;
+    const ctx = cvs.getContext('2d');
+    ctx.drawImage(tmpImg, 0, 0);
+    const imgD = ctx.getImageData(0, 0, cvs.width, cvs.height);
+    const px = imgD.data;
+    for (let i = 0; i < px.length; i += 4) {
+      if (px[i + 3] > 0) { px[i] = 255; px[i + 1] = 255; px[i + 2] = 255; }
+    }
+    ctx.putImageData(imgD, 0, 0);
+    logoData = cvs.toDataURL('image/png');
+  } catch (_) { /* skip */ }
 
   // ═══════════════════════════════════════════════════
-  // HEADER - Clean and Corporate
+  // FULL-WIDTH DARK GREEN HEADER BAND
   // ═══════════════════════════════════════════════════
-  doc.setTextColor(...deepGreen);
-  doc.setFontSize(24);
+  const headerH = 42;
+  doc.setFillColor(...darkGreen);
+  doc.rect(0, 0, PAGE_W, headerH, 'F');
+
+  // Gold accent stripe at bottom of header
+  doc.setFillColor(...accentGold);
+  doc.rect(0, headerH, PAGE_W, 1.2, 'F');
+
+  // Logo (left side, white version)
+  if (logoData) {
+    try { doc.addImage(logoData, 'PNG', MARGIN - 4, 12, 40, 14); } catch (_) {}
+  }
+
+  // "Quotation Request" — centered title
+  doc.setTextColor(...white);
+  doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('FORESTA WOOD INDUSTRIES', MARGIN, y);
+  doc.text('Quotation Request', PAGE_W / 2, 20, { align: 'center' });
 
-  y += 8;
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(100, 100, 100);
-  doc.text('QUOTATION REQUEST', MARGIN, y);
+  // Thin white separator under title
+  doc.setDrawColor(...white);
+  doc.setLineWidth(0.3);
+  doc.line(PAGE_W / 2 - 30, 24, PAGE_W / 2 + 30, 24);
 
-  // Date on top right
-  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
-  doc.setTextColor(...black);
+  // Date & Ref (right-aligned)
+  const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const refNum = Date.now().toString().slice(-6);
   doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
-  doc.text('DATE:', PAGE_W - MARGIN - 40, MARGIN);
-  doc.setFont('helvetica', 'normal');
-  doc.text(date, PAGE_W - MARGIN, MARGIN, { align: 'right' });
+  doc.setTextColor(255, 255, 255);
+  doc.text(dateStr, PAGE_W - MARGIN, 28, { align: 'right' });
+  doc.setTextColor(...accentGold);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`REF: ${refNum}`, PAGE_W - MARGIN, 34, { align: 'right' });
 
-  y += 10;
-
-  // Horizontal line separator
-  doc.setDrawColor(...borderGray);
-  doc.setLineWidth(0.5);
-  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
-
-  y += 10;
+  y = headerH + 1.2 + 10;
 
   // ═══════════════════════════════════════════════════
   // CUSTOMER DETAILS
   // ═══════════════════════════════════════════════════
-  doc.setFillColor(...headerGreen);
-  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
-  
-  doc.setTextColor(...white);
-  doc.setFontSize(10);
+  // Section heading — gold left accent + green text
+  doc.setFillColor(...accentGold);
+  doc.rect(MARGIN, y, 1.5, 6, 'F');
+  doc.setTextColor(...darkGreen);
+  doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('CUSTOMER DETAILS', MARGIN + 3, y + 4.5);
+  doc.text('CUSTOMER DETAILS', MARGIN + 5, y + 4.5);
 
-  y += 10;
+  // Thin line under heading
+  y += 8;
+  doc.setDrawColor(...lightGray);
+  doc.setLineWidth(0.3);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 4;
 
-  // Two-column layout
-  const col1X = MARGIN + 3;
-  const col2X = MARGIN + CONTENT_W / 2 + 3;
-  const labelWidth = 22;
-  const rowH = 7;
+  // Two-column card with light bg
+  const cardH = 28;
+  doc.setFillColor(...lightBg);
+  doc.roundedRect(MARGIN, y, CONTENT_W, cardH, 3, 3, 'F');
 
-  doc.setFontSize(9);
-  doc.setTextColor(...black);
+  // Left border accent
+  doc.setFillColor(...forestGreen);
+  doc.roundedRect(MARGIN, y, 1.5, cardH, 1, 1, 'F');
 
-  // Row 1: Full Name | Phone
-  doc.setFont('helvetica', 'bold');
-  doc.text('Full Name:', col1X, y);
-  doc.setFont('helvetica', 'normal');
-  doc.text(customerData.name || '-', col1X + labelWidth, y);
+  const col1X = MARGIN + 8;
+  const col2X = MARGIN + CONTENT_W / 2 + 4;
+  const valOffset = 22;
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Phone:', col2X, y);
-  doc.setFont('helvetica', 'normal');
-  doc.text(customerData.phone || '-', col2X + labelWidth, y);
+  // Row 1
+  let ry = y + 7;
+  doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('FULL NAME', col1X, ry);
+  doc.setFontSize(9.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+  doc.text(customerData.name || '—', col1X + valOffset, ry);
 
-  y += rowH;
+  doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('PHONE', col2X, ry);
+  doc.setFontSize(9.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+  doc.text(customerData.phone || '—', col2X + valOffset - 4, ry);
 
-  // Row 2: Email | Company
-  doc.setFont('helvetica', 'bold');
-  doc.text('Email:', col1X, y);
-  doc.setFont('helvetica', 'normal');
-  const emailText = (customerData.email || '-').substring(0, 40);
-  doc.text(emailText, col1X + labelWidth, y);
+  // Divider
+  ry += 4;
+  doc.setDrawColor(230, 233, 230);
+  doc.setLineWidth(0.2);
+  doc.line(col1X, ry, PAGE_W - MARGIN - 6, ry);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Company:', col2X, y);
-  doc.setFont('helvetica', 'normal');
-  doc.text(customerData.company || '-', col2X + labelWidth, y);
+  // Row 2
+  ry += 5.5;
+  doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('EMAIL', col1X, ry);
+  doc.setFontSize(9.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+  doc.text((customerData.email || '—').substring(0, 38), col1X + valOffset, ry);
 
-  y += rowH + 8;
+  doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('COMPANY', col2X, ry);
+  doc.setFontSize(9.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+  doc.text(customerData.company || '—', col2X + valOffset - 4, ry);
+
+  y += cardH + 8;
 
   // ═══════════════════════════════════════════════════
-  // PRODUCT DETAILS - Clean Professional Table
+  // PRODUCT DETAILS TABLE
   // ═══════════════════════════════════════════════════
-  doc.setFillColor(...headerGreen);
-  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
-  
-  doc.setTextColor(...white);
-  doc.setFontSize(10);
+  doc.setFillColor(...accentGold);
+  doc.rect(MARGIN, y, 1.5, 6, 'F');
+  doc.setTextColor(...darkGreen);
+  doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('PRODUCT DETAILS', MARGIN + 3, y + 4.5);
+  doc.text('PRODUCT DETAILS', MARGIN + 5, y + 4.5);
 
-  y += 10;
+  y += 8;
+  doc.setDrawColor(...lightGray);
+  doc.setLineWidth(0.3);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 3;
 
-  const tableHead = [['Product Name', 'Code', 'Category', 'Panel Size', 'Qty']];
-  const tableBody = cart.map((item) => [
+  const tableHead = [['#', 'Product Name', 'Code', 'Category', 'Panel Size', 'Qty']];
+  const tableBody = cart.map((item, i) => [
+    String(i + 1),
     item.name || '-',
     item.code || '-',
     item.type || '-',
@@ -737,87 +1104,205 @@ function generateAndDownloadPDF() {
     head: tableHead,
     body: tableBody,
     margin: { left: MARGIN, right: MARGIN },
-    theme: 'grid',
+    theme: 'plain',
+    tableWidth: CONTENT_W,
     headStyles: {
-      fillColor: deepGreen,
+      fillColor: darkGreen,
       textColor: white,
       fontStyle: 'bold',
-      fontSize: 9,
-      cellPadding: { top: 4, bottom: 4, left: 4, right: 4 },
+      fontSize: 8,
+      cellPadding: { top: 3.5, bottom: 3.5, left: 4, right: 4 },
       halign: 'left',
-      lineWidth: 0.1,
-      lineColor: white
+      lineWidth: 0,
+      minCellHeight: 8
     },
     bodyStyles: {
-      fontSize: 9,
+      fontSize: 8.5,
       textColor: black,
-      cellPadding: { top: 4, bottom: 4, left: 4, right: 4 },
-      lineWidth: 0.1,
-      lineColor: borderGray,
+      cellPadding: { top: 3.5, bottom: 3.5, left: 4, right: 4 },
+      lineWidth: 0,
       overflow: 'linebreak',
-      cellWidth: 'wrap'
+      minCellHeight: 9
     },
-    alternateRowStyles: {
-      fillColor: tableGray
-    },
+    alternateRowStyles: { fillColor: [245, 248, 245] },
     columnStyles: {
-      0: { cellWidth: 55, halign: 'left', fontStyle: 'bold' },
-      1: { cellWidth: 30, halign: 'left', overflow: 'visible', cellWidth: 'auto' },
-      2: { cellWidth: 35, halign: 'left' },
-      3: { cellWidth: 40, halign: 'left' },
-      4: { cellWidth: 10, halign: 'center', fontStyle: 'bold' }
+      0: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
+      1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
+      2: { cellWidth: 26, halign: 'left' },
+      3: { cellWidth: 28, halign: 'left' },
+      4: { cellWidth: 30, halign: 'center' },
+      5: { cellWidth: 14, halign: 'center', fontStyle: 'bold', textColor: forestGreen }
+    },
+    didDrawPage: (data) => {
+      // Redraw header band on new pages
+      if (data.pageNumber > 1) {
+        doc.setFillColor(...darkGreen);
+        doc.rect(0, 0, PAGE_W, 10, 'F');
+        doc.setFillColor(...accentGold);
+        doc.rect(0, 10, PAGE_W, 0.8, 'F');
+        doc.setTextColor(...white);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('FORESTA WOOD INDUSTRIES — QUOTATION', MARGIN, 7);
+        doc.setTextColor(...accentGold);
+        doc.text(`REF: ${refNum}`, PAGE_W - MARGIN, 7, { align: 'right' });
+      }
+    },
+    didDrawCell: (data) => {
+      // Bottom border on each body row (subtle)
+      if (data.section === 'body') {
+        doc.setDrawColor(225, 228, 225);
+        doc.setLineWidth(0.15);
+        doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height);
+      }
+      // Gold accent on last row bottom
+      if (data.row.index === tableBody.length - 1 && data.section === 'body') {
+        doc.setDrawColor(...accentGold);
+        doc.setLineWidth(0.5);
+        doc.line(MARGIN, data.cell.y + data.cell.height, PAGE_W - MARGIN, data.cell.y + data.cell.height);
+      }
     }
   });
 
   y = doc.lastAutoTable.finalY + 10;
 
   // ═══════════════════════════════════════════════════
-  // QUOTATION SUMMARY - Clean Bar
+  // QUOTATION SUMMARY
   // ═══════════════════════════════════════════════════
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalProducts = cart.length;
 
-  doc.setFillColor(...headerGreen);
-  doc.rect(MARGIN, y, CONTENT_W, 7, 'F');
+  // Section heading
+  doc.setFillColor(...accentGold);
+  doc.rect(MARGIN, y, 1.5, 6, 'F');
+  doc.setTextColor(...darkGreen);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text('QUOTATION SUMMARY', MARGIN + 5, y + 4.5);
+  y += 8;
+  doc.setDrawColor(...lightGray);
+  doc.setLineWidth(0.3);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 6;
 
-  doc.setTextColor(...white);
+  // Summary — three-column layout
+  const cardGap = 6;
+  const cardW = (CONTENT_W - cardGap * 2) / 3;
+
+  // Card 1 – Total Products
+  doc.setFillColor(...lightBg);
+  doc.roundedRect(MARGIN, y, cardW, 20, 3, 3, 'F');
+  doc.setFillColor(...forestGreen);
+  doc.roundedRect(MARGIN, y, cardW, 1.2, 1, 1, 'F'); // top accent
+  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('TOTAL PRODUCTS', MARGIN + cardW / 2, y + 7, { align: 'center' });
+  doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
+  doc.text(String(totalProducts), MARGIN + cardW / 2, y + 16, { align: 'center' });
+
+  // Card 2 – Total Panels
+  const card2X = MARGIN + cardW + cardGap;
+  doc.setFillColor(...lightBg);
+  doc.roundedRect(card2X, y, cardW, 20, 3, 3, 'F');
+  doc.setFillColor(...forestGreen);
+  doc.roundedRect(card2X, y, cardW, 1.2, 1, 1, 'F');
+  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('TOTAL PANELS', card2X + cardW / 2, y + 7, { align: 'center' });
+  doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
+  doc.text(String(totalItems), card2X + cardW / 2, y + 16, { align: 'center' });
+
+  // Card 3 – Reference
+  const card3X = MARGIN + (cardW + cardGap) * 2;
+  doc.setFillColor(...lightBg);
+  doc.roundedRect(card3X, y, cardW, 20, 3, 3, 'F');
+  doc.setFillColor(...accentGold);
+  doc.roundedRect(card3X, y, cardW, 1.2, 1, 1, 'F');
+  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+  doc.text('REFERENCE', card3X + cardW / 2, y + 7, { align: 'center' });
+  doc.setFontSize(14); doc.setFont('helvetica', 'bold'); doc.setTextColor(...accentGold);
+  doc.text(`#${refNum}`, card3X + cardW / 2, y + 16, { align: 'center' });
+
+  y += 28;
+
+  // Notes section (if present)
+  if (customerData.notes) {
+    doc.setFillColor(...lightBg);
+    doc.roundedRect(MARGIN, y, CONTENT_W, 22, 3, 3, 'F');
+    doc.setFillColor(...accentGold);
+    doc.roundedRect(MARGIN, y, 1.5, 22, 1, 1, 'F'); // gold left accent
+    doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+    doc.text('ADDITIONAL NOTES', MARGIN + 6, y + 5);
+    doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+    const lines = doc.splitTextToSize(customerData.notes, CONTENT_W - 12);
+    doc.text(lines.slice(0, 3), MARGIN + 6, y + 11);
+    y += 26;
+  }
+
+  // ═══════════════════════════════════════════════════
+  // FOOTER — Professional full-width band
+  // ═══════════════════════════════════════════════════
+  const footerBandH = 28;
+  const footerY = PAGE_H - footerBandH;
+
+  // Dark green footer band
+  doc.setFillColor(...darkGreen);
+  doc.rect(0, footerY, PAGE_W, footerBandH, 'F');
+
+  // Gold accent line at top of footer
+  doc.setFillColor(...accentGold);
+  doc.rect(0, footerY, PAGE_W, 0.8, 'F');
+
+  // Thank you message
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('QUOTATION SUMMARY', MARGIN + 3, y + 4.5);
+  doc.setTextColor(...white);
+  doc.text('Thank you for choosing Foresta Wood Industries', PAGE_W / 2, footerY + 8, { align: 'center' });
 
-  y += 10;
+  // Contact details
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...white);
+  doc.text('reachus@foresta.ae', PAGE_W / 2 - 42, footerY + 14);
+  doc.text('|', PAGE_W / 2 - 14, footerY + 14);
+  doc.text('+971 54 786 2986', PAGE_W / 2 - 10, footerY + 14);
+  doc.text('|', PAGE_W / 2 + 16, footerY + 14);
+  doc.text('www.foresta.ae', PAGE_W / 2 + 20, footerY + 14);
 
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...black);
-  doc.text(`Total Products: ${totalProducts}  |  Total Quantity: ${totalItems} panel(s)`, MARGIN + 3, y);
+  // Disclaimer
+  doc.setFontSize(6.5);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...white);
+  doc.text('This quotation is for reference purposes only. Prices and availability are subject to confirmation.', PAGE_W / 2, footerY + 21, { align: 'center' });
 
-  // ═══════════════════════════════════════════════════
-  // FOOTER - Minimal Professional
-  // ═══════════════════════════════════════════════════
-  const footerY = PAGE_H - 20;
-  
-  doc.setDrawColor(...borderGray);
-  doc.setLineWidth(0.5);
-  doc.line(MARGIN, footerY, PAGE_W - MARGIN, footerY);
-
-  doc.setFontSize(8);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(80, 80, 80);
-  doc.text('Thank you for choosing Foresta Wood Industries', PAGE_W / 2, footerY + 5, { align: 'center' });
-
-  doc.setFontSize(8);
-  doc.setTextColor(100, 100, 100);
-  doc.text('reachus@foresta.ae  |  +971 54 786 2986  |  foresta.ae', PAGE_W / 2, footerY + 10, { align: 'center' });
+  // Bottom gold accent stripe
+  doc.setFillColor(...accentGold);
+  doc.rect(0, PAGE_H - 1.5, PAGE_W, 1.5, 'F');
 
   // ═══════════════════════════════════════════════════
-  // SAVE PDF
+  // RETURN BLOB
   // ═══════════════════════════════════════════════════
-  const timestamp = Date.now().toString().slice(-5);
-  const fileName = `Foresta-Quotation-${timestamp}.pdf`;
-  doc.save(fileName);
+  const fileName = `Foresta-Quotation-${refNum}.pdf`;
+  const blob = doc.output('blob');
 
-  return timestamp;
+  return { blob, fileName, refNum };
+}
+
+/**
+ * Backward-compatible wrapper: generates and downloads the PDF, returns refNum.
+ */
+async function generateAndDownloadPDF() {
+  const result = await generatePDFBlob();
+  if (!result) return null;
+
+  // Trigger browser download
+  const url = URL.createObjectURL(result.blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = result.fileName;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 200);
+
+  return result.refNum;
 }
 
 // ===== Booking Functions =====
@@ -976,44 +1461,88 @@ window.closeBookingModal = function() {
   }
 };
 
-window.bookViaWhatsApp = function() {
-  // 1. Generate & download the PDF first
-  const refNum = generateAndDownloadPDF();
+window.bookViaWhatsApp = async function() {
+  // 1. Generate the PDF blob
+  const result = await generatePDFBlob();
+  if (!result) return;
 
-  // 2. Build the WhatsApp text message (PDF already saved locally)
+  const { blob, fileName, refNum } = result;
+  const pdfFile = new File([blob], fileName, { type: 'application/pdf' });
+
+  // 2. Try native Web Share API (supports file attachment on mobile)
+  if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+    try {
+      await navigator.share({
+        title: 'Foresta Quotation',
+        text: `Quotation Request – Foresta Wood Industries (Ref: ${refNum})`,
+        files: [pdfFile]
+      });
+      closeBookingModal();
+      showSuccessStep('WhatsApp', refNum);
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') { return; } // user cancelled
+      // Fall through to WhatsApp link method
+    }
+  }
+
+  // 3. Fallback: download PDF + open WhatsApp with text prompt
+  triggerDownload(blob, fileName);
   const message = generateBookingMessage(refNum);
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodedMessage}`;
-
-  // 3. Short delay so browser triggers the PDF download before opening WhatsApp
-  setTimeout(() => {
-    window.open(whatsappUrl, '_blank');
-  }, 600);
+  setTimeout(() => { window.open(whatsappUrl, '_blank'); }, 600);
 
   closeBookingModal();
-  showSuccessStep('WhatsApp');
+  showSuccessStep('WhatsApp', refNum);
 };
 
-window.bookViaEmail = function() {
-  // 1. Generate & download the PDF first
-  const refNum = generateAndDownloadPDF();
+window.bookViaEmail = async function() {
+  // 1. Generate the PDF blob
+  const result = await generatePDFBlob();
+  if (!result) return;
 
-  // 2. Open email client with pre-filled subject + body
-  //    (Customer can attach the downloaded PDF manually)
-  const subject = 'Appointment Request - Foresta Wood Industries [' + (refNum || '') + ']';
+  const { blob, fileName, refNum } = result;
+  const pdfFile = new File([blob], fileName, { type: 'application/pdf' });
+
+  // 2. Try native Web Share API (supports file attachment on some devices)
+  if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+    try {
+      await navigator.share({
+        title: 'Foresta Quotation',
+        text: `Quotation Request – Foresta Wood Industries (Ref: ${refNum})`,
+        files: [pdfFile]
+      });
+      closeBookingModal();
+      showSuccessStep('Email', refNum);
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') { return; }
+      // Fall through to mailto method
+    }
+  }
+
+  // 3. Fallback: download PDF + open email client
+  triggerDownload(blob, fileName);
+  const subject = 'Quotation Request - Foresta Wood Industries [' + refNum + ']';
   const body    = generateBookingMessage(refNum);
-  const encodedSubject = encodeURIComponent(subject);
-  const encodedBody    = encodeURIComponent(body);
-  const mailtoUrl = `mailto:${CONFIG.email}?subject=${encodedSubject}&body=${encodedBody}`;
-
-  // 3. Short delay so browser triggers the PDF download before switching to email client
-  setTimeout(() => {
-    window.location.href = mailtoUrl;
-  }, 600);
+  const mailtoUrl = `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  setTimeout(() => { window.location.href = mailtoUrl; }, 600);
 
   closeBookingModal();
-  showSuccessStep('Email');
+  showSuccessStep('Email', refNum);
 };
+
+// Helper to trigger a file download from a Blob
+function triggerDownload(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 200);
+}
 
 function generateBookingMessage(refNum) {
   const ref  = refNum || '';
@@ -1052,7 +1581,26 @@ function generateBookingMessage(refNum) {
   return message;
 }
 
-function showSuccessStep(method) {
+function showSuccessStep(method, refNum) {
+  // Save order to history before clearing cart
+  saveOrder({
+    ref: refNum || Date.now().toString().slice(-6),
+    date: new Date().toISOString(),
+    email: customerData.email || '',
+    customer: customerData.name || '',
+    method: method,
+    items: cart.map(item => ({
+      id: item.id,
+      name: item.name,
+      code: item.code,
+      type: item.type,
+      category: item.category,
+      frontImage: item.frontImage,
+      size: item.size || '',
+      quantity: item.quantity || 1
+    }))
+  });
+
   // Update success message based on method
   const successContainer = document.getElementById('step-4');
   if (successContainer) {
@@ -1060,7 +1608,8 @@ function showSuccessStep(method) {
       'Your appointment request has been sent via WhatsApp!' :
       'Your email client has been opened with the appointment details.';
     
-    successContainer.querySelector('p:first-of-type').textContent = methodText;
+    const p = successContainer.querySelector('p:first-of-type');
+    if (p) p.textContent = methodText;
   }
   
   goToStep(4);

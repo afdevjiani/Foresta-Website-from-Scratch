@@ -75,6 +75,10 @@ class ComparisonSlider {
     this.wasDragging = false;
     this.scrollIntentDetermined = false;
     this.isHorizontalDrag = false;
+    
+    // Prevent any scrollbar flicker
+    this.imageWrapper.style.overflowX = 'hidden';
+    this.imageWrapper.style.overflowY = 'hidden';
   }
   
   handleTouchMove(e) {
@@ -87,17 +91,23 @@ class ComparisonSlider {
     
     // Determine scroll intent with priority to vertical scrolling
     if (!this.scrollIntentDetermined) {
-      // If user moves vertically first or moves vertically more, it's a scroll
-      if (deltaY > 8 || (deltaY > 5 && deltaY >= deltaX)) {
+      // Need a minimum threshold before deciding
+      if (deltaX < 6 && deltaY < 6) return;
+      
+      // If user moves vertically first or moves vertically more, it's a page scroll
+      if (deltaY > deltaX || deltaY > 10) {
         this.scrollIntentDetermined = true;
         this.isHorizontalDrag = false;
         return; // Let native scroll happen
       }
       
-      // Only consider horizontal drag if clear horizontal intent
-      if (deltaX > 20 && deltaX > deltaY * 2.5) {
+      // Only consider horizontal drag if very clear horizontal intent
+      if (deltaX > 15 && deltaX > deltaY * 3) {
         this.scrollIntentDetermined = true;
         this.isHorizontalDrag = true;
+        this.imageWrapper.style.touchAction = 'none';
+      } else {
+        return; // Still ambiguous, wait for more movement
       }
     }
     
@@ -109,7 +119,7 @@ class ComparisonSlider {
       
       const rect = this.imageWrapper.getBoundingClientRect();
       const x = touchX - rect.left;
-      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+      const percentage = Math.max(2, Math.min(98, (x / rect.width) * 100));
       this.updateSlider(percentage);
     }
   }
@@ -118,9 +128,11 @@ class ComparisonSlider {
     const touchDuration = Date.now() - this.touchStartTime;
     const wasTap = touchDuration < 200 && !this.wasDragging;
     
+    // Reset touch-action
+    this.imageWrapper.style.touchAction = 'pan-y';
+    
     // If it was a quick tap and no dragging occurred, allow navigation
     if (wasTap) {
-      // Do nothing - let the click event propagate to trigger navigation
       this.isDragging = false;
       this.wasDragging = false;
       return;
@@ -154,20 +166,22 @@ class ComparisonSlider {
   updateSlider(percentage, animated = false) {
     this.currentPosition = percentage;
     
+    // Clamp to prevent edge overflow/scrollbar flash
+    percentage = Math.max(2, Math.min(98, percentage));
+    
     // Use transform for better performance on mobile
     const isMobile = window.innerWidth <= 1024;
     
     if (isMobile) {
-      // Use transform instead of clip-path
       const translateValue = (percentage - 100);
       if (animated) {
         this.afterImage.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
       } else {
-        this.afterImage.style.transition = 'transform 0.05s ease-out';
+        this.afterImage.style.transition = 'none';
       }
-      this.afterImage.style.transform = `translateX(${translateValue}%)`;
+      // Use translate3d for GPU compositing — no repaint, no scrollbar
+      this.afterImage.style.transform = `translate3d(${translateValue}%, 0, 0)`;
     } else {
-      // Desktop: use clip-path for fade effect
       const clipValue = `inset(0 ${100 - percentage}% 0 0)`;
       if (animated) {
         this.afterImage.style.transition = 'clip-path 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -177,8 +191,7 @@ class ComparisonSlider {
       this.afterImage.style.clipPath = clipValue;
     }
     
-    // Update handle position with transform for GPU acceleration
-    this.handle.style.transform = `translateX(-50%)`;
+    // Update handle position with GPU-accelerated transform
     this.handle.style.left = `${percentage}%`;
   }
   

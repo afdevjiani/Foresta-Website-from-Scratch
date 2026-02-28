@@ -1,0 +1,761 @@
+/* ═══════════════════════════════════════════════════
+   Foresta Auth Modal – Premium Authentication UI v2
+   ═══════════════════════════════════════════════════ */
+
+/* ── Overlay ── */
+.foresta-auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1rem;
+}
+
+.foresta-auth-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  background: rgba(5, 25, 14, 0.65);
+  backdrop-filter: blur(12px);
+}
+
+/* ── Modal Card ── */
+.foresta-auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 92vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 1px rgba(12, 67, 38, 0.04),
+    0 40px 120px rgba(0, 0, 0, 0.35),
+    0 12px 40px rgba(12, 67, 38, 0.10);
+  transform: scale(0.92) translateY(40px);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.foresta-auth-modal::-webkit-scrollbar { width: 4px; }
+.foresta-auth-modal::-webkit-scrollbar-track { background: transparent; }
+.foresta-auth-modal::-webkit-scrollbar-thumb { background: rgba(12,67,38,0.15); border-radius: 4px; }
+
+.foresta-auth-overlay.active .foresta-auth-modal {
+  transform: scale(1) translateY(0);
+}
+
+/* ── Close Button ── */
+.foresta-auth-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.foresta-auth-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* ── Header ── */
+.foresta-auth-header {
+  background: linear-gradient(155deg, #051f10 0%, #0c4326 35%, #14592e 65%, #1a7a3e 100%);
+  padding: 2rem 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.foresta-auth-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  animation: floatBubble 8s ease-in-out infinite;
+}
+
+.foresta-auth-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  animation: floatBubble 10s ease-in-out infinite reverse;
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(10px, -10px) scale(1.05); }
+}
+
+.foresta-auth-logo {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 0.85rem;
+  filter: brightness(10);
+  position: relative;
+  z-index: 1;
+  animation: logoEnter 0.6s ease-out 0.2s both;
+}
+
+@keyframes logoEnter {
+  from { opacity: 0; transform: scale(0.8) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.foresta-auth-title {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+}
+
+.foresta-auth-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Gold accent bar ── */
+.foresta-auth-header + .foresta-auth-tabs {
+  border-top: 3px solid;
+  border-image: linear-gradient(90deg, #c9a84c 0%, #e0c76e 50%, #c9a84c 100%) 1;
+}
+
+/* ── Tab Switcher (pill style) ── */
+.foresta-auth-tabs {
+  display: flex;
+  background: #f3f4f5;
+  padding: 5px 6px;
+  margin: 0;
+  gap: 5px;
+}
+
+.foresta-auth-tab {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+  position: relative;
+  letter-spacing: 0.2px;
+}
+
+.foresta-auth-tab::after {
+  display: none;
+}
+
+.foresta-auth-tab.active {
+  color: #fff;
+  background: linear-gradient(135deg, #0a3a20, #14592e);
+  box-shadow: 0 3px 14px rgba(12, 67, 38, 0.28), 0 1px 4px rgba(12,67,38,0.12);
+  font-weight: 600;
+}
+
+.foresta-auth-tab:hover:not(.active) {
+  color: #555;
+  background: rgba(12, 67, 38, 0.06);
+}
+
+/* ── Form Body ── */
+.foresta-auth-body {
+  padding: 1.5rem 1.85rem 1.1rem;
+}
+
+/* ── Forms ── */
+.foresta-auth-form {
+  display: none;
+}
+
+.foresta-auth-form.active {
+  display: block;
+  animation: formSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes formSlideIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Input Group ── */
+.foresta-auth-field {
+  margin-bottom: 1rem;
+}
+
+.foresta-auth-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #0c4326;
+  margin-bottom: 0.45rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.foresta-auth-input-wrap {
+  position: relative;
+}
+
+.foresta-auth-input-wrap > svg:first-of-type,
+.foresta-auth-input-wrap svg:not(.foresta-auth-pw-toggle svg) {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #c0c0c0;
+  pointer-events: none;
+  transition: color 0.25s, transform 0.25s;
+  z-index: 1;
+}
+
+.foresta-auth-input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.75rem;
+  border: 1.5px solid #e2e4e8;
+  border-radius: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  background: #f7f8fa;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.foresta-auth-input::placeholder {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.foresta-auth-input:hover {
+  border-color: #c5c8ce;
+  background: #f2f4f7;
+}
+
+.foresta-auth-input:focus {
+  border-color: #14592e;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(12, 67, 38, 0.08), 0 2px 6px rgba(12, 67, 38, 0.05);
+}
+
+.foresta-auth-input-wrap:focus-within svg {
+  color: #14592e;
+}
+
+/* Password toggle */
+.foresta-auth-pw-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #c0c0c0;
+  padding: 5px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  z-index: 1;
+}
+
+.foresta-auth-pw-toggle:hover {
+  color: #0c4326;
+  background: rgba(12, 67, 38, 0.06);
+}
+
+/* ── Password Strength Indicator ── */
+.foresta-pw-strength {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+  align-items: center;
+  padding: 0 2px;
+}
+
+.foresta-pw-strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: #e8eaed;
+  transition: background 0.35s, box-shadow 0.35s;
+  max-width: 70px;
+}
+
+.foresta-pw-strength-bar.active.weak {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.25);
+}
+.foresta-pw-strength-bar.active.medium {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.25);
+}
+.foresta-pw-strength-bar.active.strong {
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.25);
+}
+
+.foresta-pw-strength-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-left: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.35s;
+  color: #ccc;
+}
+
+.foresta-pw-strength-label.weak { color: #ef4444; }
+.foresta-pw-strength-label.medium { color: #e89200; }
+.foresta-pw-strength-label.strong { color: #16a34a; }
+
+/* ── Primary Submit Button ── */
+.foresta-auth-btn {
+  width: 100%;
+  padding: 0.95rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(140deg, #0a3a20 0%, #0c4326 30%, #14592e 60%, #1a7a3e 100%);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.4px;
+}
+
+.foresta-auth-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+  transition: left 0.5s;
+}
+
+.foresta-auth-btn:hover {
+  box-shadow: 0 10px 32px rgba(12, 67, 38, 0.32), 0 4px 12px rgba(12, 67, 38, 0.12);
+  transform: translateY(-2px);
+  background: linear-gradient(140deg, #0d4a2a 0%, #14592e 30%, #1a7a3e 60%, #22944a 100%);
+}
+
+.foresta-auth-btn:hover::before {
+  left: 100%;
+}
+
+.foresta-auth-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(12, 67, 38, 0.2);
+}
+
+.foresta-auth-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Spinner */
+.foresta-auth-btn .spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: authSpin 0.65s linear infinite;
+}
+
+.foresta-auth-btn.loading .spinner { display: inline-block; }
+.foresta-auth-btn.loading .btn-label { opacity: 0.85; }
+
+@keyframes authSpin { to { transform: rotate(360deg); } }
+
+/* ── Divider ── */
+.foresta-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 1.35rem 0;
+}
+
+.foresta-auth-divider::before,
+.foresta-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+}
+
+.foresta-auth-divider span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #aaa;
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Google Button ── */
+.foresta-auth-google {
+  width: 100%;
+  padding: 0.82rem;
+  border: 1.5px solid #e2e4e8;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.foresta-auth-google:hover {
+  background: #f5f7fa;
+  border-color: #c0c4cc;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.foresta-auth-google:active { transform: translateY(0); }
+
+.foresta-auth-google:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.foresta-auth-google svg { flex-shrink: 0; }
+
+/* Subtle note under Google button for domain issues */
+.foresta-google-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #888;
+  text-align: center;
+  margin: 0.5rem 0 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Error Message ── */
+.foresta-auth-error {
+  display: none;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fef2f2, #fff5f5);
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  margin-bottom: 0.85rem;
+  align-items: center;
+  gap: 0.5rem;
+  animation: shakeError 0.4s ease-out;
+}
+
+.foresta-auth-error.show { display: flex; }
+
+.foresta-auth-error svg { flex-shrink: 0; }
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+/* ── Success flash overlay ── */
+.foresta-auth-success-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: linear-gradient(155deg, #0a3a20, #14592e, #1a7a3e);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #fff;
+  border-radius: 28px;
+  animation: flashIn 0.35s ease-out forwards;
+}
+
+@keyframes flashIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.foresta-auth-success-flash .success-check {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.4s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.foresta-auth-success-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  animation: popIn 0.35s 0.25s ease-out both;
+}
+
+/* ── Footer ── */
+.foresta-auth-footer {
+  padding: 0.9rem 1.85rem 1.15rem;
+  text-align: center;
+  border-top: 1px solid #eef0f2;
+  background: linear-gradient(180deg, #fafbfc, #f5f6f7);
+  border-radius: 0 0 28px 28px;
+}
+
+.foresta-auth-footer p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  color: #999;
+  line-height: 1.6;
+}
+
+.foresta-auth-footer a {
+  color: #0c4326;
+  text-decoration: none;
+  font-weight: 500;
+}
+.foresta-auth-footer a:hover { text-decoration: underline; }
+
+/* ── User header bar (logged-in) ── */
+.foresta-user-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99998;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 1.5rem;
+  background: linear-gradient(135deg, #051f10 0%, #0a3a20 40%, #0c4326 100%);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  box-shadow: none;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-100%);
+}
+
+.foresta-user-bar.visible {
+  display: flex;
+  transform: translateY(0);
+  animation: slideBarIn 0.45s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+@keyframes slideBarIn {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.foresta-user-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.foresta-user-bar-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.foresta-user-bar .user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,168,76,0.4), rgba(201,168,76,0.2));
+  border: 2px solid rgba(201,168,76,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.foresta-user-bar .user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foresta-user-bar .user-greeting {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.foresta-user-bar .user-greeting-label {
+  font-size: 0.6rem;
+  color: rgba(201,168,76,0.85);
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.foresta-user-bar .user-name {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+
+.foresta-user-bar .user-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.85);
+  padding: 0.38rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.2px;
+}
+
+.foresta-user-bar .user-logout:hover {
+  background: rgba(220, 80, 80, 0.2);
+  border-color: rgba(220, 80, 80, 0.35);
+  color: #ffb4b4;
+}
+
+.foresta-user-bar .user-logout:active {
+  transform: scale(0.97);
+}
+
+body.foresta-logged-in { padding-top: 44px; }
+body.foresta-logged-in .luxury-header { top: 44px; }
+body.foresta-logged-in .checkout-header { top: 44px; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .foresta-auth-modal {
+    max-width: 100%;
+    border-radius: 18px;
+    max-height: 95vh;
+  }
+
+  .foresta-auth-header {
+    padding: 1.75rem 1.25rem 1.35rem;
+  }
+
+  .foresta-auth-body {
+    padding: 1rem 1.25rem 0.75rem;
+  }
+
+  .foresta-auth-logo { width: 150px; }
+  .foresta-auth-title { font-size: 1.2rem; }
+  .foresta-auth-subtitle { font-size: 0.75rem; }
+
+  .foresta-auth-footer {
+    padding: 0.75rem 1.25rem 1rem;
+    border-radius: 0 0 18px 18px;
+  }
+
+  .foresta-auth-input {
+    padding: 0.7rem 0.85rem 0.7rem 2.5rem;
+    font-size: 0.85rem;
+  }
+
+  .foresta-auth-btn { padding: 0.8rem; }
+
+  .foresta-auth-success-flash { border-radius: 18px; }
+
+  .foresta-auth-field { margin-bottom: 0.85rem; }
+}
