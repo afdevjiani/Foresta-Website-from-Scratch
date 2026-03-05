@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateCartDisplay();
   updateProgressIndicator();
   await renderPreviousOrders();
-  await showWelcomeBack();
+  // Welcome banner removed — user info now in header avatar dropdown
 
   // Listen for auth state changes to auto-fill customer data
   window.addEventListener('forestaAuthChanged', async (e) => {
@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Refresh previous orders
       await renderPreviousOrders();
-      await showWelcomeBack();
     }
   });
 });
@@ -95,13 +94,30 @@ function loadCustomerFromStorage() {
       if (companyInput) companyInput.value = customerData.company;
     }
     if (customerData.notes) {
-      const notesInput = document.getElementById('customerNotes');
+      const notesInput = document.getElementById('additionalNotes');
       if (notesInput) notesInput.value = customerData.notes;
     }
   } catch (e) {
     console.error('Error loading customer data:', e);
     customerData = {};
   }
+}
+
+// Pre-fill form fields from stored customer data (called each time step 2 is shown)
+function prefillFormFromStorage() {
+  if (!customerData || !customerData.email) return;
+  const nameInput = document.getElementById('customerName');
+  if (nameInput && !nameInput.value && customerData.name) nameInput.value = customerData.name;
+  const phoneInput = document.getElementById('customerPhone');
+  if (phoneInput && !phoneInput.value && customerData.phoneRaw) phoneInput.value = customerData.phoneRaw;
+  const codeSelect = document.getElementById('countryCode');
+  if (codeSelect && customerData.countryCode) codeSelect.value = customerData.countryCode;
+  const emailInput = document.getElementById('customerEmail');
+  if (emailInput && !emailInput.value && customerData.email) emailInput.value = customerData.email;
+  const companyInput = document.getElementById('customerCompany');
+  if (companyInput && !companyInput.value && customerData.company) companyInput.value = customerData.company;
+  const notesInput = document.getElementById('additionalNotes');
+  if (notesInput && !notesInput.value && customerData.notes) notesInput.value = customerData.notes;
 }
 
 function saveCustomerToStorage() {
@@ -687,6 +703,7 @@ function validateField(input) {
 
 function validateStep2() {
   let isValid = true;
+  let firstError = null;
   
   // Validate customer info
   const requiredFields = ['customerName', 'customerPhone', 'customerEmail'];
@@ -694,6 +711,7 @@ function validateStep2() {
     const input = document.getElementById(id);
     if (input && !validateField(input)) {
       isValid = false;
+      if (!firstError) firstError = input;
     }
   });
   
@@ -704,10 +722,17 @@ function validateStep2() {
     if (sizeSelect && !sizeSelect.value) {
       sizeSelect.style.borderColor = 'var(--checkout-error)';
       isValid = false;
+      if (!firstError) firstError = sizeSelect;
     } else if (sizeSelect) {
       sizeSelect.style.borderColor = '';
     }
   });
+  
+  // Scroll to first error
+  if (!isValid && firstError) {
+    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    firstError.focus();
+  }
   
   return isValid;
 }
@@ -722,7 +747,7 @@ function collectFormData() {
     countryCode: countryCode,
     email: document.getElementById('customerEmail')?.value || '',
     company: document.getElementById('customerCompany')?.value || '',
-    notes: document.getElementById('customerNotes')?.value || ''
+    notes: document.getElementById('additionalNotes')?.value || ''
   };
   
   // Collect size data
@@ -762,6 +787,7 @@ function goToStep(step) {
   // Perform step-specific actions
   if (step === 2) {
     updateProductDetailsList();
+    prefillFormFromStorage();
   } else if (step === 3) {
     updateSummary();
   }
@@ -775,6 +801,7 @@ function goToNextStep() {
     }
     goToStep(2);
   } else if (currentStep === 2) {
+    if (!validateStep2()) return;
     collectFormData();
     goToStep(3);
   } else if (currentStep === 3) {
@@ -810,8 +837,20 @@ function updateProgressIndicator() {
   
   // Update progress bar
   if (progressFill) {
-    const progress = ((currentStep - 1) / 2) * 100;
+    const progress = Math.min(((currentStep - 1) / 2) * 100, 100);
     progressFill.style.width = `${progress}%`;
+  }
+
+  // Hide progress on success step
+  const progressEl = document.querySelector('.checkout-progress');
+  if (progressEl) {
+    progressEl.style.display = currentStep >= 4 ? 'none' : '';
+  }
+
+  // Hide page title on success step
+  const pageTitle = document.querySelector('.checkout-page-title');
+  if (pageTitle) {
+    pageTitle.style.display = currentStep >= 4 ? 'none' : '';
   }
 }
 
@@ -851,7 +890,7 @@ function updateNavigationButtons() {
       `;
     } else if (currentStep === 3) {
       nextBtn.innerHTML = `
-        <span>Book an Appointment</span>
+        <span>Send Quotation</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14"></path>
           <path d="M12 5l7 7-7 7"></path>
@@ -1602,14 +1641,20 @@ function showSuccessStep(method, refNum) {
   });
 
   // Update success message based on method
-  const successContainer = document.getElementById('step-4');
+  const successContainer = document.getElementById('step4');
   if (successContainer) {
     const methodText = method === 'WhatsApp' ? 
-      'Your appointment request has been sent via WhatsApp!' :
-      'Your email client has been opened with the appointment details.';
+      'Your quotation request has been sent via WhatsApp!' :
+      'Your email client has been opened with the quotation details.';
     
-    const p = successContainer.querySelector('p:first-of-type');
+    const p = successContainer.querySelector('.success-method-text');
     if (p) p.textContent = methodText;
+
+    // Show reference number
+    const refEl = successContainer.querySelector('#successRef');
+    if (refEl && refNum) {
+      refEl.textContent = `Reference: ${refNum}`;
+    }
   }
   
   goToStep(4);

@@ -23,15 +23,37 @@
       <a href="index-luxury.html" class="header-logo">
         <img src="assets/logo.png" alt="Foresta Wood Industries">
       </a>
-      <h1 class="header-title">Checkout</h1>
-      <a href="index-luxury.html" class="continue-shopping">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Continue Shopping
-      </a>
+      <!-- User Avatar (Chrome-style) - populated by auth-modal.js -->
+      <div class="header-user-avatar" id="headerUserAvatar" style="display:none;">
+        <button class="avatar-btn" id="avatarBtn" aria-label="User menu">
+          <span class="avatar-initial" id="avatarInitial">A</span>
+        </button>
+        <div class="avatar-dropdown" id="avatarDropdown">
+          <div class="avatar-dropdown-info">
+            <div class="avatar-dropdown-circle" id="avatarDropdownCircle">A</div>
+            <div class="avatar-dropdown-details">
+              <span class="avatar-dropdown-name" id="avatarDropdownName">User</span>
+              <span class="avatar-dropdown-email" id="avatarDropdownEmail">email@example.com</span>
+            </div>
+          </div>
+          <hr class="avatar-dropdown-divider">
+          <button class="avatar-dropdown-logout" id="headerLogoutBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
+
+  <!-- Page Title -->
+  <div class="checkout-page-title">
+    <h1>Checkout</h1>
+  </div>
 
   <main class="checkout-main">
     <div class="checkout-container">
@@ -293,16 +315,18 @@
         </div>
 
         <!-- Success Message (shown after booking) -->
-        <div class="checkout-step" id="successStep" style="display: none;">
+        <div class="checkout-step" id="step4" data-step="4" style="display: none;">
           <div class="success-container">
-            <div class="success-icon">
-              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
+            <div class="success-icon-ring">
+              <div class="success-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
             </div>
-            <h2>Appointment Request Sent!</h2>
-            <p>Thank you for your interest in Foresta Wood Industries. We have received your appointment request and will contact you shortly to confirm the details.</p>
+            <h2>Quotation Request Sent!</h2>
+            <p class="success-method-text">Your quotation request has been sent successfully.</p>
+            <div class="success-ref" id="successRef"></div>
             <div class="success-details">
               <p><strong>What's Next?</strong></p>
               <ul>
@@ -377,5 +401,92 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <script src="checkout.js"></script>
+
+  <!-- Header Avatar Logic -->
+  <script>
+    (function() {
+      // Update the header avatar with user data
+      function populateAvatar(user) {
+        const container = document.getElementById('headerUserAvatar');
+        if (!container) return;
+
+        if (!user || !user.email) {
+          container.style.display = 'none';
+          return;
+        }
+
+        // Resolve display name from customer profile or auth session
+        const customer = JSON.parse(localStorage.getItem('foresta_customer') || '{}');
+        const name = customer.name || user.displayName || user.email.split('@')[0];
+        const email = user.email;
+        const initial = name.charAt(0).toUpperCase();
+
+        container.style.display = 'block';
+
+        const avatarInitial = document.getElementById('avatarInitial');
+        if (avatarInitial) avatarInitial.textContent = initial;
+
+        const dropdownCircle = document.getElementById('avatarDropdownCircle');
+        if (dropdownCircle) dropdownCircle.textContent = initial;
+
+        const dropdownName = document.getElementById('avatarDropdownName');
+        if (dropdownName) dropdownName.textContent = name;
+
+        const dropdownEmail = document.getElementById('avatarDropdownEmail');
+        if (dropdownEmail) dropdownEmail.textContent = email;
+      }
+
+      function initHeaderAvatar() {
+        // Wire up dropdown toggle
+        const avatarBtn = document.getElementById('avatarBtn');
+        const dropdown = document.getElementById('avatarDropdown');
+
+        if (avatarBtn && dropdown) {
+          avatarBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+          });
+
+          document.addEventListener('click', function() {
+            dropdown.classList.remove('open');
+          });
+
+          dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+          });
+        }
+
+        // Wire up logout
+        var logoutBtn = document.getElementById('headerLogoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', async function() {
+            if (window.forestaAuth) {
+              await window.forestaAuth.logout();
+            }
+            localStorage.removeItem('foresta_auth_session');
+            localStorage.removeItem('foresta_customer');
+            window.location.reload();
+          });
+        }
+
+        // Load from cached session immediately
+        var saved = localStorage.getItem('foresta_auth_session');
+        if (saved) {
+          try { populateAvatar(JSON.parse(saved)); } catch(_) {}
+        }
+
+        // Listen for auth state changes (login/logout)
+        window.addEventListener('forestaAuthChanged', function(e) {
+          populateAvatar(e.detail.user);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHeaderAvatar);
+      } else {
+        initHeaderAvatar();
+      }
+    })();
+  </script>
 </body>
 </html>

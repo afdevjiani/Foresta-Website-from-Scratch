@@ -8,6 +8,11 @@
     padding: 0;
     position: relative;
     overflow: hidden;
+    display: none;
+}
+
+#productConfigurator.active {
+    display: block;
 }
 
 #productConfigurator::before {

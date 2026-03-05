@@ -44,7 +44,7 @@
       </div>
 
       <div class="nav-cta">
-        <a href="checkout.html" class="cart-button" aria-label="View Cart">
+        <a href="javascript:void(0)" class="cart-button" id="cartButtonNav" aria-label="View Cart" onclick="handleCartClick(event)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
@@ -362,6 +362,17 @@
               </div>
               <p class="color-code">FWI-07-116</p><p class="color-name">CARDAMOM GREEN</p>
             </div>
+            <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CARDAMOM%20GREEN%20GLOSS&code=FWI-09-116&image=assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20GLOSS%20-%20FWI-09-116.webp&type=Lami%20Gloss&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20GLOSS%20-%20FWI-09-116.webp" alt="CARDAMOM GREEN GLOSS" loading="lazy">
+                </picture>
+                <picture>
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLOSS%20FWI-09-116.png" alt="Kitchen Preview" loading="eager">
+                </picture>
+              </div>
+              <p class="color-code">FWI-09-116</p><p class="color-name">CARDAMOM GREEN GLOSS</p>
+            </div>
             <div class="color-item" data-category="lami-gloss" data-space="kitchens" onclick="window.location.href='color-detail.html?name=CREAM&code=FWI-03-103&image=assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png&type=Lami%20Gloss&space=kitchens'">
               <div class="color-item-image-wrapper">
                 <picture>
@@ -555,7 +566,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="IVORY WHITE GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Kitchen Preview" loading="eager">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -925,16 +936,27 @@
               </div>
               <p class="color-code">FWI-10-140</p><p class="color-name">GRAPHITE GRAY MATT</p>
             </div>
-            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE&code=FWI-03-101&image=assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png&type=Lami%20Matt&space=kitchens'">
+            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE&code=FWI-04-101&image=assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png&type=Lami%20Matt&space=kitchens'">
               <div class="color-item-image-wrapper">
                 <picture>
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-101%20ICEBERG%20WHITE.png" alt="Kitchen Preview" loading="eager">
+                </picture>
+              </div>
+              <p class="color-code">FWI-04-101</p><p class="color-name">ICEBERG WHITE</p>
+            </div>
+            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=ICEBERG%20WHITE%20MATT&code=FWI-10-101&image=assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20MATT%20-%20FWI-10-101.png&type=Lami%20Matt&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20MATT%20-%20FWI-10-101.png" alt="ICEBERG WHITE MATT" loading="lazy">
+                </picture>
+                <picture>
                   <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-10-101%20ICEBERG%20WHITE%20MATT.png" alt="Kitchen Preview" loading="eager">
                 </picture>
               </div>
-              <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
+              <p class="color-code">FWI-10-101</p><p class="color-name">ICEBERG WHITE MATT</p>
             </div>
             <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=IVORY%20GRAY&code=FWI-04-115&image=assets/Lami%20matt%20front%20images/IVORY%20GRAY%20-%20FWI-04-115.png&type=Lami%20Matt&space=kitchens'">
               <div class="color-item-image-wrapper">
@@ -1150,6 +1172,33 @@
                 </picture>
               </div>
               <p class="color-code">FWI-04-122</p><p class="color-name">WISDOM BLACK</p>
+            </div>
+            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=FPM59&code=FPM59&image=assets/Lami%20matt%20front%20images/FPM59.png&type=Lami%20Matt&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FPM59.png" alt="FPM59" loading="lazy">
+                </picture>
+                <picture>
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FPM59.png" alt="Kitchen Preview" loading="eager">
+                </picture>
+              </div>
+              <p class="color-code">FPM59</p><p class="color-name">FPM59</p>
+            </div>
+            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=FPM71&code=FPM71&image=assets/Lami%20matt%20front%20images/FPM71.png&type=Lami%20Matt&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FPM71.png" alt="FPM71" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FPM71</p><p class="color-name">FPM71</p>
+            </div>
+            <div class="color-item" data-category="lami-matt" data-space="kitchens" onclick="window.location.href='color-detail.html?name=FPM72&code=FPM72&image=assets/Lami%20matt%20front%20images/FPM72.png&type=Lami%20Matt&space=kitchens'">
+              <div class="color-item-image-wrapper">
+                <picture>
+                  <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FPM72.png" alt="FPM72" loading="lazy">
+                </picture>
+              </div>
+              <p class="color-code">FPM72</p><p class="color-name">FPM72</p>
             </div>
 
             <!-- ========== WARDROBE PRODUCTS ========== -->
@@ -1393,7 +1442,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="eager">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -2250,7 +2299,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="eager">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -3664,7 +3713,41 @@
   <script>
     // Cart Storage Key
     const CART_STORAGE_KEY = 'foresta_cart';
-    
+
+    // ─── Product Pricing ──────────────────────────────
+    const PRODUCT_PRICING = {
+      'lami-gloss': {
+        label: 'Lami Gloss',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: true,
+        hasMR: true,
+        prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
+      },
+      'lami-matt': {
+        label: 'Lami Matt',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: true,
+        hasMR: true,
+        prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
+      },
+      'marble-acrylic': {
+        label: 'Acrylic',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: false,
+        hasMR: false,
+        prices: { 'standard': 450 }
+      }
+    };
+
+    // Detect product category from type string (for old cart items)
+    function detectCategory(type) {
+      if (!type) return 'lami-gloss';
+      const t = type.toLowerCase();
+      if (t.includes('acrylic') || t.includes('marble')) return 'marble-acrylic';
+      if (t.includes('matt') || t.includes('mat')) return 'lami-matt';
+      return 'lami-gloss';
+    }
+
     // Load cart and update badge on page load
     function loadCartAndUpdateBadge() {
       try {
@@ -3675,7 +3758,7 @@
         console.error('Error loading cart:', e);
       }
     }
-    
+
     // Update cart badge display
     function updateCartBadgeDisplay(cart) {
       const badge = document.getElementById('cartBadge');
@@ -3685,32 +3768,440 @@
         badge.style.display = count > 0 ? 'flex' : 'none';
       }
     }
-    
-    // Add product to cart
-    function addProductToCart(productData, event) {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
+
+    // ─── Cart icon click: open cart drawer ──────────
+    function handleCartClick(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      openCartDrawer();
+    }
+
+    // ─── Cart Drawer ─────────────────────────────────
+    function injectCartDrawer() {
+      if (document.getElementById('cartDrawerOverlay')) return;
+      const html = `
+      <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+        <div class="cart-drawer" id="cartDrawer">
+          <div class="cart-drawer-header">
+            <h3 class="cart-drawer-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Your Cart
+              <span class="cart-drawer-count" id="cartDrawerCount">0</span>
+            </h3>
+            <button class="cart-drawer-close" id="cartDrawerClose" aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="cart-drawer-items" id="cartDrawerItems"></div>
+          <div class="cart-drawer-footer" id="cartDrawerFooter">
+            <div class="cart-drawer-summary">
+              <div class="cart-drawer-summary-row">
+                <span>Subtotal</span>
+                <span class="cart-drawer-subtotal" id="cartDrawerSubtotal">AED 0</span>
+              </div>
+              <div class="cart-drawer-summary-row">
+                <span>VAT (5%)</span>
+                <span class="cart-drawer-vat" id="cartDrawerVat">AED 0</span>
+              </div>
+              <div class="cart-drawer-summary-row cart-drawer-total-row">
+                <span>Total</span>
+                <span class="cart-drawer-total" id="cartDrawerTotal">AED 0</span>
+              </div>
+            </div>
+            <button type="button" class="cart-drawer-checkout-btn" id="cartDrawerCheckoutBtn">
+              Proceed to Checkout
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button type="button" class="cart-drawer-continue" id="cartDrawerContinue">Continue Shopping</button>
+          </div>
+        </div>
+      </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+
+      // Events
+      const overlay = document.getElementById('cartDrawerOverlay');
+      document.getElementById('cartDrawerClose').addEventListener('click', closeCartDrawer);
+      document.getElementById('cartDrawerContinue').addEventListener('click', closeCartDrawer);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCartDrawer(); });
+
+      // Checkout button → login check
+      document.getElementById('cartDrawerCheckoutBtn').addEventListener('click', () => {
+        closeCartDrawer();
+        if (window.forestaAuthModal && !window.forestaAuthModal.isLoggedIn()) {
+          window.forestaAuthModal.open(function() {
+            window.location.href = 'checkout.html';
+          });
+        } else {
+          window.location.href = 'checkout.html';
+        }
+      });
+    }
+
+    function openCartDrawer() {
+      injectCartDrawer();
+      renderCartDrawerItems();
+      const overlay = document.getElementById('cartDrawerOverlay');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCartDrawer() {
+      const overlay = document.getElementById('cartDrawerOverlay');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function renderCartDrawerItems() {
+      const container = document.getElementById('cartDrawerItems');
+      const footer = document.getElementById('cartDrawerFooter');
+      const countEl = document.getElementById('cartDrawerCount');
+      if (!container) return;
+
+      let cart = [];
+      try { cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]'); } catch(e) {}
+
+      // Back-fill prices for old items missing unitPrice
+      let cartUpdated = false;
+      cart.forEach(item => {
+        if (!item.unitPrice || item.unitPrice === 0) {
+          const cat = item.productCategory || detectCategory(item.type);
+          const pricing = PRODUCT_PRICING[cat];
+          if (pricing) {
+            const board = item.boardType || 'standard';
+            const face = item.faceOption || '1face';
+            if (pricing.hasFace) {
+              item.unitPrice = pricing.prices[board + '-' + face] || 0;
+            } else {
+              item.unitPrice = pricing.prices['standard'] || 0;
+            }
+            item.size = item.size || (pricing.sizes && pricing.sizes[0]) || '2800 × 1220 × 18 mm';
+            item.productCategory = cat;
+            item.boardType = item.boardType || 'standard';
+            item.faceOption = item.faceOption || (pricing.hasFace ? '1face' : 'standard');
+            item.totalPrice = item.unitPrice * (item.quantity || 1);
+            cartUpdated = true;
+          }
+        }
+      });
+      if (cartUpdated) {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
       }
-      
+
+      const totalItems = cart.reduce((t, item) => t + (item.quantity || 1), 0);
+      if (countEl) countEl.textContent = totalItems;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="cart-drawer-empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <p class="cart-drawer-empty-title">Your cart is empty</p>
+            <p class="cart-drawer-empty-sub">Browse our products and add items to get started.</p>
+          </div>`;
+        if (footer) footer.style.display = 'none';
+        return;
+      }
+
+      if (footer) footer.style.display = '';
+
+      let grandTotal = 0;
+      container.innerHTML = cart.map((item, index) => {
+        const itemTotal = (item.unitPrice || 0) * (item.quantity || 1);
+        grandTotal += itemTotal;
+        const boardLabel = item.boardType === 'mr' ? 'MR (Water Resistant)' : 'Standard';
+        const faceLabel = item.faceOption === '2face' ? '2 Face' : item.faceOption === '1face' ? '1 Face' : '';
+
+        return `
+        <div class="cart-drawer-item" data-index="${index}">
+          <div class="cart-drawer-item-image">
+            ${item.frontImage ? `<img src="${item.frontImage}" alt="${item.name}" onerror="this.style.display='none'">` : `<div class="cart-drawer-item-placeholder"></div>`}
+          </div>
+          <div class="cart-drawer-item-info">
+            <div class="cart-drawer-item-name">${item.name || 'Product'}</div>
+            <div class="cart-drawer-item-code">${item.code || ''} · ${item.type || ''}</div>
+            <div class="cart-drawer-item-details">
+              ${item.size ? `<span class="cart-drawer-tag">${item.size}</span>` : ''}
+              ${faceLabel ? `<span class="cart-drawer-tag">${faceLabel}</span>` : ''}
+              ${item.boardType ? `<span class="cart-drawer-tag">${boardLabel}</span>` : ''}
+            </div>
+            <div class="cart-drawer-item-bottom">
+              <div class="cart-drawer-item-qty">
+                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, -1)">−</button>
+                <span>${item.quantity || 1}</span>
+                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, 1)">+</button>
+              </div>
+              <div class="cart-drawer-item-price">
+                <span class="cart-drawer-item-unit">AED ${item.unitPrice || 0} × ${item.quantity || 1}</span>
+                <span class="cart-drawer-item-total">AED ${itemTotal.toLocaleString()}</span>
+              </div>
+              <button class="cart-drawer-remove" onclick="removeDrawerItem(${index})" aria-label="Remove">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      // Update totals
+      const vat = Math.round(grandTotal * 0.05 * 100) / 100;
+      const totalWithVat = grandTotal + vat;
+      const subtotalEl = document.getElementById('cartDrawerSubtotal');
+      const vatEl = document.getElementById('cartDrawerVat');
+      const totalEl = document.getElementById('cartDrawerTotal');
+      if (subtotalEl) subtotalEl.textContent = 'AED ' + grandTotal.toLocaleString();
+      if (vatEl) vatEl.textContent = 'AED ' + vat.toLocaleString();
+      if (totalEl) totalEl.textContent = 'AED ' + totalWithVat.toLocaleString();
+    }
+
+    function changeDrawerQty(index, delta) {
+      try {
+        let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+        if (!cart[index]) return;
+        cart[index].quantity = Math.max(1, (cart[index].quantity || 1) + delta);
+        cart[index].totalPrice = (cart[index].unitPrice || 0) * cart[index].quantity;
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateCartBadgeDisplay(cart);
+        renderCartDrawerItems();
+      } catch(e) {}
+    }
+
+    function removeDrawerItem(index) {
+      try {
+        let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+        cart.splice(index, 1);
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateCartBadgeDisplay(cart);
+        renderCartDrawerItems();
+      } catch(e) {}
+    }
+
+    // ─── Quantity / Size / Face / MR Picker Modal ─────
+    let _pendingProduct = null;
+
+    function getUnitPrice() {
+      const overlay = document.getElementById('cartQtyModal');
+      if (!overlay || !_pendingProduct) return 0;
+      const pricing = PRODUCT_PRICING[_pendingProduct.productCategory];
+      if (!pricing) return 0;
+
+      if (!pricing.hasFace && !pricing.hasMR) {
+        return pricing.prices['standard'] || 0;
+      }
+
+      const board = overlay.querySelector('.cart-qty-board-btn.active')?.dataset.board || 'standard';
+      const face = overlay.querySelector('.cart-qty-face-btn.active')?.dataset.face || '1face';
+
+      if (pricing.hasFace) {
+        return pricing.prices[board + '-' + face] || 0;
+      }
+      return pricing.prices[board] || 0;
+    }
+
+    function updatePriceDisplay() {
+      const overlay = document.getElementById('cartQtyModal');
+      if (!overlay) return;
+      const unitPrice = getUnitPrice();
+      const qty = Math.max(1, parseInt(document.getElementById('cartQtyInput')?.value) || 1);
+      const total = unitPrice * qty;
+
+      const unitEl = document.getElementById('cartQtyUnitPrice');
+      const totalEl = document.getElementById('cartQtyTotalPrice');
+      if (unitEl) unitEl.textContent = 'AED ' + unitPrice;
+      if (totalEl) totalEl.textContent = 'AED ' + total.toLocaleString();
+
+      const confirmBtn = document.getElementById('cartQtyConfirm');
+      if (confirmBtn) {
+        confirmBtn.querySelector('.confirm-total').textContent = 'AED ' + total.toLocaleString();
+      }
+    }
+
+    function buildModalContent(pricing) {
+      let html = '';
+
+      // Size (selectable)
+      html += `
+        <div class="cart-qty-row">
+          <label class="cart-qty-label">Panel Size</label>
+          <div class="cart-qty-sizes">
+            ${pricing.sizes.map((s, i) => `
+              <button type="button" class="cart-qty-size-btn${i === 0 ? ' active' : ''}" data-size="${s}">${s}</button>
+            `).join('')}
+          </div>
+        </div>`;
+
+      // Board Type (Standard / MR)
+      if (pricing.hasMR) {
+        html += `
+        <div class="cart-qty-row">
+          <label class="cart-qty-label">Board Type</label>
+          <div class="cart-qty-toggle-group">
+            <button type="button" class="cart-qty-board-btn active" data-board="standard">Standard</button>
+            <button type="button" class="cart-qty-board-btn" data-board="mr">MR (Water Resistant)</button>
+          </div>
+        </div>`;
+      }
+
+      // Face Option (1 Face / 2 Face)
+      if (pricing.hasFace) {
+        html += `
+        <div class="cart-qty-row">
+          <label class="cart-qty-label">Face Option</label>
+          <div class="cart-qty-toggle-group">
+            <button type="button" class="cart-qty-face-btn active" data-face="1face">
+              <span class="face-label">1 Face</span>
+              <span class="face-desc">White melamine backside</span>
+            </button>
+            <button type="button" class="cart-qty-face-btn" data-face="2face">
+              <span class="face-label">2 Face</span>
+              <span class="face-desc">Same color both sides</span>
+            </button>
+          </div>
+        </div>`;
+      }
+
+      // Quantity
+      html += `
+        <div class="cart-qty-row">
+          <label class="cart-qty-label">Quantity (sheets)</label>
+          <div class="cart-qty-stepper">
+            <button type="button" class="cart-qty-minus" id="cartQtyMinus">−</button>
+            <input type="number" class="cart-qty-input" id="cartQtyInput" value="1" min="1" max="999">
+            <button type="button" class="cart-qty-plus" id="cartQtyPlus">+</button>
+          </div>
+        </div>`;
+
+      // Price Summary
+      html += `
+        <div class="cart-qty-price-summary">
+          <div class="cart-qty-price-row">
+            <span>Price per sheet</span>
+            <span id="cartQtyUnitPrice" class="cart-qty-price-val">AED 0</span>
+          </div>
+          <div class="cart-qty-price-row cart-qty-price-total">
+            <span>Total</span>
+            <span id="cartQtyTotalPrice" class="cart-qty-price-val">AED 0</span>
+          </div>
+        </div>`;
+
+      return html;
+    }
+
+    function injectCartModal() {
+      // Always rebuild to match product type
+      const existing = document.getElementById('cartQtyModal');
+      if (existing) existing.remove();
+
+      const pricing = PRODUCT_PRICING[_pendingProduct?.productCategory] || PRODUCT_PRICING['lami-gloss'];
+
+      const html = `
+      <div class="cart-qty-overlay" id="cartQtyModal">
+        <div class="cart-qty-dialog">
+          <button class="cart-qty-close" id="cartQtyClose" aria-label="Close">&times;</button>
+          <h3 class="cart-qty-title">Add to Cart</h3>
+          <p class="cart-qty-product-name" id="cartQtyName"></p>
+          <div class="cart-qty-body">${buildModalContent(pricing)}</div>
+          <button type="button" class="cart-qty-confirm" id="cartQtyConfirm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Add to Cart — <span class="confirm-total">AED 0</span>
+          </button>
+        </div>
+      </div>`;
+      document.body.insertAdjacentHTML('beforeend', html);
+
+      // Events
+      const overlay = document.getElementById('cartQtyModal');
+      document.getElementById('cartQtyClose').addEventListener('click', closeCartModal);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCartModal(); });
+
+      // Size selection
+      overlay.querySelectorAll('.cart-qty-size-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          overlay.querySelectorAll('.cart-qty-size-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      // Board type toggle
+      overlay.querySelectorAll('.cart-qty-board-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          overlay.querySelectorAll('.cart-qty-board-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updatePriceDisplay();
+        });
+      });
+
+      // Face toggle
+      overlay.querySelectorAll('.cart-qty-face-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          overlay.querySelectorAll('.cart-qty-face-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updatePriceDisplay();
+        });
+      });
+
+      // Quantity stepper
+      const qtyInput = document.getElementById('cartQtyInput');
+      document.getElementById('cartQtyMinus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        if (v > 1) { qtyInput.value = v - 1; updatePriceDisplay(); }
+      });
+      document.getElementById('cartQtyPlus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        qtyInput.value = v + 1;
+        updatePriceDisplay();
+      });
+      qtyInput.addEventListener('input', updatePriceDisplay);
+
+      // Confirm
+      document.getElementById('cartQtyConfirm').addEventListener('click', () => {
+        if (!_pendingProduct) return;
+        const pricing = PRODUCT_PRICING[_pendingProduct.productCategory];
+        const board = overlay.querySelector('.cart-qty-board-btn.active')?.dataset.board || 'standard';
+        const face = overlay.querySelector('.cart-qty-face-btn.active')?.dataset.face || '1face';
+        const qty = Math.max(1, parseInt(qtyInput.value) || 1);
+        const unitPrice = getUnitPrice();
+
+        _pendingProduct.size = overlay.querySelector('.cart-qty-size-btn.active')?.dataset.size || pricing?.sizes?.[0] || '2800 × 1220 × 18 mm';
+        _pendingProduct.boardType = board;
+        _pendingProduct.faceOption = pricing?.hasFace ? face : 'standard';
+        _pendingProduct.quantity = qty;
+        _pendingProduct.unitPrice = unitPrice;
+        _pendingProduct.totalPrice = unitPrice * qty;
+        commitToCart(_pendingProduct);
+        closeCartModal();
+      });
+    }
+
+    function openCartModal(productData) {
+      _pendingProduct = productData;
+      injectCartModal();
+      document.getElementById('cartQtyName').textContent = productData.name + ' (' + productData.code + ')';
+      document.getElementById('cartQtyInput').value = 1;
+      updatePriceDisplay();
+      document.getElementById('cartQtyModal').classList.add('active');
+    }
+
+    function closeCartModal() {
+      const overlay = document.getElementById('cartQtyModal');
+      if (overlay) overlay.classList.remove('active');
+      _pendingProduct = null;
+    }
+
+    // ─── Actually add to localStorage ─────────────────
+    function commitToCart(productData) {
       try {
         const stored = localStorage.getItem(CART_STORAGE_KEY);
         let cart = stored ? JSON.parse(stored) : [];
-        
-        const existingIndex = cart.findIndex(item => item.id === productData.id);
-        
+        const itemId = productData.code + '_' + (productData.boardType || '') + '_' + (productData.faceOption || '');
+        const existingIndex = cart.findIndex(item => item.id === itemId);
         if (existingIndex !== -1) {
-          cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+          cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + (productData.quantity || 1);
+          cart[existingIndex].totalPrice = cart[existingIndex].unitPrice * cart[existingIndex].quantity;
         } else {
           cart.push({
             ...productData,
-            quantity: 1,
-            width: '',
-            height: '',
-            depth: ''
+            id: itemId,
+            quantity: productData.quantity || 1
           });
         }
-        
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         updateCartBadgeDisplay(cart);
         showCartNotification(productData.name);
@@ -3718,13 +4209,18 @@
         console.error('Error adding to cart:', e);
       }
     }
-    
+
+    // Opens the modal
+    function addProductToCart(productData, event) {
+      if (event) { event.preventDefault(); event.stopPropagation(); }
+      openCartModal(productData);
+    }
+
     // Show notification when item is added
     function showCartNotification(productName) {
-      // Remove existing notification
       const existing = document.querySelector('.cart-add-notification');
       if (existing) existing.remove();
-      
+
       const notification = document.createElement('div');
       notification.className = 'cart-add-notification';
       notification.innerHTML = `
@@ -3733,10 +4229,10 @@
           <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
         <span>${productName} added to cart!</span>
-        <a href="checkout.html">View Cart</a>
+        <a href="javascript:void(0)" onclick="handleCartClick(event)">View Cart</a>
       `;
       document.body.appendChild(notification);
-      
+
       setTimeout(() => {
         notification.classList.add('fade-out');
         setTimeout(() => notification.remove(), 400);
@@ -3787,6 +4283,7 @@
             code: params.get('code') || '',
             type: decodeURIComponent(params.get('type') || '').replace(/%20/g, ' '),
             category: params.get('space') || '',
+            productCategory: item.dataset.category || 'lami-gloss',
             frontImage: decodeURIComponent(params.get('image') || '').replace(/%20/g, ' ')
           };
           
@@ -3811,21 +4308,13 @@
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            if (window.forestaAuthModal) {
-              window.forestaAuthModal.requireAuth(addProductToCart, [productData, e]);
-            } else {
-              addProductToCart(productData, e);
-            }
+            addProductToCart(productData, e);
           });
           cartBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            if (window.forestaAuthModal) {
-              window.forestaAuthModal.requireAuth(addProductToCart, [productData, e]);
-            } else {
-              addProductToCart(productData, e);
-            }
+            addProductToCart(productData, e);
           });
           
           // Insert after color-name
