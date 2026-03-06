@@ -398,6 +398,7 @@ window.updateQuantity = function(productId, change) {
   const item = cart.find(item => item.id === productId);
   if (item) {
     item.quantity = Math.max(1, item.quantity + change);
+    if (item.unitPrice) item.totalPrice = item.unitPrice * item.quantity;
     saveCartToStorage();
     updateCartDisplay();
   }
@@ -511,7 +512,14 @@ function updateCartDisplay() {
   if (emptyCart) emptyCart.style.display = 'none';
   if (nextBtn) nextBtn.disabled = false;
   
-  cartContainer.innerHTML = cart.map(item => `
+  // Helper labels
+  function _boardLabel(bt) { return bt === 'mr' ? 'MR Grade' : 'Standard'; }
+  function _faceLabel(fo) { return fo === '2face' ? '2 Face' : '1 Face'; }
+
+  cartContainer.innerHTML = cart.map(item => {
+    const hasPricing = item.unitPrice > 0;
+    const showFace = item.productCategory && item.productCategory !== 'marble-acrylic';
+    return `
     <div class="cart-item" data-id="${item.id}">
       <div class="cart-item-image">
         <img src="${item.frontImage}" alt="${item.name}">
@@ -522,13 +530,22 @@ function updateCartDisplay() {
           <span>${item.code || ''}</span>
           <span>${item.type}</span>
         </p>
-        <div class="cart-item-quantity">
-          <span class="quantity-label">Quantity:</span>
-          <div class="quantity-controls">
-            <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
-            <span class="quantity-value">${item.quantity}</span>
-            <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+        ${item.size || item.boardType || item.faceOption ? `
+        <div class="cart-item-tags">
+          ${item.size ? `<span class="cart-tag tag-size">${item.size}</span>` : ''}
+          ${item.boardType ? `<span class="cart-tag tag-board">${_boardLabel(item.boardType)}</span>` : ''}
+          ${showFace && item.faceOption ? `<span class="cart-tag tag-face">${_faceLabel(item.faceOption)}</span>` : ''}
+        </div>` : ''}
+        <div class="cart-item-bottom">
+          <div class="cart-item-quantity">
+            <span class="quantity-label">Qty:</span>
+            <div class="quantity-controls">
+              <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+              <span class="quantity-value">${item.quantity}</span>
+              <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+            </div>
           </div>
+          ${hasPricing ? `<div class="cart-item-price">AED ${item.totalPrice.toFixed(2)}</div>` : ''}
         </div>
       </div>
       <div class="cart-item-actions">
@@ -542,15 +559,35 @@ function updateCartDisplay() {
           </svg>
         </button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+
+  // Cart pricing totals
+  const subtotal = cart.reduce((s, i) => s + (i.totalPrice || 0), 0);
+  if (subtotal > 0) {
+    const vat = subtotal * 0.05;
+    const grand = subtotal + vat;
+    cartContainer.insertAdjacentHTML('beforeend', `
+      <div class="cart-totals">
+        <div class="cart-totals-row"><span>Subtotal</span><span>AED ${subtotal.toFixed(2)}</span></div>
+        <div class="cart-totals-row"><span>VAT (5%)</span><span>AED ${vat.toFixed(2)}</span></div>
+        <div class="cart-totals-row cart-totals-grand"><span>Grand Total</span><span>AED ${grand.toFixed(2)}</span></div>
+      </div>
+    `);
+  }
 }
 
 function updateProductDetailsList() {
   const productList = document.getElementById('productDetailsList');
   if (!productList) return;
-  
-  productList.innerHTML = cart.map(item => `
+
+  function _boardLabel(bt) { return bt === 'mr' ? 'MR Grade' : 'Standard'; }
+  function _faceLabel(fo) { return fo === '2face' ? '2 Face' : '1 Face'; }
+
+  productList.innerHTML = cart.map(item => {
+    const showFace = item.productCategory && item.productCategory !== 'marble-acrylic';
+    const hasPricing = item.unitPrice > 0;
+    return `
     <div class="product-detail-card" data-id="${item.id}">
       <div class="product-detail-header">
         <div class="product-detail-image">
@@ -561,34 +598,22 @@ function updateProductDetailsList() {
           <p>${item.code || ''} • ${item.type} • Qty: ${item.quantity}</p>
         </div>
       </div>
-      <div class="product-detail-fields">
-        <div class="form-group full-width">
-          <label>Panel Size <span class="required">*</span></label>
-          <select class="size-select" data-id="${item.id}">
-            <option value="">Select Size</option>
-            <option value="1220 × 3050 × 18mm" ${item.size === '1220 × 3050 × 18mm' ? 'selected' : ''}>1220 × 3050 × 18mm</option>
-            <option value="1220 × 2800 × 18mm" ${item.size === '1220 × 2800 × 18mm' ? 'selected' : ''}>1220 × 2800 × 18mm</option>
-            <option value="1220 × 2440 × 18mm" ${item.size === '1220 × 2440 × 18mm' ? 'selected' : ''}>1220 × 2440 × 18mm</option>
-          </select>
-        </div>
+      <div class="product-detail-specs">
+        <div class="spec-row"><span class="spec-label">Panel Size</span><span class="spec-value">${item.size || '—'}</span></div>
+        ${item.boardType ? `<div class="spec-row"><span class="spec-label">Board Type</span><span class="spec-value">${_boardLabel(item.boardType)}</span></div>` : ''}
+        ${showFace && item.faceOption ? `<div class="spec-row"><span class="spec-label">Face Option</span><span class="spec-value">${_faceLabel(item.faceOption)}</span></div>` : ''}
+        ${hasPricing ? `<div class="spec-row"><span class="spec-label">Unit Price</span><span class="spec-value">AED ${item.unitPrice.toFixed(2)}</span></div>
+        <div class="spec-row spec-total"><span class="spec-label">Line Total</span><span class="spec-value">AED ${item.totalPrice.toFixed(2)}</span></div>` : ''}
       </div>
-    </div>
-  `).join('');
-  
-  // Add event listeners for size select
-  productList.querySelectorAll('.size-select').forEach(select => {
-    select.addEventListener('change', (e) => {
-      const id = e.target.dataset.id;
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.size = e.target.value;
-        saveCartToStorage();
-      }
-    });
-  });
+    </div>`;
+  }).join('');
 }
 
 function updateSummary() {
+  // Helper labels
+  function _boardLabel(bt) { return bt === 'mr' ? 'MR Grade' : 'Standard'; }
+  function _faceLabel(fo) { return fo === '2face' ? '2 Face' : '1 Face'; }
+
   // Update customer summary
   const customerSummary = document.getElementById('customerSummary');
   if (customerSummary) {
@@ -611,19 +636,21 @@ function updateSummary() {
           <span class="value">${customerData.company}</span>
         </div>
       ` : ''}
-      ${customerData.notes ? `
-        <div class="summary-row">
-          <span class="label">Notes</span>
-          <span class="value">${customerData.notes}</span>
-        </div>
-      ` : ''}
     `;
   }
   
   // Update products summary
   const productsSummary = document.getElementById('productsSummary');
   if (productsSummary) {
-    productsSummary.innerHTML = cart.map(item => `
+    const subtotal = cart.reduce((s, i) => s + (i.totalPrice || 0), 0);
+    const vat = subtotal * 0.05;
+    const grand = subtotal + vat;
+    const hasPricing = subtotal > 0;
+
+    productsSummary.innerHTML = cart.map(item => {
+      const showFace = item.productCategory && item.productCategory !== 'marble-acrylic';
+      const itemHasPrice = item.unitPrice > 0;
+      return `
       <div class="summary-product">
         <div class="summary-product-image">
           <img src="${item.frontImage}" alt="${item.name}">
@@ -632,12 +659,32 @@ function updateSummary() {
           <h4 class="summary-product-name">${item.name}</h4>
           <p class="summary-product-meta">
             ${item.code || ''} • ${item.type}<br>
-            Quantity: ${item.quantity}<br>
-            Size: ${item.size || 'Not selected'}
+            Size: ${item.size || '—'}
+            ${item.boardType ? ` • Board: ${_boardLabel(item.boardType)}` : ''}
+            ${showFace && item.faceOption ? ` • ${_faceLabel(item.faceOption)}` : ''}<br>
+            Quantity: ${item.quantity}
+            ${itemHasPrice ? ` • AED ${item.unitPrice.toFixed(2)} × ${item.quantity} = <strong>AED ${item.totalPrice.toFixed(2)}</strong>` : ''}
           </p>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('') + (hasPricing ? `
+      <div class="summary-pricing-totals">
+        <div class="summary-pricing-row"><span>Subtotal</span><span>AED ${subtotal.toFixed(2)}</span></div>
+        <div class="summary-pricing-row"><span>VAT (5%)</span><span>AED ${vat.toFixed(2)}</span></div>
+        <div class="summary-pricing-row summary-pricing-grand"><span>Grand Total</span><span>AED ${grand.toFixed(2)}</span></div>
+      </div>` : '');
+  }
+
+  // Additional Notes
+  const notesSummarySection = document.getElementById('notesSummarySection');
+  const notesSummary = document.getElementById('notesSummary');
+  if (notesSummarySection && notesSummary) {
+    if (customerData.notes) {
+      notesSummarySection.style.display = '';
+      notesSummary.innerHTML = `<p style="margin:0;color:var(--checkout-text-muted);line-height:1.6;">${customerData.notes}</p>`;
+    } else {
+      notesSummarySection.style.display = 'none';
+    }
   }
 }
 
@@ -715,19 +762,6 @@ function validateStep2() {
     }
   });
   
-  // Validate product sizes
-  cart.forEach(item => {
-    const sizeSelect = document.querySelector(`.size-select[data-id="${item.id}"]`);
-    
-    if (sizeSelect && !sizeSelect.value) {
-      sizeSelect.style.borderColor = 'var(--checkout-error)';
-      isValid = false;
-      if (!firstError) firstError = sizeSelect;
-    } else if (sizeSelect) {
-      sizeSelect.style.borderColor = '';
-    }
-  });
-  
   // Scroll to first error
   if (!isValid && firstError) {
     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -749,12 +783,6 @@ function collectFormData() {
     company: document.getElementById('customerCompany')?.value || '',
     notes: document.getElementById('additionalNotes')?.value || ''
   };
-  
-  // Collect size data
-  cart.forEach(item => {
-    const sizeSelect = document.querySelector(`.size-select[data-id="${item.id}"]`);
-    if (sizeSelect) item.size = sizeSelect.value;
-  });
   
   saveCustomerToStorage();
   saveCartToStorage();
@@ -961,12 +989,19 @@ function _imgToBase64(url) {
  */
 async function generatePDFBlob() {
   if (!window.jspdf || !window.jspdf.jsPDF) {
-    console.error('jsPDF not loaded');
+    console.error('jsPDF not loaded – check CDN script in checkout.html');
+    alert('PDF library failed to load. Please check your internet connection and reload the page.');
     return null;
   }
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  if (typeof doc.autoTable !== 'function') {
+    console.error('jsPDF-AutoTable plugin not loaded');
+    alert('PDF table plugin failed to load. Please reload the page.');
+    return null;
+  }
 
   const PAGE_W = 210;
   const PAGE_H = 297;
@@ -991,23 +1026,30 @@ async function generatePDFBlob() {
   let logoData = null;
   try {
     const origB64 = await _imgToBase64('assets/logo.png');
-    // Convert logo to all-white via canvas
-    const tmpImg = new Image();
-    tmpImg.src = origB64;
-    await new Promise((res, rej) => { tmpImg.onload = res; tmpImg.onerror = rej; });
-    const cvs = document.createElement('canvas');
-    cvs.width = tmpImg.naturalWidth;
-    cvs.height = tmpImg.naturalHeight;
-    const ctx = cvs.getContext('2d');
-    ctx.drawImage(tmpImg, 0, 0);
-    const imgD = ctx.getImageData(0, 0, cvs.width, cvs.height);
-    const px = imgD.data;
-    for (let i = 0; i < px.length; i += 4) {
-      if (px[i + 3] > 0) { px[i] = 255; px[i + 1] = 255; px[i + 2] = 255; }
+    if (origB64) {
+      // Convert logo to all-white via canvas
+      const tmpImg = new Image();
+      tmpImg.src = origB64;
+      await new Promise((res, rej) => {
+        tmpImg.onload = res;
+        tmpImg.onerror = rej;
+        // Safety timeout – don't hang forever
+        setTimeout(res, 3000);
+      });
+      const cvs = document.createElement('canvas');
+      cvs.width = tmpImg.naturalWidth || 200;
+      cvs.height = tmpImg.naturalHeight || 70;
+      const ctx = cvs.getContext('2d');
+      ctx.drawImage(tmpImg, 0, 0);
+      const imgD = ctx.getImageData(0, 0, cvs.width, cvs.height);
+      const px = imgD.data;
+      for (let i = 0; i < px.length; i += 4) {
+        if (px[i + 3] > 0) { px[i] = 255; px[i + 1] = 255; px[i + 2] = 255; }
+      }
+      ctx.putImageData(imgD, 0, 0);
+      logoData = cvs.toDataURL('image/png');
     }
-    ctx.putImageData(imgD, 0, 0);
-    logoData = cvs.toDataURL('image/png');
-  } catch (_) { /* skip */ }
+  } catch (_) { /* skip logo */ }
 
   // ═══════════════════════════════════════════════════
   // FULL-WIDTH DARK GREEN HEADER BAND
@@ -1128,15 +1170,58 @@ async function generatePDFBlob() {
   doc.line(MARGIN, y, PAGE_W - MARGIN, y);
   y += 3;
 
-  const tableHead = [['#', 'Product Name', 'Code', 'Category', 'Panel Size', 'Qty']];
-  const tableBody = cart.map((item, i) => [
-    String(i + 1),
-    item.name || '-',
-    item.code || '-',
-    item.type || '-',
-    item.size || 'Not selected',
-    String(item.quantity)
-  ]);
+  // Helper labels for PDF
+  function _pdfBoard(bt) { return bt === 'mr' ? 'MR Grade' : 'Standard'; }
+  function _pdfFace(fo) { return fo === '2face' ? '2 Face' : '1 Face'; }
+
+  const hasPricing = cart.some(i => i.unitPrice > 0);
+
+  const tableHead = hasPricing
+    ? [['#', 'Product Name', 'Code', 'Board / Face', 'Panel Size', 'Qty', 'Unit (AED)', 'Total (AED)']]
+    : [['#', 'Product Name', 'Code', 'Category', 'Panel Size', 'Qty']];
+
+  const tableBody = cart.map((item, i) => {
+    const showFace = item.productCategory && item.productCategory !== 'marble-acrylic';
+    const boardFace = [item.boardType ? _pdfBoard(item.boardType) : '', showFace && item.faceOption ? _pdfFace(item.faceOption) : ''].filter(Boolean).join(' / ') || '-';
+    if (hasPricing) {
+      return [
+        String(i + 1),
+        item.name || '-',
+        item.code || '-',
+        boardFace,
+        item.size || 'N/A',
+        String(item.quantity),
+        item.unitPrice ? item.unitPrice.toFixed(2) : '-',
+        item.totalPrice ? item.totalPrice.toFixed(2) : '-'
+      ];
+    }
+    return [
+      String(i + 1),
+      item.name || '-',
+      item.code || '-',
+      item.type || '-',
+      item.size || 'Not selected',
+      String(item.quantity)
+    ];
+  });
+
+  const colStyles = hasPricing ? {
+    0: { cellWidth: 8, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
+    1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
+    2: { cellWidth: 20, halign: 'left' },
+    3: { cellWidth: 26, halign: 'left' },
+    4: { cellWidth: 28, halign: 'center' },
+    5: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: forestGreen },
+    6: { cellWidth: 20, halign: 'right' },
+    7: { cellWidth: 22, halign: 'right', fontStyle: 'bold', textColor: forestGreen }
+  } : {
+    0: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
+    1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
+    2: { cellWidth: 26, halign: 'left' },
+    3: { cellWidth: 28, halign: 'left' },
+    4: { cellWidth: 30, halign: 'center' },
+    5: { cellWidth: 14, halign: 'center', fontStyle: 'bold', textColor: forestGreen }
+  };
 
   doc.autoTable({
     startY: y,
@@ -1149,29 +1234,22 @@ async function generatePDFBlob() {
       fillColor: darkGreen,
       textColor: white,
       fontStyle: 'bold',
-      fontSize: 8,
-      cellPadding: { top: 3.5, bottom: 3.5, left: 4, right: 4 },
+      fontSize: 7.5,
+      cellPadding: { top: 3.5, bottom: 3.5, left: 3, right: 3 },
       halign: 'left',
       lineWidth: 0,
       minCellHeight: 8
     },
     bodyStyles: {
-      fontSize: 8.5,
+      fontSize: 8,
       textColor: black,
-      cellPadding: { top: 3.5, bottom: 3.5, left: 4, right: 4 },
+      cellPadding: { top: 3.5, bottom: 3.5, left: 3, right: 3 },
       lineWidth: 0,
       overflow: 'linebreak',
       minCellHeight: 9
     },
     alternateRowStyles: { fillColor: [245, 248, 245] },
-    columnStyles: {
-      0: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
-      1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
-      2: { cellWidth: 26, halign: 'left' },
-      3: { cellWidth: 28, halign: 'left' },
-      4: { cellWidth: 30, halign: 'center' },
-      5: { cellWidth: 14, halign: 'center', fontStyle: 'bold', textColor: forestGreen }
-    },
+    columnStyles: colStyles,
     didDrawPage: (data) => {
       // Redraw header band on new pages
       if (data.pageNumber > 1) {
@@ -1205,11 +1283,22 @@ async function generatePDFBlob() {
 
   y = doc.lastAutoTable.finalY + 10;
 
+  // Ensure summary section doesn't overlap footer
+  const footerBandH = 28;
+  const safeBottom = PAGE_H - footerBandH - 10;
+  if (y > safeBottom) {
+    doc.addPage();
+    y = 20;
+  }
+
   // ═══════════════════════════════════════════════════
   // QUOTATION SUMMARY
   // ═══════════════════════════════════════════════════
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalProducts = cart.length;
+  const subtotalAmt = cart.reduce((s, i) => s + (i.totalPrice || 0), 0);
+  const vatAmt = subtotalAmt * 0.05;
+  const grandAmt = subtotalAmt + vatAmt;
 
   // Section heading
   doc.setFillColor(...accentGold);
@@ -1224,43 +1313,81 @@ async function generatePDFBlob() {
   doc.line(MARGIN, y, PAGE_W - MARGIN, y);
   y += 6;
 
-  // Summary — three-column layout
-  const cardGap = 6;
-  const cardW = (CONTENT_W - cardGap * 2) / 3;
+  if (subtotalAmt > 0) {
+    // Pricing summary table (right-aligned)
+    const priceColW = 80;
+    const priceX = PAGE_W - MARGIN - priceColW;
+    const rowH = 8;
 
-  // Card 1 – Total Products
-  doc.setFillColor(...lightBg);
-  doc.roundedRect(MARGIN, y, cardW, 20, 3, 3, 'F');
-  doc.setFillColor(...forestGreen);
-  doc.roundedRect(MARGIN, y, cardW, 1.2, 1, 1, 'F'); // top accent
-  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
-  doc.text('TOTAL PRODUCTS', MARGIN + cardW / 2, y + 7, { align: 'center' });
-  doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
-  doc.text(String(totalProducts), MARGIN + cardW / 2, y + 16, { align: 'center' });
+    // Subtotal
+    doc.setFillColor(...lightBg);
+    doc.rect(priceX, y, priceColW, rowH, 'F');
+    doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(...black);
+    doc.text('Subtotal', priceX + 4, y + 5.5);
+    doc.text(`AED ${subtotalAmt.toFixed(2)}`, priceX + priceColW - 4, y + 5.5, { align: 'right' });
+    y += rowH + 1;
 
-  // Card 2 – Total Panels
-  const card2X = MARGIN + cardW + cardGap;
-  doc.setFillColor(...lightBg);
-  doc.roundedRect(card2X, y, cardW, 20, 3, 3, 'F');
-  doc.setFillColor(...forestGreen);
-  doc.roundedRect(card2X, y, cardW, 1.2, 1, 1, 'F');
-  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
-  doc.text('TOTAL PANELS', card2X + cardW / 2, y + 7, { align: 'center' });
-  doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
-  doc.text(String(totalItems), card2X + cardW / 2, y + 16, { align: 'center' });
+    // VAT
+    doc.setFillColor(...lightBg);
+    doc.rect(priceX, y, priceColW, rowH, 'F');
+    doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(...mediumGray);
+    doc.text('VAT (5%)', priceX + 4, y + 5.5);
+    doc.text(`AED ${vatAmt.toFixed(2)}`, priceX + priceColW - 4, y + 5.5, { align: 'right' });
+    y += rowH + 1;
 
-  // Card 3 – Reference
-  const card3X = MARGIN + (cardW + cardGap) * 2;
-  doc.setFillColor(...lightBg);
-  doc.roundedRect(card3X, y, cardW, 20, 3, 3, 'F');
-  doc.setFillColor(...accentGold);
-  doc.roundedRect(card3X, y, cardW, 1.2, 1, 1, 'F');
-  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
-  doc.text('REFERENCE', card3X + cardW / 2, y + 7, { align: 'center' });
-  doc.setFontSize(14); doc.setFont('helvetica', 'bold'); doc.setTextColor(...accentGold);
-  doc.text(`#${refNum}`, card3X + cardW / 2, y + 16, { align: 'center' });
+    // Grand Total
+    doc.setFillColor(...darkGreen);
+    doc.roundedRect(priceX, y, priceColW, rowH + 2, 2, 2, 'F');
+    doc.setFontSize(10); doc.setFont('helvetica', 'bold'); doc.setTextColor(...white);
+    doc.text('Grand Total', priceX + 4, y + 6.5);
+    doc.text(`AED ${grandAmt.toFixed(2)}`, priceX + priceColW - 4, y + 6.5, { align: 'right' });
+    y += rowH + 8;
 
-  y += 28;
+    // Panels and products counters (left side)
+    const counterY = y - (rowH * 3 + 2 + 8);
+    doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+    doc.text(`${totalProducts} product${totalProducts !== 1 ? 's' : ''}  •  ${totalItems} panel${totalItems !== 1 ? 's' : ''}`, MARGIN, counterY + 5.5);
+    doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...accentGold);
+    doc.text(`REF: ${refNum}`, MARGIN, counterY + 14);
+  } else {
+    // No-pricing layout: three-column summary cards
+    const cardGap = 6;
+    const cardW = (CONTENT_W - cardGap * 2) / 3;
+
+    // Card 1 – Total Products
+    doc.setFillColor(...lightBg);
+    doc.roundedRect(MARGIN, y, cardW, 20, 3, 3, 'F');
+    doc.setFillColor(...forestGreen);
+    doc.roundedRect(MARGIN, y, cardW, 1.2, 1, 1, 'F');
+    doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+    doc.text('TOTAL PRODUCTS', MARGIN + cardW / 2, y + 7, { align: 'center' });
+    doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
+    doc.text(String(totalProducts), MARGIN + cardW / 2, y + 16, { align: 'center' });
+
+    // Card 2 – Total Panels
+    const card2X = MARGIN + cardW + cardGap;
+    doc.setFillColor(...lightBg);
+    doc.roundedRect(card2X, y, cardW, 20, 3, 3, 'F');
+    doc.setFillColor(...forestGreen);
+    doc.roundedRect(card2X, y, cardW, 1.2, 1, 1, 'F');
+    doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+    doc.text('TOTAL PANELS', card2X + cardW / 2, y + 7, { align: 'center' });
+    doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.setTextColor(...forestGreen);
+    doc.text(String(totalItems), card2X + cardW / 2, y + 16, { align: 'center' });
+
+    // Card 3 – Reference
+    const card3X = MARGIN + (cardW + cardGap) * 2;
+    doc.setFillColor(...lightBg);
+    doc.roundedRect(card3X, y, cardW, 20, 3, 3, 'F');
+    doc.setFillColor(...accentGold);
+    doc.roundedRect(card3X, y, cardW, 1.2, 1, 1, 'F');
+    doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
+    doc.text('REFERENCE', card3X + cardW / 2, y + 7, { align: 'center' });
+    doc.setFontSize(14); doc.setFont('helvetica', 'bold'); doc.setTextColor(...accentGold);
+    doc.text(`#${refNum}`, card3X + cardW / 2, y + 16, { align: 'center' });
+
+    y += 28;
+  }
 
   // Notes section (if present)
   if (customerData.notes) {
@@ -1279,7 +1406,7 @@ async function generatePDFBlob() {
   // ═══════════════════════════════════════════════════
   // FOOTER — Professional full-width band
   // ═══════════════════════════════════════════════════
-  const footerBandH = 28;
+  // footerBandH already declared above in page-overflow check
   const footerY = PAGE_H - footerBandH;
 
   // Dark green footer band
@@ -1587,7 +1714,10 @@ function generateBookingMessage(refNum) {
   const ref  = refNum || '';
   const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  let message = `*Appointment Request – Foresta Wood Industries*\n`;
+  function _boardLabel(bt) { return bt === 'mr' ? 'MR Grade' : 'Standard'; }
+  function _faceLabel(fo) { return fo === '2face' ? '2 Face' : '1 Face'; }
+
+  let message = `*Quotation Request – Foresta Wood Industries*\n`;
   if (ref) message += `Ref: ${ref}  |  Date: ${date}\n`;
   message += `\n`;
 
@@ -1601,14 +1731,28 @@ function generateBookingMessage(refNum) {
 
   // ── Selected Products ──
   message += `*Selected Products*\n`;
+  const subtotal = cart.reduce((s, i) => s + (i.totalPrice || 0), 0);
   cart.forEach((item, index) => {
+    const showFace = item.productCategory && item.productCategory !== 'marble-acrylic';
     message += `${index + 1}. ${item.name}\n`;
     message += `   Code:     ${item.code || '-'}\n`;
     message += `   Category: ${item.type}\n`;
-    message += `   Panel Size: ${item.size || 'Not selected'}\n`;
+    message += `   Panel Size: ${item.size || '—'}\n`;
+    if (item.boardType) message += `   Board: ${_boardLabel(item.boardType)}\n`;
+    if (showFace && item.faceOption) message += `   Face: ${_faceLabel(item.faceOption)}\n`;
     message += `   Quantity: ${item.quantity}\n`;
+    if (item.unitPrice) message += `   Price: AED ${item.unitPrice.toFixed(2)} × ${item.quantity} = AED ${item.totalPrice.toFixed(2)}\n`;
     message += `\n`;
   });
+
+  if (subtotal > 0) {
+    const vat = subtotal * 0.05;
+    const grand = subtotal + vat;
+    message += `*Pricing*\n`;
+    message += `Subtotal:    AED ${subtotal.toFixed(2)}\n`;
+    message += `VAT (5%):    AED ${vat.toFixed(2)}\n`;
+    message += `Grand Total: AED ${grand.toFixed(2)}\n\n`;
+  }
 
   if (customerData.notes) {
     message += `*Additional Notes*\n${customerData.notes}\n\n`;
@@ -1634,9 +1778,14 @@ function showSuccessStep(method, refNum) {
       code: item.code,
       type: item.type,
       category: item.category,
+      productCategory: item.productCategory,
       frontImage: item.frontImage,
       size: item.size || '',
-      quantity: item.quantity || 1
+      boardType: item.boardType || '',
+      faceOption: item.faceOption || '',
+      quantity: item.quantity || 1,
+      unitPrice: item.unitPrice || 0,
+      totalPrice: item.totalPrice || 0
     }))
   });
 
