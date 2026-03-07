@@ -1005,7 +1005,7 @@ async function generatePDFBlob() {
 
   const PAGE_W = 210;
   const PAGE_H = 297;
-  const MARGIN = 18;
+  const MARGIN = 14;
   const CONTENT_W = PAGE_W - MARGIN * 2;
 
   // Brand palette
@@ -1206,21 +1206,21 @@ async function generatePDFBlob() {
   });
 
   const colStyles = hasPricing ? {
-    0: { cellWidth: 8, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
+    0: { cellWidth: 8,  halign: 'center', fontStyle: 'bold', textColor: mediumGray },
     1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
-    2: { cellWidth: 20, halign: 'left' },
-    3: { cellWidth: 26, halign: 'left' },
-    4: { cellWidth: 28, halign: 'center' },
-    5: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: forestGreen },
-    6: { cellWidth: 20, halign: 'right' },
-    7: { cellWidth: 22, halign: 'right', fontStyle: 'bold', textColor: forestGreen }
+    2: { cellWidth: 22,  halign: 'left' },
+    3: { cellWidth: 30,  halign: 'left' },
+    4: { cellWidth: 34,  halign: 'center' },
+    5: { cellWidth: 11,  halign: 'center', fontStyle: 'bold', textColor: forestGreen },
+    6: { cellWidth: 22,  halign: 'right' },
+    7: { cellWidth: 24,  halign: 'right', fontStyle: 'bold', textColor: forestGreen }
   } : {
-    0: { cellWidth: 10, halign: 'center', fontStyle: 'bold', textColor: mediumGray },
+    0: { cellWidth: 10,  halign: 'center', fontStyle: 'bold', textColor: mediumGray },
     1: { cellWidth: 'auto', halign: 'left', fontStyle: 'bold' },
-    2: { cellWidth: 26, halign: 'left' },
-    3: { cellWidth: 28, halign: 'left' },
-    4: { cellWidth: 30, halign: 'center' },
-    5: { cellWidth: 14, halign: 'center', fontStyle: 'bold', textColor: forestGreen }
+    2: { cellWidth: 28,  halign: 'left' },
+    3: { cellWidth: 32,  halign: 'left' },
+    4: { cellWidth: 36,  halign: 'center' },
+    5: { cellWidth: 15,  halign: 'center', fontStyle: 'bold', textColor: forestGreen }
   };
 
   doc.autoTable({
