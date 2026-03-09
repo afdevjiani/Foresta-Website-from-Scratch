@@ -658,12 +658,12 @@ function updateSummary() {
         <div class="summary-product-details">
           <h4 class="summary-product-name">${item.name}</h4>
           <p class="summary-product-meta">
-            ${item.code || ''} • ${item.type}<br>
-            Size: ${item.size || '—'}
-            ${item.boardType ? ` • Board: ${_boardLabel(item.boardType)}` : ''}
-            ${showFace && item.faceOption ? ` • ${_faceLabel(item.faceOption)}` : ''}<br>
-            Quantity: ${item.quantity}
-            ${itemHasPrice ? ` • AED ${item.unitPrice.toFixed(2)} × ${item.quantity} = <strong>AED ${item.totalPrice.toFixed(2)}</strong>` : ''}
+            ${item.type}<br>
+            Color Code: ${item.code || '—'}<br>
+            Size: ${item.size || '—'}<br>
+            ${item.boardType ? `Board: ${_boardLabel(item.boardType)}${showFace && item.faceOption ? ` • ${_faceLabel(item.faceOption)}` : ''}<br>` : (showFace && item.faceOption ? `${_faceLabel(item.faceOption)}<br>` : '')}
+            Qty: ${item.quantity}<br>
+            ${itemHasPrice ? `Price: <strong>AED ${item.totalPrice.toFixed(2)}</strong>` : ''}
           </p>
         </div>
       </div>`;
