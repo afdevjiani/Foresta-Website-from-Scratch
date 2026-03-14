@@ -82,9 +82,10 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <video autoplay muted loop playsinline class="hero-video" preload="metadata" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
-          <source src="assets/Foresta_video.mp4" type="video/mp4">
-        </video>
+        <!-- Desktop video: src injected by JS only on desktop -->
+        <video id="heroVideoDesktop" muted loop playsinline class="hero-video hero-video-desktop" preload="none" poster="assets/logo.png" data-src="assets/Foresta_video.mp4" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture></video>
+        <!-- Mobile video: src injected by JS only on mobile -->
+        <video id="heroVideoMobile" muted loop playsinline class="hero-video hero-video-mobile" preload="none" poster="assets/logo.png" data-src="assets/Foresta_video_Mobile.mp4" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture></video>
         <div class="hero-overlay"></div>
       </div>
       

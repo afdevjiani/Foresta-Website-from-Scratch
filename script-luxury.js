@@ -738,7 +738,8 @@ function initParallax() {
         const scrolled = window.pageYOffset;
         
         // Parallax for hero video
-        const heroVideo = document.querySelector('.hero-video');
+        const isMobileVid = window.matchMedia('(max-width: 768px)').matches;
+        const heroVideo = document.getElementById(isMobileVid ? 'heroVideoMobile' : 'heroVideoDesktop') || document.querySelector('.hero-video');
         if (heroVideo) {
           const speed = 0.3;
           const yPos = scrolled * speed;
@@ -783,31 +784,22 @@ if (window.innerWidth > 768) {
 
 // ===== VIDEO OPTIMIZATION FOR MOBILE =====
 function optimizeVideoForMobile() {
-  const heroVideo = document.querySelector('.hero-video');
-  
+  const isMobile = window.innerWidth <= 768;
+  const heroVideo = document.getElementById(isMobile ? 'heroVideoMobile' : 'heroVideoDesktop')
+                    || document.querySelector('.hero-video');
+
   if (heroVideo) {
-    // Force play on mobile devices
-    if (window.innerWidth <= 768) {
-      // Ensure video is muted and can autoplay
-      heroVideo.muted = true;
-      heroVideo.setAttribute('muted', '');
-      heroVideo.setAttribute('playsinline', '');
-      
-      // Attempt to play with error handling
-      const playPromise = heroVideo.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Autoplay prevented, attempting user interaction trigger');
-          // Add a play button overlay or handle the error
-          document.addEventListener('touchstart', function() {
-            heroVideo.play().catch(e => console.log('Play failed:', e));
-          }, { once: true });
-        });
-      }
-    } else {
-      // Desktop - ensure video plays
-      heroVideo.play().catch(e => console.log('Video play error:', e));
+    heroVideo.muted = true;
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('playsinline', '');
+
+    const playPromise = heroVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        document.addEventListener('touchstart', function() {
+          heroVideo.play().catch(e => console.log('Play failed:', e));
+        }, { once: true });
+      });
     }
   }
 }
