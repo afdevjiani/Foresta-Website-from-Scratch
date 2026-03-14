@@ -738,8 +738,7 @@ function initParallax() {
         const scrolled = window.pageYOffset;
         
         // Parallax for hero video
-        const isMobileVid = window.matchMedia('(max-width: 768px)').matches;
-        const heroVideo = document.getElementById(isMobileVid ? 'heroVideoMobile' : 'heroVideoDesktop') || document.querySelector('.hero-video');
+        const heroVideo = document.getElementById('heroVideo') || document.querySelector('.hero-video');
         if (heroVideo) {
           const speed = 0.3;
           const yPos = scrolled * speed;
@@ -784,9 +783,7 @@ if (window.innerWidth > 768) {
 
 // ===== VIDEO OPTIMIZATION FOR MOBILE =====
 function optimizeVideoForMobile() {
-  const isMobile = window.innerWidth <= 768;
-  const heroVideo = document.getElementById(isMobile ? 'heroVideoMobile' : 'heroVideoDesktop')
-                    || document.querySelector('.hero-video');
+  const heroVideo = document.getElementById('heroVideo') || document.querySelector('.hero-video');
 
   if (heroVideo) {
     heroVideo.muted = true;
