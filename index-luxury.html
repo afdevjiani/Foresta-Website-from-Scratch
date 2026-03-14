@@ -82,9 +82,22 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <!-- Single adaptive hero video — src injected by video-control.js -->
-        <video id="heroVideo" autoplay muted loop playsinline class="hero-video loaded" preload="auto" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
+        <video id="heroVideo" muted loop playsinline class="hero-video" preload="auto" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
         </video>
+        <script>
+        (function(){
+          var v=document.getElementById('heroVideo');
+          if(!v)return;
+          var m=window.matchMedia('(max-width:768px)').matches;
+          v.src=m?'assets/Foresta_video_Mobile.mp4':'assets/Foresta_video.mp4';
+          v.muted=true;
+          v.load();
+          v.play().then(function(){v.classList.add('loaded');}).catch(function(){
+            v.addEventListener('canplay',function(){v.classList.add('loaded');v.play();},{once:true});
+            document.addEventListener('touchstart',function(){v.play().catch(function(){});},{once:true});
+          });
+        })();
+        </script>
         <div class="hero-overlay"></div>
       </div>
       
