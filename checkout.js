@@ -1068,21 +1068,19 @@ async function generatePDFBlob() {
   }
 
   // "Quotation Request" — below the green band
-  y = headerH + 1.2 + 6;
+  y = headerH + 1.2 + 12;
   doc.setTextColor(...darkGreen);
   doc.setFontSize(20);
-  doc.setFont('helvetica', 'bolditalic');
+  doc.setFont('helvetica', 'bold');
   doc.text('Quotation Request', PAGE_W / 2, y, { align: 'center' });
-
-  // Thin green separator under title
-  y += 4;
-  doc.setDrawColor(...accentGold);
-  doc.setLineWidth(0.4);
-  doc.line(PAGE_W / 2 - 30, y, PAGE_W / 2 + 30, y);
 
   // Date & Ref for use in customer section
   const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
-  const refNum = Date.now().toString().slice(-6);
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const serial = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+  const refNum = `FWI-QT-${dd}${mm}-${serial}`;
 
   y += 10;
 
@@ -1102,7 +1100,7 @@ async function generatePDFBlob() {
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...darkGreen);
   doc.text(dateStr, PAGE_W - MARGIN, y + 1, { align: 'right' });
-  doc.setTextColor(...accentGold);
+  doc.setTextColor(...darkGreen);
   doc.text(`REF: ${refNum}`, PAGE_W - MARGIN, y + 5.5, { align: 'right' });
 
   // Thin line under heading
