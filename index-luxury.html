@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Foresta Website - Luxury Product Configurator -->
@@ -6,11 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Foresta Wood Industries LLC - Where craftsmanship meets innovation. Premium MDF & wood solutions for discerning professionals.">
   <meta name="keywords" content="luxury MDF panels, premium wood solutions, sustainable wood, UAE wood industry, high-end wood panels">
+  <meta name="theme-color" content="#0C4326">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Foresta Wood Industries | Craftsmanship Refined">
+  <meta property="og:description" content="Premium MDF wood panels — Lami Gloss, Lami Matt, Marble & Acrylic. 45+ years of expertise from UAE.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/logo.png">
+  <meta property="og:locale" content="en_AE">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Foresta Wood Industries | Craftsmanship Refined">
+  <meta name="twitter:description" content="Premium MDF wood panels — Lami Gloss, Lami Matt, Marble & Acrylic. 45+ years of expertise from UAE.">
   <title>Foresta Wood Industries | Craftsmanship Refined</title>
   <!-- Critical CSS inline or main stylesheet -->
   <link rel="stylesheet" href="styles-luxury.css">
-  <link rel="stylesheet" href="auth-modal.css">
   <!-- Defer non-critical CSS -->
+  <link rel="stylesheet" href="auth-modal.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="role-personalization.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="product-configurator.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="chat-styles-modern.css" media="print" onload="this.media='all'">
@@ -19,6 +31,8 @@
   <!-- Preconnect and preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://www.gstatic.com">
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
   <link rel="preload" href="assets/logo.png" as="image">
@@ -82,16 +96,19 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <!-- Desktop hero video -->
-        <video id="heroVideoDesktop" autoplay muted loop playsinline class="hero-video hero-vid-desktop" poster="assets/logo.png">
-          <source src="assets/Foresta_video.mp4" type="video/mp4">
-        </video>
-        <!-- Mobile hero video -->
-        <video id="heroVideoMobile" autoplay muted loop playsinline class="hero-video hero-vid-mobile" poster="assets/logo.png">
-          <source src="assets/Foresta_video_Mobile.mp4" type="video/mp4">
-        </video>
+        <!-- Single hero video â€” correct source injected by JS based on screen width -->
+        <video id="heroVideo" muted loop playsinline preload="metadata" class="hero-video" poster="assets/logo.png"></video>
         <div class="hero-overlay"></div>
       </div>
+      <script>
+        (function(){
+          var v=document.getElementById('heroVideo');
+          var src=window.innerWidth<=768?'assets/Foresta_video_Mobile.mp4':'assets/Foresta_video.mp4';
+          v.src=src;
+          v.autoplay=true;
+          v.play().catch(function(){});
+        })();
+      </script>
       
       <div class="hero-content-luxury">
         <h1 class="hero-title fade-up">Craftsmanship Refined</h1>
@@ -118,7 +135,7 @@
         <div class="sizes-container">
           <div class="sizes-grid">
             <div class="size-card">
-              <div class="size-dimensions">1220 × 3050 × 18 <span class="size-unit">mm</span></div>
+              <div class="size-dimensions">1220 Ã— 3050 Ã— 18 <span class="size-unit">mm</span></div>
               <div class="size-specs-row">
                 <div class="size-spec"><span class="spec-val">1220</span><span class="spec-key">Width</span></div>
                 <div class="size-spec-divider"></div>
@@ -128,7 +145,7 @@
               </div>
             </div>
             <div class="size-card size-card--featured">
-              <div class="size-dimensions">1220 × 2800 × 18 <span class="size-unit">mm</span></div>
+              <div class="size-dimensions">1220 Ã— 2800 Ã— 18 <span class="size-unit">mm</span></div>
               <div class="size-specs-row">
                 <div class="size-spec"><span class="spec-val">1220</span><span class="spec-key">Width</span></div>
                 <div class="size-spec-divider"></div>
@@ -138,7 +155,7 @@
               </div>
             </div>
             <div class="size-card">
-              <div class="size-dimensions">1220 × 2440 × 18 <span class="size-unit">mm</span></div>
+              <div class="size-dimensions">1220 Ã— 2440 Ã— 18 <span class="size-unit">mm</span></div>
               <div class="size-specs-row">
                 <div class="size-spec"><span class="spec-val">1220</span><span class="spec-key">Width</span></div>
                 <div class="size-spec-divider"></div>
@@ -329,7 +346,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="ACACIA GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-113</p><p class="color-name">ACACIA GRAY</p>
@@ -340,7 +357,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png" alt="BRONZE GOLD GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/BRONZE%20GOLD%20GLOSS%20%20FWI-09-142.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/BRONZE%20GOLD%20GLOSS%20%20FWI-09-142.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-142</p><p class="color-name">BRONZE GOLD GLOSS</p>
@@ -351,7 +368,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-03-116.png" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20FWI-03-116.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20FWI-03-116.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -362,7 +379,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20GLITTER%20-%20FWI-07-116.webp" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLITTER%20FWI-07-116.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLITTER%20FWI-07-116.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -373,7 +390,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20GLOSS%20-%20FWI-09-116.webp" alt="CARDAMOM GREEN GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLOSS%20FWI-09-116.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLOSS%20FWI-09-116.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-116</p><p class="color-name">CARDAMOM GREEN GLOSS</p>
@@ -384,7 +401,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CREAM%20-%20%20FWI-03-103.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CREAM%20-%20%20FWI-03-103.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-103</p><p class="color-name">CREAM</p>
@@ -395,7 +412,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20GLOSS%20FWI-09-103.png" alt="CREAM GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CREAM%20-%20%20FWI-03-103.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CREAM%20-%20%20FWI-03-103.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-103</p><p class="color-name">CREAM GLOSS</p>
@@ -406,7 +423,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -417,7 +434,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/carmine%20red%20FWI-03-118.webp" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/carmine%20red%20FWI-03-118.webp" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-118</p><p class="color-name">CARMINE RED</p>
@@ -428,7 +445,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN%20%20%20%20%20%20%20%20%20%20GLOSS%20-%20%20%20%20%20%20FWI%20-09%20-105.png" alt="EARTH BROWN          GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-105</p><p class="color-name">EARTH BROWN          GLOSS</p>
@@ -439,7 +456,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN-%20%20FWI%20-03%20-105.png" alt="EARTH BROWN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20-%20FWI%20-03%20-105.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20-%20FWI%20-03%20-105.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-105</p><p class="color-name">EARTH BROWN</p>
@@ -450,7 +467,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="EMERALD" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-143</p><p class="color-name">EMERALD</p>
@@ -461,7 +478,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-108</p><p class="color-name">FANTASY BLUE</p>
@@ -472,7 +489,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -483,7 +500,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="GRAPHITE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-140</p><p class="color-name">GRAPHITE GRAY</p>
@@ -494,7 +511,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -505,7 +522,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="ICEBERG WHITE GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-101</p><p class="color-name">ICEBERG WHITE GLITTER</p>
@@ -516,7 +533,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="ICEBERG WHITE GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-101</p><p class="color-name">ICEBERG WHITE GLOSS</p>
@@ -527,7 +544,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="IVORY GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-115</p><p class="color-name">IVORY GRAY</p>
@@ -538,7 +555,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="IVORY GRAY GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-115</p><p class="color-name">IVORY GRAY GLITTER</p>
@@ -549,7 +566,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="IVORY GRAY GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-115</p><p class="color-name">IVORY GRAY GLOSS</p>
@@ -560,7 +577,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="IVORY WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-102</p><p class="color-name">IVORY WHITE</p>
@@ -571,7 +588,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/IVORY%20WHITE%20GLITTER%20-%20FWI-07-102.png" alt="IVORY WHITE GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -582,7 +599,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="LIGHT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-123</p><p class="color-name">LIGHT GRAY</p>
@@ -593,7 +610,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-114</p><p class="color-name">MILAN GRAY</p>
@@ -604,7 +621,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="MILAN GRAY GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-114</p><p class="color-name">MILAN GRAY GLITTER</p>
@@ -615,7 +632,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-127</p><p class="color-name">MODERN GRAY</p>
@@ -626,7 +643,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="OLIVE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-109</p><p class="color-name">OLIVE GREEN</p>
@@ -637,7 +654,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="PINE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-119</p><p class="color-name">PINE GRAY</p>
@@ -648,7 +665,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="PINE GRAY GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-119</p><p class="color-name">PINE GRAY GLITTER</p>
@@ -659,7 +676,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-117</p><p class="color-name">PUMPKIN RED</p>
@@ -670,7 +687,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="PURE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-107</p><p class="color-name">PURE GRAY</p>
@@ -681,7 +698,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PURE%20GRAY%20GLITTER-%20FWI-07-107.png" alt="PURE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-107</p><p class="color-name">PURE GRAY</p>
@@ -692,7 +709,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="ROMANCE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-141</p><p class="color-name">ROMANCE RED</p>
@@ -703,7 +720,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="SAPPHIRE BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -714,7 +731,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="SPACE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-110</p><p class="color-name">SPACE GRAY</p>
@@ -725,7 +742,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="TECH GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-139</p><p class="color-name">TECH GRAY</p>
@@ -736,7 +753,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="TWILIGHT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-104</p><p class="color-name">TWILIGHT GRAY</p>
@@ -747,7 +764,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="TWILIGHT GRAY GLITTER" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-104</p><p class="color-name">TWILIGHT GRAY GLITTER</p>
@@ -758,7 +775,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="TWILIGHT GRAY GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-104</p><p class="color-name">TWILIGHT GRAY GLOSS</p>
@@ -769,7 +786,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-122</p><p class="color-name">WISDOM BLACK</p>
@@ -782,7 +799,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ACACIA%20GRAY%20-%20FWI-04-113.png" alt="ACACIA GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-113</p><p class="color-name">ACACIA GRAY</p>
@@ -793,7 +810,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ALMOND%20YELLOW%20-%20FWI%20-%2004-138.png" alt="ALMOND YELLOW" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-138%20ALMOND%20YELLOW.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-138%20ALMOND%20YELLOW.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-138</p><p class="color-name">ALMOND YELLOW</p>
@@ -804,7 +821,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Barbie%20pink%20-%20FWI%20-%2004%20-124.png" alt="BARBIE PINK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/BARBIE%20PINK%20FWI-04-124%20%281%29.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/BARBIE%20PINK%20FWI-04-124%20%281%29.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-124</p><p class="color-name">BARBIE PINK</p>
@@ -815,7 +832,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="BRONZE GOLD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Bronze%20Gold%20Matt%20-%20%20FWI-10-142.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Bronze%20Gold%20Matt%20-%20%20FWI-10-142.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-142</p><p class="color-name">BRONZE GOLD MATT</p>
@@ -826,7 +843,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -837,7 +854,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CARDAMOM%20GREEN%20MATT%20-%20FWI-10-116.png" alt="CARDAMOM GREEN MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-116</p><p class="color-name">CARDAMOM GREEN MATT</p>
@@ -848,7 +865,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CREAM%20FWI-04-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20FWI-04-103.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20FWI-04-103.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-103</p><p class="color-name">CREAM</p>
@@ -859,7 +876,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="CREAM MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-103</p><p class="color-name">CREAM MATT</p>
@@ -870,7 +887,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -881,7 +898,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Carmine%20Red%20FWI-%2004-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Carmine%20Red%20FWI-%2004-118.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Carmine%20Red%20FWI-%2004-118.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-118</p><p class="color-name">CARMINE RED</p>
@@ -892,7 +909,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/DESERT%20GRAY%20-%20FWI-04-132.png" alt="DESERT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/DESERT%20GRAY%20-%20FWI-04-132.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/DESERT%20GRAY%20-%20FWI-04-132.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-132</p><p class="color-name">DESERT GRAY</p>
@@ -903,7 +920,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/EMERALD%20MATT-%20%20FWI%20-10%20-143.png" alt="EMERALD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/EMERALD%20MATT-%20%20FWI%20-10%20-143.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/EMERALD%20MATT-%20%20FWI%20-10%20-143.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-143</p><p class="color-name">EMERALD MATT</p>
@@ -914,7 +931,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FANTASY%20BLUE%20FWI-04-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-108.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-108.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-108</p><p class="color-name">FANTASY BLUE</p>
@@ -925,7 +942,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-04-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/GENTLEMAN%20GRAY%20-%20FWI-04-120.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/GENTLEMAN%20GRAY%20-%20FWI-04-120.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -936,7 +953,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GRAPHITE%20GRAY%20MATT%20-%20FWI-10-140.png" alt="GRAPHITE GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/GRAPHITE%20GRAY%20MATT%20-%20FWI-10-140.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/GRAPHITE%20GRAY%20MATT%20-%20FWI-10-140.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-140</p><p class="color-name">GRAPHITE GRAY MATT</p>
@@ -947,7 +964,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-101%20ICEBERG%20WHITE.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-101%20ICEBERG%20WHITE.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -958,7 +975,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20MATT%20-%20FWI-10-101.png" alt="ICEBERG WHITE MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-10-101%20ICEBERG%20WHITE%20MATT.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-10-101%20ICEBERG%20WHITE%20MATT.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-101</p><p class="color-name">ICEBERG WHITE MATT</p>
@@ -969,7 +986,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="IVORY GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-115</p><p class="color-name">IVORY GRAY</p>
@@ -980,7 +997,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="IVORY GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-115</p><p class="color-name">IVORY GRAY MATT</p>
@@ -1007,7 +1024,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="JADE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-131</p><p class="color-name">JADE GREEN</p>
@@ -1018,7 +1035,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MILAN%20GRAY%20-%20FWI-04-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILAN%20GRAY%20FWI-04-114.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILAN%20GRAY%20FWI-04-114.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-114</p><p class="color-name">MILAN GRAY</p>
@@ -1029,7 +1046,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MILKY%20WHITE%20-%20FWI-04-136.png" alt="MILKY WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-136</p><p class="color-name">MILKY WHITE</p>
@@ -1040,7 +1057,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MODERN%20GRAY%20-%20FWI-04-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-127</p><p class="color-name">MODERN GRAY</p>
@@ -1051,7 +1068,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MORNING%20BLUE%20-%20FWI-04-125.png" alt="MORNING BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-125</p><p class="color-name">MORNING BLUE</p>
@@ -1063,7 +1080,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-109</p><p class="color-name">OLIVE GREEN</p>
@@ -1074,7 +1091,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PEPPER%20ASH%20-%20FWI-04-126.png" alt="PEPPER ASH" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PEPPER%20ASH%20FWI-04-126.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PEPPER%20ASH%20FWI-04-126.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-126</p><p class="color-name">PEPPER ASH</p>
@@ -1085,7 +1102,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PINE%20GRAY%20-%20FWI-04-119.png" alt="PINE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-119</p><p class="color-name">PINE GRAY</p>
@@ -1096,7 +1113,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PUMPKIN%20RED%20-%20FWI-04-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PUMPKIN%20RED%20-%20FWI-04-117.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PUMPKIN%20RED%20-%20FWI-04-117.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-117</p><p class="color-name">PUMPKIN RED</p>
@@ -1107,7 +1124,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PURE%20GRAY%20-%20FWI-04-107.png" alt="PURE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PURE%20GRAY%20FWI-04-107.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PURE%20GRAY%20FWI-04-107.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-107</p><p class="color-name">PURE GRAY</p>
@@ -1119,7 +1136,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-141</p><p class="color-name">ROMANCE RED MATT</p>
@@ -1130,7 +1147,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-04-121.png" alt="SAPPHIRE BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -1142,7 +1159,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-110</p><p class="color-name">SPACE GRAY</p>
@@ -1154,7 +1171,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-139</p><p class="color-name">TECH GRAY MATT</p>
@@ -1173,7 +1190,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/WISDOM%20BLACK%20-%20FWI-04-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-122</p><p class="color-name">WISDOM BLACK</p>
@@ -1184,7 +1201,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FPM59.png" alt="FPM59" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FPM59.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FPM59.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM59</p><p class="color-name">FPM59</p>
@@ -1215,7 +1232,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-113</p><p class="color-name">ACACIA GRAY</p>
@@ -1226,7 +1243,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png" alt="BRONZE GOLD GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.jpeg" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.jpeg" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-142</p><p class="color-name">BRONZE GOLD GLOSS</p>
@@ -1237,7 +1254,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20-%20FWI-03-116.png" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -1248,7 +1265,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CARDAMOM%20GREEN%20GLITTER%20-%20FWI-07-116.webp" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -1259,7 +1276,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CREAM%20FWI-03-103.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CREAM%20FWI-03-103.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-103</p><p class="color-name">CREAM</p>
@@ -1278,7 +1295,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -1289,7 +1306,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Carmine%20Red%20FWI-03-118.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Carmine%20Red%20FWI-03-118.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-118</p><p class="color-name">CARMINE RED</p>
@@ -1301,7 +1318,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-105</p><p class="color-name">EARTH BROWN          GLOSS</p>
@@ -1312,7 +1329,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN-%20%20FWI%20-03%20-105.png" alt="EARTH BROWN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EARTH%20BROWN%20%20FWI-03-105.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EARTH%20BROWN%20%20FWI-03-105.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-105</p><p class="color-name">EARTH BROWN</p>
@@ -1323,7 +1340,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="EMERALD" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EMRALD%20FWI-09-143.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EMRALD%20FWI-09-143.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-143</p><p class="color-name">EMERALD</p>
@@ -1334,7 +1351,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-03-108%20%281%29.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-03-108%20%281%29.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-108</p><p class="color-name">FANTASY BLUE</p>
@@ -1345,7 +1362,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-03-120.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-03-120.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -1356,7 +1373,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="GRAPHITE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-09-140.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-09-140.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-140</p><p class="color-name">GRAPHITE GRAY</p>
@@ -1367,7 +1384,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.jpeg" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.jpeg" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -1379,7 +1396,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-101</p><p class="color-name">ICEBERG WHITE GLITTER</p>
@@ -1399,7 +1416,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-115</p><p class="color-name">IVORY GRAY</p>
@@ -1411,7 +1428,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-115</p><p class="color-name">IVORY GRAY GLITTER</p>
@@ -1423,7 +1440,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-115</p><p class="color-name">IVORY GRAY GLOSS</p>
@@ -1435,7 +1452,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-102</p><p class="color-name">IVORY WHITE</p>
@@ -1447,7 +1464,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -1458,7 +1475,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="LIGHT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/LIGHT%20GRAY%20FWI-03-123.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/LIGHT%20GRAY%20FWI-03-123.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-123</p><p class="color-name">LIGHT GRAY</p>
@@ -1469,7 +1486,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MILAN-GRAY%20FWI-03-114.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MILAN-GRAY%20FWI-03-114.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-114</p><p class="color-name">MILAN GRAY</p>
@@ -1481,7 +1498,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-114</p><p class="color-name">MILAN GRAY GLITTER</p>
@@ -1492,7 +1509,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MODERN%20GRAY%20FWI-03-127.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MODERN%20GRAY%20FWI-03-127.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-127</p><p class="color-name">MODERN GRAY</p>
@@ -1503,7 +1520,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="OLIVE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/OLIVE%20GREEN%20FWI-03-109.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/OLIVE%20GREEN%20FWI-03-109.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-109</p><p class="color-name">OLIVE GREEN</p>
@@ -1514,7 +1531,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="PINE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PINE%20GRAY%20FWI-03%3D109.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PINE%20GRAY%20FWI-03%3D109.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-119</p><p class="color-name">PINE GRAY</p>
@@ -1526,7 +1543,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-119</p><p class="color-name">PINE GRAY GLITTER</p>
@@ -1537,7 +1554,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PUMPKIN%20RED%20FWI-03-117.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PUMPKIN%20RED%20FWI-03-117.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-117</p><p class="color-name">PUMPKIN RED</p>
@@ -1549,7 +1566,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-107</p><p class="color-name">PURE GRAY</p>
@@ -1561,7 +1578,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-107</p><p class="color-name">PURE GRAY</p>
@@ -1572,7 +1589,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="ROMANCE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ROMANDE%20RED%20FWI-09-141.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ROMANDE%20RED%20FWI-09-141.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-141</p><p class="color-name">ROMANCE RED</p>
@@ -1583,7 +1600,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="SAPPHIRE BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SAPPHIRE%20BLUE%20FWI-03-121.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SAPPHIRE%20BLUE%20FWI-03-121.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -1594,7 +1611,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="SPACE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SPACE%20GRAY%20FWI-03-110.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SPACE%20GRAY%20FWI-03-110.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-110</p><p class="color-name">SPACE GRAY</p>
@@ -1605,7 +1622,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="TECH GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/TECH%20GRAY%20FWI-09-139.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/TECH%20GRAY%20FWI-09-139.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-139</p><p class="color-name">TECH GRAY</p>
@@ -1617,7 +1634,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-104</p><p class="color-name">TWILIGHT GRAY</p>
@@ -1629,7 +1646,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-104</p><p class="color-name">TWILIGHT GRAY GLITTER</p>
@@ -1641,7 +1658,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-104</p><p class="color-name">TWILIGHT GRAY GLOSS</p>
@@ -1652,7 +1669,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/WISDOM%20BLACK%20FWI-03-122.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/WISDOM%20BLACK%20FWI-03-122.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-122</p><p class="color-name">WISDOM BLACK</p>
@@ -1666,7 +1683,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-113</p><p class="color-name">ACACIA GRAY</p>
@@ -1677,7 +1694,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ALMOND%20YELLOW%20-%20FWI%20-%2004-138.png" alt="ALMOND YELLOW" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ALMOND%20YELLOW%20FWI-04-138.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ALMOND%20YELLOW%20FWI-04-138.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-138</p><p class="color-name">ALMOND YELLOW</p>
@@ -1688,7 +1705,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Barbie%20pink%20-%20FWI%20-%2004%20-124.png" alt="BARBIE PINK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/BARBIE%20PINK%20FWI-04-124.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/BARBIE%20PINK%20FWI-04-124.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-124</p><p class="color-name">BARBIE PINK</p>
@@ -1699,7 +1716,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="BRONZE GOLD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-142</p><p class="color-name">BRONZE GOLD MATT</p>
@@ -1710,7 +1727,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="CARDAMOM GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CARDAMOM%20GREEN%20-%20FWI-04-.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -1722,7 +1739,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-116</p><p class="color-name">CARDAMOM GREEN MATT</p>
@@ -1733,7 +1750,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CREAM%20FWI-04-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CREAM%20FWI-04-103.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CREAM%20FWI-04-103.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-103</p><p class="color-name">CREAM</p>
@@ -1745,7 +1762,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-103</p><p class="color-name">CREAM MATT</p>
@@ -1756,7 +1773,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -1767,7 +1784,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Carmine%20Red%20FWI-%2004-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Carmine%20Red%20-%20FWI-04-118.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Carmine%20Red%20-%20FWI-04-118.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-118</p><p class="color-name">CARMINE RED</p>
@@ -1778,7 +1795,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/DESERT%20GRAY%20-%20FWI-04-132.png" alt="DESERT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/DESERT%20GRAY%20FWI-04-132.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/DESERT%20GRAY%20FWI-04-132.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-132</p><p class="color-name">DESERT GRAY</p>
@@ -1789,7 +1806,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/EMERALD%20MATT-%20%20FWI%20-10%20-143.png" alt="EMERALD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/EMARLED%20FWI-10-143.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/EMARLED%20FWI-10-143.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-143</p><p class="color-name">EMERALD MATT</p>
@@ -1800,7 +1817,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FANTASY%20BLUE%20FWI-04-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-04-108.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-04-108.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-108</p><p class="color-name">FANTASY BLUE</p>
@@ -1811,7 +1828,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-04-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-04-120.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-04-120.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -1822,7 +1839,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GRAPHITE%20GRAY%20MATT%20-%20FWI-10-140.png" alt="GRAPHITE GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-10-140.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-10-140.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-140</p><p class="color-name">GRAPHITE GRAY MATT</p>
@@ -1833,7 +1850,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -1845,7 +1862,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-115</p><p class="color-name">IVORY GRAY</p>
@@ -1857,7 +1874,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-115</p><p class="color-name">IVORY GRAY MATT</p>
@@ -1885,7 +1902,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-131</p><p class="color-name">JADE GREEN</p>
@@ -1896,7 +1913,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MILAN%20GRAY%20-%20FWI-04-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MILAN-GRAY%20FWI-04-114%20%281%29.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MILAN-GRAY%20FWI-04-114%20%281%29.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-114</p><p class="color-name">MILAN GRAY</p>
@@ -1908,7 +1925,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-136</p><p class="color-name">MILKY WHITE</p>
@@ -1919,7 +1936,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MODERN%20GRAY%20-%20FWI-04-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-127</p><p class="color-name">MODERN GRAY</p>
@@ -1931,7 +1948,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-125</p><p class="color-name">MORNING BLUE</p>
@@ -1942,7 +1959,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/OLIVE%20GREEN%20-%20FWI-04-109.png" alt="OLIVE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-109</p><p class="color-name">OLIVE GREEN</p>
@@ -1953,7 +1970,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PEPPER%20ASH%20-%20FWI-04-126.png" alt="PEPPER ASH" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PEPPER%20ASH%20FWI-03-126.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PEPPER%20ASH%20FWI-03-126.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-126</p><p class="color-name">PEPPER ASH</p>
@@ -1965,7 +1982,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-119</p><p class="color-name">PINE GRAY</p>
@@ -1976,7 +1993,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PUMPKIN%20RED%20-%20FWI-04-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PUMPKIN%20RED%20FWI-04-117.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PUMPKIN%20RED%20FWI-04-117.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-117</p><p class="color-name">PUMPKIN RED</p>
@@ -1987,7 +2004,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PURE%20GRAY%20-%20FWI-04-107.png" alt="PURE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PURE%20GRAY%20FWI-04-107.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PURE%20GRAY%20FWI-04-107.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-107</p><p class="color-name">PURE GRAY</p>
@@ -1998,7 +2015,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ROMANCE%20RED%20MATT%20-%20FWI-10-141.png" alt="ROMANCE RED MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-141</p><p class="color-name">ROMANCE RED MATT</p>
@@ -2010,7 +2027,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -2021,7 +2038,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/SPACE%20GRAY%20-%20FWI-04-110.png" alt="SPACE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-110</p><p class="color-name">SPACE GRAY</p>
@@ -2032,7 +2049,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/TECH%20GRAY%20MATT-%20FWI-10-139.png" alt="TECH GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-139</p><p class="color-name">TECH GRAY MATT</p>
@@ -2051,7 +2068,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/WISDOM%20BLACK%20-%20FWI-04-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-122</p><p class="color-name">WISDOM BLACK</p>
@@ -2066,7 +2083,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ACACIA%20GRAY%20-%20FWI-03-113.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-113</p><p class="color-name">ACACIA GRAY</p>
@@ -2077,7 +2094,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.png" alt="BRONZE GOLD GLOSS" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.jpeg" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Bronze%20Gold%20Gloss%20-%20FWI-09-142.jpeg" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-142</p><p class="color-name">BRONZE GOLD GLOSS</p>
@@ -2089,7 +2106,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20FWI-03-116.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20FWI-03-116.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -2101,7 +2118,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLITTER%20FWI-07-116.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/CARDAMOM%20GREEN%20GLITTER%20FWI-07-116.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -2112,7 +2129,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CREAM%20FWI-03-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CREAM%20FWI-03-103.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CREAM%20FWI-03-103.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-103</p><p class="color-name">CREAM</p>
@@ -2131,7 +2148,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-03-130.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -2142,7 +2159,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/Carmine%20Red%20FWI-%2003-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Carmine%20Red%20FWI-03-118.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/Carmine%20Red%20FWI-03-118.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-118</p><p class="color-name">CARMINE RED</p>
@@ -2154,7 +2171,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/EARTH%20BROWN%20GLOSS%20-%20FWI%20-09%20-105.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-105</p><p class="color-name">EARTH BROWN          GLOSS</p>
@@ -2165,7 +2182,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EARTH%20BROWN-%20%20FWI%20-03%20-105.png" alt="EARTH BROWN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EARTH%20BROWN%20%20FWI-03-105.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EARTH%20BROWN%20%20FWI-03-105.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-105</p><p class="color-name">EARTH BROWN</p>
@@ -2176,7 +2193,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/EMERALD-%20%20FWI%20-09%20-143.png" alt="EMERALD" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EMRALD%20FWI-09-143.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/EMRALD%20FWI-09-143.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-143</p><p class="color-name">EMERALD</p>
@@ -2187,7 +2204,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/FANTASY%20BLUE%20FWI-03-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-03-108%20%281%29.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-03-108%20%281%29.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-108</p><p class="color-name">FANTASY BLUE</p>
@@ -2198,7 +2215,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-03-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-03-120.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-03-120.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -2209,7 +2226,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/GRAPHITE%20GRAY%20-%20FWI-09-140.png" alt="GRAPHITE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-09-140.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-09-140.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-140</p><p class="color-name">GRAPHITE GRAY</p>
@@ -2220,7 +2237,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.jpeg" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.jpeg" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -2232,7 +2249,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLITTER%20-%20FWI-07-101.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-101</p><p class="color-name">ICEBERG WHITE GLITTER</p>
@@ -2244,7 +2261,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/ICEBERG%20WHITE%20GLOSS%20-%20FWI-09-101.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-101</p><p class="color-name">ICEBERG WHITE GLOSS</p>
@@ -2256,7 +2273,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20-%20FWI-03-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-115</p><p class="color-name">IVORY GRAY</p>
@@ -2268,7 +2285,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLITTER%20-%20FWI-07-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-115</p><p class="color-name">IVORY GRAY GLITTER</p>
@@ -2280,7 +2297,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20GRAY%20GLOSS%20-%20FWI-09-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-115</p><p class="color-name">IVORY GRAY GLOSS</p>
@@ -2292,7 +2309,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20-%20FWI-03-102.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-102</p><p class="color-name">IVORY WHITE</p>
@@ -2304,7 +2321,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/IVORY%20WHITE%20GLITTER%20FWI-07-102.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-102</p><p class="color-name">IVORY WHITE GLITTER</p>
@@ -2315,7 +2332,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/LIGHT%20GRAY%20-%20FWI-03-123.png" alt="LIGHT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/LIGHT%20GRAY%20FWI-03-123.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/LIGHT%20GRAY%20FWI-03-123.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-123</p><p class="color-name">LIGHT GRAY</p>
@@ -2326,7 +2343,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MILAN%20GRAY%20-%20FWI-03-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MILAN-GRAY%20FWI-03-114.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MILAN-GRAY%20FWI-03-114.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-114</p><p class="color-name">MILAN GRAY</p>
@@ -2338,7 +2355,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/MILAN%20GRAY%20GLITTER%20-%20FWI-07-114.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-114</p><p class="color-name">MILAN GRAY GLITTER</p>
@@ -2349,7 +2366,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/MODERN%20GRAY%20-%20FWI-03-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MODERN%20GRAY%20FWI-03-127.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/MODERN%20GRAY%20FWI-03-127.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-127</p><p class="color-name">MODERN GRAY</p>
@@ -2360,7 +2377,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/OLIVE%20GREEN%20-%20FWI-03-109.png" alt="OLIVE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/OLIVE%20GREEN%20FWI-03-109.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/OLIVE%20GREEN%20FWI-03-109.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-109</p><p class="color-name">OLIVE GREEN</p>
@@ -2372,7 +2389,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20-%20FWI-03-119.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-119</p><p class="color-name">PINE GRAY</p>
@@ -2384,7 +2401,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PINE%20GRAY%20GLITTER%20-%20FWI-07-119.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-119</p><p class="color-name">PINE GRAY GLITTER</p>
@@ -2395,7 +2412,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/PUMPKIN%20RED%20-%20FWI-03-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PUMPKIN%20RED%20FWI-03-117.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/PUMPKIN%20RED%20FWI-03-117.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-117</p><p class="color-name">PUMPKIN RED</p>
@@ -2407,7 +2424,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20-%20FWI-03-107.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-107</p><p class="color-name">PURE GRAY</p>
@@ -2419,7 +2436,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/PURE%20GRAY%20GLITTER%20%20-%20FWI-07-107.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-107</p><p class="color-name">PURE GRAY</p>
@@ -2430,7 +2447,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/ROMANCE%20RED%20-%20FWI-09-141.png" alt="ROMANCE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ROMANDE%20RED%20FWI-09-141.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/ROMANDE%20RED%20FWI-09-141.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-141</p><p class="color-name">ROMANCE RED</p>
@@ -2441,7 +2458,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SAPPHIRE%20BLUE%20-%20FWI-03-121.png" alt="SAPPHIRE BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SAPPHIRE%20BLUE%20FWI-03-121.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SAPPHIRE%20BLUE%20FWI-03-121.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -2452,7 +2469,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/SPACE%20GRAY%20-%20FWI-03-110.png" alt="SPACE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SPACE%20GRAY%20FWI-03-110.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/SPACE%20GRAY%20FWI-03-110.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-110</p><p class="color-name">SPACE GRAY</p>
@@ -2463,7 +2480,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/TECH%20GRAY%20-%20FWI-09-139.png" alt="TECH GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/TECH%20GRAY%20FWI-09-139.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/TECH%20GRAY%20FWI-09-139.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-139</p><p class="color-name">TECH GRAY</p>
@@ -2475,7 +2492,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20-%20FWI-03-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-104</p><p class="color-name">TWILIGHT GRAY</p>
@@ -2487,7 +2504,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLITTER%20-%20FWI-07-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-07-104</p><p class="color-name">TWILIGHT GRAY GLITTER</p>
@@ -2499,7 +2516,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20kitchen%20images/TWILIGHT%20GRAY%20GLOSS%20-%20FWI-09-104.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-09-104</p><p class="color-name">TWILIGHT GRAY GLOSS</p>
@@ -2510,7 +2527,7 @@
                   <img class="color-swatch" src="assets/Lami%20gloss%20front%20images/WISDOM%20BLACK%20-%20FWI-03-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/WISDOM%20BLACK%20FWI-03-122.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Gloss%20wardrobe%20images/WISDOM%20BLACK%20FWI-03-122.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-122</p><p class="color-name">WISDOM BLACK</p>
@@ -2524,7 +2541,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FWI-04-113%20ACACIA%20GRAY.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-113</p><p class="color-name">ACACIA GRAY</p>
@@ -2535,7 +2552,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ALMOND%20YELLOW%20-%20FWI%20-%2004-138.png" alt="ALMOND YELLOW" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ALMOND%20YELLOW%20FWI-04-138.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ALMOND%20YELLOW%20FWI-04-138.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-138</p><p class="color-name">ALMOND YELLOW</p>
@@ -2546,7 +2563,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Barbie%20pink%20-%20FWI%20-%2004%20-124.png" alt="BARBIE PINK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/BARBIE%20PINK%20FWI-04-124.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/BARBIE%20PINK%20FWI-04-124.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-124</p><p class="color-name">BARBIE PINK</p>
@@ -2557,7 +2574,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="BRONZE GOLD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Bronze%20Gold%20Matt%20-%20FWI-10-142.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-142</p><p class="color-name">BRONZE GOLD MATT</p>
@@ -2569,7 +2586,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20-%20FWI-04-116.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-116</p><p class="color-name">CARDAMOM GREEN</p>
@@ -2581,7 +2598,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CARDAMOM%20GREEN%20MATT-%20FWI-10-116.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-116</p><p class="color-name">CARDAMOM GREEN MATT</p>
@@ -2592,7 +2609,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CREAM%20FWI-04-103.png" alt="CREAM" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CREAM%20FWI-04-103.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CREAM%20FWI-04-103.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-103</p><p class="color-name">CREAM</p>
@@ -2604,7 +2621,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/CREAM%20MATT%20-%20FWI-10-103.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-103</p><p class="color-name">CREAM MATT</p>
@@ -2615,7 +2632,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="CRYSTAL GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/CRYSTAL%20GRAY%20FWI-04-130.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-130</p><p class="color-name">CRYSTAL GRAY</p>
@@ -2626,7 +2643,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/Carmine%20Red%20FWI-%2004-118.png" alt="CARMINE RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Carmine%20Red%20-%20FWI-04-118.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/Carmine%20Red%20-%20FWI-04-118.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-118</p><p class="color-name">CARMINE RED</p>
@@ -2637,7 +2654,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/DESERT%20GRAY%20-%20FWI-04-132.png" alt="DESERT GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/DESERT%20GRAY%20FWI-04-132.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/DESERT%20GRAY%20FWI-04-132.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-132</p><p class="color-name">DESERT GRAY</p>
@@ -2648,7 +2665,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/EMERALD%20MATT-%20%20FWI%20-10%20-143.png" alt="EMERALD MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/EMARLED%20FWI-10-143.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/EMARLED%20FWI-10-143.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-143</p><p class="color-name">EMERALD MATT</p>
@@ -2659,7 +2676,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/FANTASY%20BLUE%20FWI-04-108.png" alt="FANTASY BLUE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-04-108.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/FANTASY%20BLUE%20%20FWI-04-108.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-108</p><p class="color-name">FANTASY BLUE</p>
@@ -2670,7 +2687,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GENTLEMAN%20GRAY%20-%20FWI-04-120.png" alt="GENTLEMAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-04-120.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GENTLEMAN%20GRAY%20FWI-04-120.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-120</p><p class="color-name">GENTLEMAN GRAY</p>
@@ -2681,7 +2698,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/GRAPHITE%20GRAY%20MATT%20-%20FWI-10-140.png" alt="GRAPHITE GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-10-140.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/GRAPHITE%20GRAY%20FWI-10-140.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-140</p><p class="color-name">GRAPHITE GRAY MATT</p>
@@ -2692,7 +2709,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ICEBERG%20WHITE%20-%20FWI-04-101.png" alt="ICEBERG WHITE" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ICEBERG%20WHITE%20-%20FWI-03-101.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-03-101</p><p class="color-name">ICEBERG WHITE</p>
@@ -2704,7 +2721,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20-%20FWI-04-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-115</p><p class="color-name">IVORY GRAY</p>
@@ -2716,7 +2733,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/IVORY%20GRAY%20MATT%20-%20FWI-10-115.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-115</p><p class="color-name">IVORY GRAY MATT</p>
@@ -2744,7 +2761,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/JADE%20GREEN%20-%20FWI-04-131.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-131</p><p class="color-name">JADE GREEN</p>
@@ -2755,7 +2772,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MILAN%20GRAY%20-%20FWI-04-114.png" alt="MILAN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MILAN-GRAY%20FWI-04-114%20%281%29.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MILAN-GRAY%20FWI-04-114%20%281%29.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-114</p><p class="color-name">MILAN GRAY</p>
@@ -2767,7 +2784,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/MILKY%20WHITE%20FWI-04-136.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-136</p><p class="color-name">MILKY WHITE</p>
@@ -2778,7 +2795,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/MODERN%20GRAY%20-%20FWI-04-127.png" alt="MODERN GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/MODERN%20GRAY%20FWI-04-127.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-127</p><p class="color-name">MODERN GRAY</p>
@@ -2790,7 +2807,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/FANTASY%20BLUE%20FWI-04-125.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-125</p><p class="color-name">MORNING BLUE</p>
@@ -2801,7 +2818,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/OLIVE%20GREEN%20-%20FWI-04-109.png" alt="OLIVE GREEN" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/OLIVE%20GREEN%20FWI-04-109.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-109</p><p class="color-name">OLIVE GREEN</p>
@@ -2813,7 +2830,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PEPPER%20ASH%20FWI-04-126.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PEPPER%20ASH%20FWI-04-126.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-126</p><p class="color-name">PEPPER ASH</p>
@@ -2825,7 +2842,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/PINE%20GRAY%20FWI-04-119.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-119</p><p class="color-name">PINE GRAY</p>
@@ -2836,7 +2853,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PUMPKIN%20RED%20-%20FWI-04-117.png" alt="PUMPKIN RED" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PUMPKIN%20RED%20FWI-04-117.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PUMPKIN%20RED%20FWI-04-117.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-117</p><p class="color-name">PUMPKIN RED</p>
@@ -2847,7 +2864,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/PURE%20GRAY%20-%20FWI-04-107.png" alt="PURE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PURE%20GRAY%20FWI-04-107.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/PURE%20GRAY%20FWI-04-107.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-107</p><p class="color-name">PURE GRAY</p>
@@ -2858,7 +2875,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/ROMANCE%20RED%20MATT%20-%20FWI-10-141.png" alt="ROMANCE RED MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/ROMANCE%20RED%20%20FWI-10-141.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-141</p><p class="color-name">ROMANCE RED MATT</p>
@@ -2870,7 +2887,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20kitchen%20images/Sapphire%20Blue%20FWI-04-121.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-121</p><p class="color-name">SAPPHIRE BLUE</p>
@@ -2881,7 +2898,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/SPACE%20GRAY%20-%20FWI-04-110.png" alt="SPACE GRAY" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/SPACE%20GRAY%20FWI-04-110.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-110</p><p class="color-name">SPACE GRAY</p>
@@ -2892,7 +2909,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/TECH%20GRAY%20MATT-%20FWI-10-139.png" alt="TECH GRAY MATT" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/TECH%20GRAY%20FWI-10-139.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-10-139</p><p class="color-name">TECH GRAY MATT</p>
@@ -2911,7 +2928,7 @@
                   <img class="color-swatch" src="assets/Lami%20matt%20front%20images/WISDOM%20BLACK%20-%20FWI-04-122.png" alt="WISDOM BLACK" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Lami%20Matt%20wardrobe%20images/WISDOM%20BLACK%20FWI-04-122.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FWI-04-122</p><p class="color-name">WISDOM BLACK</p>
@@ -2924,7 +2941,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FMA02.png" alt="Marble Pattern FMA02" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20kitchen%20images/FMA-02.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20kitchen%20images/FMA-02.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA02</p><p class="color-name">Marble Pattern FMA02</p>
@@ -2935,7 +2952,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA02.png" alt="Marble Pattern FMA03" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-02.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-02.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA03</p><p class="color-name">Marble Pattern FMA03</p>
@@ -2946,7 +2963,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA03.png" alt="Marble Pattern FMA05" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-03.webp" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-03.webp" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA05</p><p class="color-name">Marble Pattern FMA05</p>
@@ -2957,7 +2974,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA05.webp" alt="Marble Pattern FMA07" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-05.webp" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-05.webp" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA07</p><p class="color-name">Marble Pattern FMA07</p>
@@ -2969,7 +2986,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-07.webp" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-07.webp" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM02</p><p class="color-name">Marble Pattern FPM02</p>
@@ -2981,7 +2998,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-02.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-02.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM03</p><p class="color-name">Marble Pattern FPM03</p>
@@ -2993,7 +3010,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-03.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-03.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM05</p><p class="color-name">Marble Pattern FPM05</p>
@@ -3005,7 +3022,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-05.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-05.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM07</p><p class="color-name">Marble Pattern FPM07</p>
@@ -3017,7 +3034,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-51.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-51.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM51</p><p class="color-name">Marble Pattern FPM51</p>
@@ -3029,7 +3046,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-52.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-52.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM52</p><p class="color-name">Marble Pattern FPM52</p>
@@ -3041,7 +3058,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Kitchen Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Kitchen Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM53</p><p class="color-name">Marble Pattern FPM53</p>
@@ -3053,7 +3070,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM54</p><p class="color-name">Marble Pattern FPM54</p>
@@ -3065,7 +3082,7 @@
                 </picture>
               
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-54.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-54.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM55</p><p class="color-name">Marble Pattern FPM55</p>
@@ -3078,7 +3095,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM55.png" alt="Marble Pattern FMA02" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-55.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-55.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA02</p><p class="color-name">Marble Pattern FMA02</p>
@@ -3089,7 +3106,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA02.png" alt="Marble Pattern FMA03" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-02.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-02.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA03</p><p class="color-name">Marble Pattern FMA03</p>
@@ -3100,7 +3117,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA03.png" alt="Marble Pattern FMA05" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-03.webp" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-03.webp" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA05</p><p class="color-name">Marble Pattern FMA05</p>
@@ -3111,7 +3128,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA05.webp" alt="Marble Pattern FMA07" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-05.webp" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-05.webp" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA07</p><p class="color-name">Marble Pattern FMA07</p>
@@ -3122,7 +3139,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FMA07.png" alt="Marble Pattern FPM02" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-07.webp" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FMA-07.webp" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM02</p><p class="color-name">Marble Pattern FPM02</p>
@@ -3133,7 +3150,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM02.png" alt="Marble Pattern FPM03" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-02.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-02.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM03</p><p class="color-name">Marble Pattern FPM03</p>
@@ -3144,7 +3161,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM03.png" alt="Marble Pattern FPM05" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-03.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-03.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM05</p><p class="color-name">Marble Pattern FPM05</p>
@@ -3155,7 +3172,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM05.png" alt="Marble Pattern FPM07" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-05.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-05.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM07</p><p class="color-name">Marble Pattern FPM07</p>
@@ -3166,7 +3183,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM07.png" alt="Marble Pattern FPM51" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic wardrobe images/MARBLE PATTERN  FPM51.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic wardrobe images/MARBLE PATTERN  FPM51.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM51</p><p class="color-name">Marble Pattern FPM51</p>
@@ -3177,7 +3194,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM51.png" alt="Marble Pattern FPM52" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-51.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-51.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM52</p><p class="color-name">Marble Pattern FPM52</p>
@@ -3188,7 +3205,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM52.png" alt="Marble Pattern FPM53" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-52.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-52.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM53</p><p class="color-name">Marble Pattern FPM53</p>
@@ -3199,7 +3216,7 @@
                   <img class="color-swatch" src="assets/Marble and acrylic images/FPM53.png" alt="Marble Pattern FPM54" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble and acrylic kitchen images/FPM-53.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM54</p><p class="color-name">Marble Pattern FPM54</p>
@@ -3210,7 +3227,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM54.png" alt="Marble Pattern FPM55" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM55.png" alt="Wardrobe Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM55.png" alt="Wardrobe Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM55</p><p class="color-name">Marble Pattern FPM55</p>
@@ -3223,7 +3240,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM55.png" alt="Marble Pattern FMA02" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-02.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-02.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA02</p><p class="color-name">Marble Pattern FMA02</p>
@@ -3234,7 +3251,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FMA02.png" alt="Marble Pattern FMA03" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-03.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-03.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA03</p><p class="color-name">Marble Pattern FMA03</p>
@@ -3245,7 +3262,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FMA03.png" alt="Marble Pattern FMA05" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-05.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-05.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA05</p><p class="color-name">Marble Pattern FMA05</p>
@@ -3256,7 +3273,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FMA05.webp" alt="Marble Pattern FMA07" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-07.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/FMA-07.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FMA07</p><p class="color-name">Marble Pattern FMA07</p>
@@ -3267,7 +3284,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FMA07.png" alt="Marble Pattern FPM02" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM02.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM02.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM02</p><p class="color-name">Marble Pattern FPM02</p>
@@ -3278,7 +3295,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM02.png" alt="Marble Pattern FPM03" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM03.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM03.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM03</p><p class="color-name">Marble Pattern FPM03</p>
@@ -3289,7 +3306,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM03.png" alt="Marble Pattern FPM05" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM05.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM05.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM05</p><p class="color-name">Marble Pattern FPM05</p>
@@ -3300,7 +3317,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM05.png" alt="Marble Pattern FPM07" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM07.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM07.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM07</p><p class="color-name">Marble Pattern FPM07</p>
@@ -3311,7 +3328,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM07.png" alt="Marble Pattern FPM51" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM51.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM51.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM51</p><p class="color-name">Marble Pattern FPM51</p>
@@ -3322,7 +3339,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM51.png" alt="Marble Pattern FPM52" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM52.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM52.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM52</p><p class="color-name">Marble Pattern FPM52</p>
@@ -3333,7 +3350,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM52.png" alt="Marble Pattern FPM53" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20%20FPM53.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20%20FPM53.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM53</p><p class="color-name">Marble Pattern FPM53</p>
@@ -3344,7 +3361,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM53.png" alt="Marble Pattern FPM54" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM54.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM54.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM54</p><p class="color-name">Marble Pattern FPM54</p>
@@ -3355,7 +3372,7 @@
                   <img class="color-swatch" src="assets/Marble%20and%20acrylic%20images/FPM54.png" alt="Marble Pattern FPM55" loading="lazy">
                 </picture>
                 <picture>
-                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM55.png" alt="Preview" loading="eager">
+                  <img class="kitchen-preview" src="assets/Marble%20and%20acrylic%20wardrobe%20images/MARBLE%20PATTERN%20FPM55.png" alt="Preview" loading="lazy">
                 </picture>
               </div>
               <p class="color-code">FPM55</p><p class="color-name">Marble Pattern FPM55</p>
@@ -3421,8 +3438,7 @@
 
         <div class="heritage-image fade-left">
           <div class="image-wrapper">
-            <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
-              <source src="assets/about us video.mp4" type="video/mp4">
+            <video autoplay muted loop playsinline preload="none" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;" data-src="assets/about us video.mp4">
               Your browser does not support the video tag.
             </video>
           </div>
@@ -3506,7 +3522,7 @@
               <div class="contact-detail-content">
                 <h4>Visit Our Factory</h4>
                 <p>Warehouse #3, Plot #1961</p>
-                <p>Umm Dera – Emirate of Umm Al Quwain</p>
+                <p>Umm Dera â€“ Emirate of Umm Al Quwain</p>
                 <p>United Arab Emirates</p>
               </div>
             </div>
@@ -3678,11 +3694,11 @@
     <div class="chat-header">
       <div class="chat-header-content">
         <div class="chat-avatar">
-          <img src="assets/logo.png" alt="Foresta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🌲</text></svg>'">
+          <img src="assets/logo.png" alt="Foresta" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>ðŸŒ²</text></svg>'">
         </div>
         <div class="chat-header-info">
           <div class="chat-company-name">Foresta Wood Industries</div>
-          <div class="chat-status">Online · Typically replies instantly</div>
+          <div class="chat-status">Online Â· Typically replies instantly</div>
         </div>
       </div>
       <button id="closeChat" aria-label="Close chat">
@@ -3719,25 +3735,25 @@
     // Cart Storage Key
     const CART_STORAGE_KEY = 'foresta_cart';
 
-    // ─── Product Pricing ──────────────────────────────
+    // â”€â”€â”€ Product Pricing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const PRODUCT_PRICING = {
       'lami-gloss': {
         label: 'Lami Gloss',
-        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        sizes: ['2800 Ã— 1220 Ã— 18 mm', '2440 Ã— 1220 Ã— 18 mm', '3050 Ã— 1220 Ã— 18 mm'],
         hasFace: true,
         hasMR: true,
         prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
       },
       'lami-matt': {
         label: 'Lami Matt',
-        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        sizes: ['2800 Ã— 1220 Ã— 18 mm', '2440 Ã— 1220 Ã— 18 mm', '3050 Ã— 1220 Ã— 18 mm'],
         hasFace: true,
         hasMR: true,
         prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
       },
       'marble-acrylic': {
         label: 'Acrylic',
-        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        sizes: ['2800 Ã— 1220 Ã— 18 mm', '2440 Ã— 1220 Ã— 18 mm', '3050 Ã— 1220 Ã— 18 mm'],
         hasFace: false,
         hasMR: false,
         prices: { 'standard': 450 }
@@ -3774,13 +3790,13 @@
       }
     }
 
-    // ─── Cart icon click: open cart drawer ──────────
+    // â”€â”€â”€ Cart icon click: open cart drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function handleCartClick(e) {
       if (e) { e.preventDefault(); e.stopPropagation(); }
       openCartDrawer();
     }
 
-    // ─── Cart Drawer ─────────────────────────────────
+    // â”€â”€â”€ Cart Drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function injectCartDrawer() {
       if (document.getElementById('cartDrawerOverlay')) return;
       const html = `
@@ -3828,7 +3844,7 @@
       document.getElementById('cartDrawerContinue').addEventListener('click', closeCartDrawer);
       overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCartDrawer(); });
 
-      // Checkout button → login check
+      // Checkout button â†’ login check
       document.getElementById('cartDrawerCheckoutBtn').addEventListener('click', () => {
         closeCartDrawer();
         if (window.forestaAuthModal && !window.forestaAuthModal.isLoggedIn()) {
@@ -3878,7 +3894,7 @@
             } else {
               item.unitPrice = pricing.prices['standard'] || 0;
             }
-            item.size = item.size || (pricing.sizes && pricing.sizes[0]) || '2800 × 1220 × 18 mm';
+            item.size = item.size || (pricing.sizes && pricing.sizes[0]) || '2800 Ã— 1220 Ã— 18 mm';
             item.productCategory = cat;
             item.boardType = item.boardType || 'standard';
             item.faceOption = item.faceOption || (pricing.hasFace ? '1face' : 'standard');
@@ -3921,7 +3937,7 @@
           </div>
           <div class="cart-drawer-item-info">
             <div class="cart-drawer-item-name">${item.name || 'Product'}</div>
-            <div class="cart-drawer-item-code">${item.code || ''} · ${item.type || ''}</div>
+            <div class="cart-drawer-item-code">${item.code || ''} Â· ${item.type || ''}</div>
             <div class="cart-drawer-item-details">
               ${item.size ? `<span class="cart-drawer-tag">${item.size}</span>` : ''}
               ${faceLabel ? `<span class="cart-drawer-tag">${faceLabel}</span>` : ''}
@@ -3929,12 +3945,12 @@
             </div>
             <div class="cart-drawer-item-bottom">
               <div class="cart-drawer-item-qty">
-                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, -1)">−</button>
+                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, -1)">âˆ’</button>
                 <span>${item.quantity || 1}</span>
                 <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, 1)">+</button>
               </div>
               <div class="cart-drawer-item-price">
-                <span class="cart-drawer-item-unit">AED ${item.unitPrice || 0} × ${item.quantity || 1}</span>
+                <span class="cart-drawer-item-unit">AED ${item.unitPrice || 0} Ã— ${item.quantity || 1}</span>
                 <span class="cart-drawer-item-total">AED ${itemTotal.toLocaleString()}</span>
               </div>
               <button class="cart-drawer-remove" onclick="removeDrawerItem(${index})" aria-label="Remove">
@@ -3978,7 +3994,7 @@
       } catch(e) {}
     }
 
-    // ─── Quantity / Size / Face / MR Picker Modal ─────
+    // â”€â”€â”€ Quantity / Size / Face / MR Picker Modal â”€â”€â”€â”€â”€
     let _pendingProduct = null;
 
     function getUnitPrice() {
@@ -4067,7 +4083,7 @@
         <div class="cart-qty-row">
           <label class="cart-qty-label">Quantity (sheets)</label>
           <div class="cart-qty-stepper">
-            <button type="button" class="cart-qty-minus" id="cartQtyMinus">−</button>
+            <button type="button" class="cart-qty-minus" id="cartQtyMinus">âˆ’</button>
             <input type="number" class="cart-qty-input" id="cartQtyInput" value="1" min="1" max="999">
             <button type="button" class="cart-qty-plus" id="cartQtyPlus">+</button>
           </div>
@@ -4105,7 +4121,7 @@
           <div class="cart-qty-body">${buildModalContent(pricing)}</div>
           <button type="button" class="cart-qty-confirm" id="cartQtyConfirm">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            Add to Cart — <span class="confirm-total">AED 0</span>
+            Add to Cart â€” <span class="confirm-total">AED 0</span>
           </button>
         </div>
       </div>`;
@@ -4164,7 +4180,7 @@
         const qty = Math.max(1, parseInt(qtyInput.value) || 1);
         const unitPrice = getUnitPrice();
 
-        _pendingProduct.size = overlay.querySelector('.cart-qty-size-btn.active')?.dataset.size || pricing?.sizes?.[0] || '2800 × 1220 × 18 mm';
+        _pendingProduct.size = overlay.querySelector('.cart-qty-size-btn.active')?.dataset.size || pricing?.sizes?.[0] || '2800 Ã— 1220 Ã— 18 mm';
         _pendingProduct.boardType = board;
         _pendingProduct.faceOption = pricing?.hasFace ? face : 'standard';
         _pendingProduct.quantity = qty;
@@ -4190,7 +4206,7 @@
       _pendingProduct = null;
     }
 
-    // ─── Actually add to localStorage ─────────────────
+    // â”€â”€â”€ Actually add to localStorage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function commitToCart(productData) {
       try {
         const stored = localStorage.getItem(CART_STORAGE_KEY);
@@ -4332,7 +4348,7 @@
     }
   </script>
 
-  <script src="product-wizard.js"></script>
+  <script defer src="product-wizard.js"></script>
   <script defer src="script-luxury.js"></script>
   <script defer src="chat-enhanced.js"></script>
   <script defer src="role-personalization.js"></script>
@@ -4542,6 +4558,6 @@
   <!-- Firebase -->
   <script type="module" src="firebase-init.js"></script>
   <!-- Auth Modal -->
-  <script src="auth-modal.js"></script>
+  <script defer src="auth-modal.js"></script>
 </body>
 </html>

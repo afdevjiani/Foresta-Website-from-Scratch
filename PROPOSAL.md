@@ -16,7 +16,7 @@ The Foresta website is a fully custom-built, luxury e-commerce platform designed
 
 ### 2.1 Product Catalog & Gallery
 - **89+ individual colors/patterns** organized by finish type
-- **3 finish categories:** Lami Gloss (40 colors), Lami Matt (36 colors), Marble & Acrylic (13 patterns)
+- **3 finish categories:** Lami Gloss (40 colors), Lami Matt (40 colors), Marble & Acrylic (13 patterns)
 - **3 application spaces:** Kitchen, Bedroom, Wardrobe — each with dedicated preview imagery
 - **Filterable gallery** with category tabs and smooth animated transitions
 - **Color detail pages** with full specifications, kitchen/room previews, and related color suggestions

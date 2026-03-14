@@ -509,15 +509,6 @@ p, li, label, input, button, textarea, select {
   background-color: transparent;
 }
 
-/* Show desktop video by default, hide mobile */
-.hero-vid-mobile  { display: none !important; }
-.hero-vid-desktop { display: block; }
-
-@media (max-width: 768px) {
-  .hero-vid-desktop { display: none !important; }
-  .hero-vid-mobile  { display: block !important; }
-}
-
 /* Force video to fill on mobile */
 @media (max-width: 768px) {
   .hero-luxury {

@@ -738,7 +738,7 @@ function initParallax() {
         const scrolled = window.pageYOffset;
         
         // Parallax for hero video
-        const heroVideo = document.getElementById(window.innerWidth <= 768 ? 'heroVideoMobile' : 'heroVideoDesktop');
+        const heroVideo = document.getElementById('heroVideo');
         if (heroVideo) {
           const speed = 0.3;
           const yPos = scrolled * speed;
@@ -783,7 +783,7 @@ if (window.innerWidth > 768) {
 
 // ===== VIDEO OPTIMIZATION FOR MOBILE =====
 function optimizeVideoForMobile() {
-  const heroVideo = document.getElementById(window.innerWidth <= 768 ? 'heroVideoMobile' : 'heroVideoDesktop');
+  const heroVideo = document.getElementById('heroVideo');
 
   if (heroVideo) {
     heroVideo.muted = true;
@@ -803,6 +803,24 @@ function optimizeVideoForMobile() {
 
 // Run video optimization
 optimizeVideoForMobile();
+
+// ===== LAZY LOAD VIDEOS WITH data-src =====
+if ('IntersectionObserver' in window) {
+  const videoObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const video = entry.target;
+        if (video.dataset.src) {
+          video.src = video.dataset.src;
+          video.load();
+          delete video.dataset.src;
+        }
+        observer.unobserve(video);
+      }
+    });
+  }, { rootMargin: '200px' });
+  document.querySelectorAll('video[data-src]').forEach(v => videoObserver.observe(v));
+}
 
 // ===== LAZY LOADING IMAGES =====
 if ('IntersectionObserver' in window) {
