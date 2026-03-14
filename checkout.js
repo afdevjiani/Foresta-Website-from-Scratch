@@ -1348,7 +1348,7 @@ async function generatePDFBlob() {
     const counterY = y - (rowH * 3 + 2 + 8);
     doc.setFontSize(7.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...mediumGray);
     doc.text(`${totalProducts} product${totalProducts !== 1 ? 's' : ''}  •  ${totalItems} panel${totalItems !== 1 ? 's' : ''}`, MARGIN, counterY + 5.5);
-    doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...accentGold);
+    doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...darkGreen);
     doc.text(`REF: ${refNum}`, MARGIN, counterY + 14);
   } else {
     // No-pricing layout: three-column summary cards
