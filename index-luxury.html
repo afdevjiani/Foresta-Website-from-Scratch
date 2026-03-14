@@ -82,19 +82,22 @@
     <!-- Hero Section - Full Screen Cinematic -->
     <section id="home" class="hero-luxury">
       <div class="hero-video-container">
-        <video id="heroVideo" muted loop playsinline class="hero-video" preload="auto" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
-        </video>
+        <!-- Desktop hero video -->
+        <video id="heroVideoDesktop" muted loop playsinline class="hero-video hero-vid-desktop" preload="none" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture></video>
+        <!-- Mobile hero video -->
+        <video id="heroVideoMobile" muted loop playsinline class="hero-video hero-vid-mobile" preload="none" poster="assets/logo.png" webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture></video>
         <script>
         (function(){
-          var v=document.getElementById('heroVideo');
-          if(!v)return;
-          var m=window.matchMedia('(max-width:768px)').matches;
-          v.src=m?'assets/Foresta_video_Mobile.mp4':'assets/Foresta_video.mp4';
-          v.muted=true;
-          v.load();
-          v.play().then(function(){v.classList.add('loaded');}).catch(function(){
-            v.addEventListener('canplay',function(){v.classList.add('loaded');v.play();},{once:true});
-            document.addEventListener('touchstart',function(){v.play().catch(function(){});},{once:true});
+          var isMob = window.matchMedia('(max-width:768px)').matches;
+          var active = document.getElementById(isMob ? 'heroVideoMobile' : 'heroVideoDesktop');
+          if(!active) return;
+          active.src = isMob ? 'assets/Foresta_video_Mobile.mp4' : 'assets/Foresta_video.mp4';
+          active.preload = 'auto';
+          active.muted = true;
+          active.load();
+          active.play().then(function(){ active.classList.add('loaded'); }).catch(function(){
+            active.addEventListener('canplay', function(){ active.classList.add('loaded'); active.play(); }, {once:true});
+            document.addEventListener('touchstart', function(){ active.play().catch(function(){}); }, {once:true});
           });
         })();
         </script>

@@ -515,6 +515,15 @@ p, li, label, input, button, textarea, select {
   opacity: 1;
 }
 
+/* Show desktop video by default, hide mobile */
+.hero-vid-mobile  { display: none; }
+.hero-vid-desktop { display: block; }
+
+@media (max-width: 768px) {
+  .hero-vid-desktop { display: none; }
+  .hero-vid-mobile  { display: block; }
+}
+
 /* Force video to fill on mobile */
 @media (max-width: 768px) {
   .hero-luxury {
