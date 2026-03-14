@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Foresta Website - Luxury Product Configurator -->
@@ -3862,7 +3862,7 @@
       document.getElementById('cartDrawerContinue').addEventListener('click', closeCartDrawer);
       overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCartDrawer(); });
 
-      // Checkout button â†’ login check
+      // Checkout button → login check
       document.getElementById('cartDrawerCheckoutBtn').addEventListener('click', () => {
         closeCartDrawer();
         if (window.forestaAuthModal && !window.forestaAuthModal.isLoggedIn()) {
@@ -3963,7 +3963,7 @@
             </div>
             <div class="cart-drawer-item-bottom">
               <div class="cart-drawer-item-qty">
-                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, -1)">âˆ’</button>
+                <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, -1)">-</button>
                 <span>${item.quantity || 1}</span>
                 <button class="cart-drawer-qty-btn" onclick="changeDrawerQty(${index}, 1)">+</button>
               </div>
@@ -4101,7 +4101,7 @@
         <div class="cart-qty-row">
           <label class="cart-qty-label">Quantity (sheets)</label>
           <div class="cart-qty-stepper">
-            <button type="button" class="cart-qty-minus" id="cartQtyMinus">âˆ’</button>
+            <button type="button" class="cart-qty-minus" id="cartQtyMinus">-</button>
             <input type="number" class="cart-qty-input" id="cartQtyInput" value="1" min="1" max="999">
             <button type="button" class="cart-qty-plus" id="cartQtyPlus">+</button>
           </div>
