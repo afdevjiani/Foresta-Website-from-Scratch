@@ -89,16 +89,18 @@
         <script>
         (function(){
           var isMob = window.matchMedia('(max-width:768px)').matches;
-          var active = document.getElementById(isMob ? 'heroVideoMobile' : 'heroVideoDesktop');
+          var activeId = isMob ? 'heroVideoMobile' : 'heroVideoDesktop';
+          var active = document.getElementById(activeId);
           if(!active) return;
           active.src = isMob ? 'assets/Foresta_video_Mobile.mp4' : 'assets/Foresta_video.mp4';
           active.preload = 'auto';
           active.muted = true;
+          active.classList.add('loaded');
           active.load();
-          active.play().then(function(){ active.classList.add('loaded'); }).catch(function(){
-            active.addEventListener('canplay', function(){ active.classList.add('loaded'); active.play(); }, {once:true});
-            document.addEventListener('touchstart', function(){ active.play().catch(function(){}); }, {once:true});
-          });
+          try { active.play(); } catch(e) {}
+          active.addEventListener('canplay', function(){ try { active.play(); } catch(e) {} });
+          document.addEventListener('touchstart', function(){ try { active.play(); } catch(e) {} }, {once:true});
+          document.addEventListener('click', function(){ try { active.play(); } catch(e) {} }, {once:true});
         })();
         </script>
         <div class="hero-overlay"></div>
