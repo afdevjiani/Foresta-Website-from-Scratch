@@ -4349,7 +4349,13 @@
             e.stopImmediatePropagation();
             addProductToCart(productData, e);
           });
+          
+          // Track scrolling to prevent accidental taps on mobile
+          let _scrolling = false;
+          cartBtn.addEventListener('touchstart', () => { _scrolling = false; }, {passive: true});
+          cartBtn.addEventListener('touchmove', () => { _scrolling = true; }, {passive: true});
           cartBtn.addEventListener('touchend', (e) => {
+            if (_scrolling) return; // User was scrolling, ignore
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
