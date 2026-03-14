@@ -1052,9 +1052,9 @@ async function generatePDFBlob() {
   } catch (_) { /* skip logo */ }
 
   // ═══════════════════════════════════════════════════
-  // FULL-WIDTH DARK GREEN HEADER BAND
+  // FULL-WIDTH DARK GREEN HEADER BAND (logo centered)
   // ═══════════════════════════════════════════════════
-  const headerH = 42;
+  const headerH = 32;
   doc.setFillColor(...darkGreen);
   doc.rect(0, 0, PAGE_W, headerH, 'F');
 
@@ -1062,34 +1062,29 @@ async function generatePDFBlob() {
   doc.setFillColor(...accentGold);
   doc.rect(0, headerH, PAGE_W, 1.2, 'F');
 
-  // Logo (left side, white version)
+  // Logo (centered in header)
   if (logoData) {
-    try { doc.addImage(logoData, 'PNG', MARGIN - 4, 12, 40, 14); } catch (_) {}
+    try { doc.addImage(logoData, 'PNG', PAGE_W / 2 - 20, 9, 40, 14); } catch (_) {}
   }
 
-  // "Quotation Request" — centered title
-  doc.setTextColor(...white);
+  // "Quotation Request" — below the green band
+  y = headerH + 1.2 + 6;
+  doc.setTextColor(...darkGreen);
   doc.setFontSize(20);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Quotation Request', PAGE_W / 2, 20, { align: 'center' });
+  doc.setFont('helvetica', 'bolditalic');
+  doc.text('Quotation Request', PAGE_W / 2, y, { align: 'center' });
 
-  // Thin white separator under title
-  doc.setDrawColor(...white);
-  doc.setLineWidth(0.3);
-  doc.line(PAGE_W / 2 - 30, 24, PAGE_W / 2 + 30, 24);
+  // Thin green separator under title
+  y += 4;
+  doc.setDrawColor(...accentGold);
+  doc.setLineWidth(0.4);
+  doc.line(PAGE_W / 2 - 30, y, PAGE_W / 2 + 30, y);
 
-  // Date & Ref (right-aligned)
+  // Date & Ref for use in customer section
   const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
   const refNum = Date.now().toString().slice(-6);
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(255, 255, 255);
-  doc.text(dateStr, PAGE_W - MARGIN, 28, { align: 'right' });
-  doc.setTextColor(...accentGold);
-  doc.setFont('helvetica', 'bold');
-  doc.text(`REF: ${refNum}`, PAGE_W - MARGIN, 34, { align: 'right' });
 
-  y = headerH + 1.2 + 10;
+  y += 10;
 
   // ═══════════════════════════════════════════════════
   // CUSTOMER DETAILS
@@ -1101,6 +1096,14 @@ async function generatePDFBlob() {
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.text('CUSTOMER DETAILS', MARGIN + 5, y + 4.5);
+
+  // Date & Ref — right-aligned on same line as section heading
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...darkGreen);
+  doc.text(dateStr, PAGE_W - MARGIN, y + 1, { align: 'right' });
+  doc.setTextColor(...accentGold);
+  doc.text(`REF: ${refNum}`, PAGE_W - MARGIN, y + 5.5, { align: 'right' });
 
   // Thin line under heading
   y += 8;
