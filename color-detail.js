@@ -532,23 +532,45 @@ function bookAppointment() {
 function initDetailComparisonSlider() {
   if (window.innerWidth > 1024) return;
 
-  const container = document.querySelector('.main-image-container');
-  const wrapper = container && container.querySelector('.image-wrapper-detail');
-  const afterImg = container && container.querySelector('.kitchen-preview-detail');
+  var container = document.querySelector('.main-image-container');
+  var wrapper = container && container.querySelector('.image-wrapper-detail');
+  var afterImg = container && container.querySelector('.kitchen-preview-detail');
   if (!wrapper || !afterImg) return;
 
-  // Wait until kitchen image is actually loaded
+  var retryCount = 0;
+  var maxRetries = 30; // 30 * 300ms = 9 seconds max wait
+
   function tryInit() {
-    if (!afterImg.src || afterImg.src === window.location.href) {
-      setTimeout(tryInit, 300);
+    retryCount++;
+    // Check if kitchen image src has been set by the page init
+    var src = afterImg.getAttribute('src');
+    if (!src || src === '') {
+      if (retryCount < maxRetries) {
+        setTimeout(tryInit, 300);
+      }
       return;
     }
-    buildSlider();
+    // Wait for image to actually load
+    if (afterImg.complete && afterImg.naturalWidth > 0) {
+      buildSlider();
+    } else {
+      afterImg.addEventListener('load', function onLoad() {
+        afterImg.removeEventListener('load', onLoad);
+        buildSlider();
+      });
+      afterImg.addEventListener('error', function onErr() {
+        afterImg.removeEventListener('error', onErr);
+        // Kitchen image failed to load, don't show slider
+      });
+    }
   }
 
   function buildSlider() {
+    // Mark kitchen image as ready for display
+    afterImg.classList.add('slider-ready');
+
     // Create handle
-    const handle = document.createElement('div');
+    var handle = document.createElement('div');
     handle.className = 'detail-slider-handle';
     wrapper.appendChild(handle);
 
@@ -562,7 +584,6 @@ function initDetailComparisonSlider() {
     }
 
     // Set initial position
-    afterImg.style.opacity = '1';
     update(50);
 
     // Touch

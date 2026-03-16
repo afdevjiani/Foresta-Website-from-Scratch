@@ -186,11 +186,19 @@
     touch-action: pan-y;
   }
 
+  .image-wrapper-detail {
+    overflow: hidden;
+  }
+
   .kitchen-preview-detail {
-    opacity: 1 !important;
     will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+  }
+
+  /* Only show kitchen image when slider is initialized */
+  .kitchen-preview-detail.slider-ready {
+    opacity: 1 !important;
   }
 
   .detail-slider-handle {
