@@ -3312,13 +3312,27 @@
             </svg>
             <span>Add to Cart</span>
           `;
-          cartBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+
+          // Scroll-aware touch handling to prevent accidental taps
+          var _touchStartY = 0, _wasTouchScroll = false;
+          cartBtn.addEventListener('touchstart', function(e) {
+            _touchStartY = e.touches[0].clientY;
+            _wasTouchScroll = false;
+          }, { passive: true });
+          cartBtn.addEventListener('touchmove', function(e) {
+            if (Math.abs(e.touches[0].clientY - _touchStartY) > 10) {
+              _wasTouchScroll = true;
+            }
+          }, { passive: true });
+          cartBtn.addEventListener('touchend', function(e) {
             e.stopPropagation();
             e.stopImmediatePropagation();
+            if (_wasTouchScroll) return;
+            e.preventDefault();
             addProductToCart(productData, e);
           });
-          cartBtn.addEventListener('touchend', (e) => {
+
+          cartBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
