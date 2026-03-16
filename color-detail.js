@@ -528,6 +528,107 @@ function bookAppointment() {
     window.location.href = 'index-luxury.html#contact';
 }
 
+// ─── Detail page comparison slider (mobile only) ───
+function initDetailComparisonSlider() {
+  if (window.innerWidth > 1024) return;
+
+  const container = document.querySelector('.main-image-container');
+  const wrapper = container && container.querySelector('.image-wrapper-detail');
+  const afterImg = container && container.querySelector('.kitchen-preview-detail');
+  if (!wrapper || !afterImg) return;
+
+  // Wait until kitchen image is actually loaded
+  function tryInit() {
+    if (!afterImg.src || afterImg.src === window.location.href) {
+      setTimeout(tryInit, 300);
+      return;
+    }
+    buildSlider();
+  }
+
+  function buildSlider() {
+    // Create handle
+    const handle = document.createElement('div');
+    handle.className = 'detail-slider-handle';
+    wrapper.appendChild(handle);
+
+    let isDragging = false, touchStartX = null, touchStartY = null;
+    let scrollIntentDetermined = false, isHorizontalDrag = false;
+
+    function update(pct) {
+      pct = Math.max(2, Math.min(98, pct));
+      afterImg.style.transform = `translate3d(${pct - 100}%, 0, 0)`;
+      handle.style.left = pct + '%';
+    }
+
+    // Set initial position
+    afterImg.style.opacity = '1';
+    update(50);
+
+    // Touch
+    wrapper.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      scrollIntentDetermined = false;
+      isHorizontalDrag = false;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchmove', function(e) {
+      if (!touchStartX) return;
+      const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
+      const dx = Math.abs(tx - touchStartX), dy = Math.abs(ty - touchStartY);
+      if (!scrollIntentDetermined) {
+        if (dx < 6 && dy < 6) return;
+        if (dy > dx || dy > 10) { scrollIntentDetermined = true; isHorizontalDrag = false; return; }
+        if (dx > 15 && dx > dy * 3) { scrollIntentDetermined = true; isHorizontalDrag = true; }
+        else return;
+      }
+      if (isHorizontalDrag) {
+        e.preventDefault();
+        isDragging = true;
+        const rect = wrapper.getBoundingClientRect();
+        update((tx - rect.left) / rect.width * 100);
+      }
+    }, { passive: false });
+
+    wrapper.addEventListener('touchend', function() {
+      isDragging = false; touchStartX = null; touchStartY = null;
+    }, { passive: true });
+
+    // Mouse
+    wrapper.addEventListener('mousedown', function(e) { e.preventDefault(); isDragging = true; });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      const rect = wrapper.getBoundingClientRect();
+      update((e.clientX - rect.left) / rect.width * 100);
+    });
+    document.addEventListener('mouseup', function() { isDragging = false; });
+
+    // Auto-demo
+    const obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        setTimeout(function() {
+          afterImg.style.transition = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+          handle.style.transition = 'left 0.4s cubic-bezier(.4,0,.2,1)';
+          update(75);
+          setTimeout(function() { update(25); }, 500);
+          setTimeout(function() {
+            update(50);
+            setTimeout(function() {
+              afterImg.style.transition = 'none';
+              handle.style.transition = 'none';
+            }, 450);
+          }, 1000);
+        }, 300);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(container);
+  }
+
+  tryInit();
+}
+
 // Initialize page when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -535,12 +636,14 @@ if (document.readyState === 'loading') {
         colorDetailPage.init();
         initQuoteForm();
         initContactForm();
+        setTimeout(initDetailComparisonSlider, 500);
     });
 } else {
     const colorDetailPage = new ColorDetailPage();
     colorDetailPage.init();
     initQuoteForm();
     initContactForm();
+    setTimeout(initDetailComparisonSlider, 500);
 }
 
 // Handle quote form submission
