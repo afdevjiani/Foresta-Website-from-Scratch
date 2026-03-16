@@ -646,7 +646,6 @@ p, li, label, input, button, textarea, select {
   display: flex;
   align-items: center;
   padding: var(--section-padding);
-  margin-top: -6rem;
   background: var(--color-cream);
   position: relative;
   overflow: hidden;
@@ -1441,9 +1440,6 @@ p, li, label, input, button, textarea, select {
   color: var(--color-charcoal);
   position: relative;
   overflow: hidden;
-  contain: layout style paint;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
 }
 
 .contact-luxury-section::before {
@@ -1793,7 +1789,6 @@ p, li, label, input, button, textarea, select {
 /* ===== PRODUCTS SECTION ===== */
 .products-section {
   padding: 0 var(--spacing-lg) 0;
-  margin-top: -6rem;
   background: linear-gradient(180deg, #ffffff 0%, #f8faf9 100%);
   position: relative;
   contain: layout style paint;
@@ -2062,8 +2057,8 @@ p, li, label, input, button, textarea, select {
 
 /* ===== STEP 1: CATEGORY SELECTION (Kitchens, Bedrooms, Wardrobes) ===== */
 .category-selection-container {
-  margin-top: var(--spacing-sm);
-  padding: var(--spacing-sm) 0;
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
 }
 
 .step-title {
@@ -3703,10 +3698,9 @@ p, li, label, input, button, textarea, select {
   position: relative;
   border-top: 4px solid var(--color-forest-green);
   z-index: 1;
-  contain: layout style paint;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 500px;
 }
+
+.footer-top {
   background: #ffffff;
   padding: calc(var(--spacing-xl) * 2.5) 0;
 }
@@ -4069,14 +4063,6 @@ p, li, label, input, button, textarea, select {
   .contact-container {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
-  }
-
-  .contact-container {
-    gap: var(--spacing-sm);
-  }
-
-  .contact-details-grid {
-    margin-bottom: var(--spacing-sm);
   }
 
   .products-grid {
