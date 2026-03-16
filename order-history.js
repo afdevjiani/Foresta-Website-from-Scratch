@@ -7,6 +7,8 @@
 
   var contentEl = document.getElementById('ohContent');
   var subtitleEl = document.getElementById('ohSubtitle');
+  var filtersEl = document.getElementById('ohFilters');
+  var allOrders = []; // master list for filtering
 
   function getCurrentUser() {
     return window._forestaUser || (window.forestaAuth && window.forestaAuth.getCurrentUser()) || null;
@@ -71,9 +73,60 @@
   }
 
   function renderOrders(orders) {
-    if (!orders || orders.length === 0) { showEmpty(); return; }
+    if (!orders || orders.length === 0) { showEmpty(); filtersEl.style.display = 'none'; return; }
 
+    allOrders = orders;
     subtitleEl.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '');
+    filtersEl.style.display = '';
+    applyFilters();
+  }
+
+  function getFilteredOrders() {
+    var searchVal = (document.getElementById('ohSearch').value || '').toLowerCase();
+    var methodFilter = document.querySelector('.oh-filter-btn.active');
+    var method = methodFilter ? methodFilter.getAttribute('data-filter') : 'all';
+    var sortVal = document.getElementById('ohSort').value;
+
+    var filtered = allOrders.filter(function (order) {
+      // Method filter
+      if (method !== 'all') {
+        var orderMethod = (order.method || '').toLowerCase();
+        if (orderMethod !== method) return false;
+      }
+      // Search filter
+      if (searchVal) {
+        var ref = (order.ref || '').toLowerCase();
+        var items = (order.items || []).map(function (it) { return (it.name || it.code || '').toLowerCase(); }).join(' ');
+        var date = formatDate(order.date || order.createdAt).toLowerCase();
+        if (ref.indexOf(searchVal) === -1 && items.indexOf(searchVal) === -1 && date.indexOf(searchVal) === -1) return false;
+      }
+      return true;
+    });
+
+    // Sort
+    filtered.sort(function (a, b) {
+      var da = new Date(a.date || a.createdAt);
+      var db = new Date(b.date || b.createdAt);
+      return sortVal === 'oldest' ? da - db : db - da;
+    });
+
+    return filtered;
+  }
+
+  function applyFilters() {
+    var filtered = getFilteredOrders();
+    if (filtered.length === 0) {
+      contentEl.innerHTML =
+        '<div class="oh-no-results">' +
+          '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>' +
+          '<p>No orders match your filters.</p>' +
+        '</div>';
+      return;
+    }
+    renderOrderCards(filtered);
+  }
+
+  function renderOrderCards(orders) {
 
     var html = '<div class="oh-list">';
     orders.forEach(function (order, idx) {
@@ -180,7 +233,29 @@
   }
 
   // Wait for Firebase to be ready then load
+  function initFilters() {
+    var searchInput = document.getElementById('ohSearch');
+    var sortSelect = document.getElementById('ohSort');
+    var filterBtns = document.querySelectorAll('.oh-filter-btn');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+    if (sortSelect) {
+      sortSelect.addEventListener('change', applyFilters);
+    }
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        applyFilters();
+      });
+    });
+  }
+
   function init() {
+    initFilters();
+
     // If firebase is already available, load
     if (window.firebaseGetOrders) {
       loadOrders();

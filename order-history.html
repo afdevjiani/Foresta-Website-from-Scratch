@@ -164,6 +164,53 @@
     }
     .oh-footer a { color: #c9a962; text-decoration: none; }
 
+    /* ── Filters ── */
+    .oh-filters {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 1.5rem; align-items: center;
+    }
+    .oh-search {
+      flex: 1; min-width: 160px;
+      padding: 0.6rem 0.85rem 0.6rem 2.4rem;
+      border: 1.5px solid #dde3df; border-radius: 10px;
+      font-size: 0.85rem; font-family: inherit; color: #333;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23999' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 0.75rem center;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .oh-search:focus { border-color: #0c4326; }
+    .oh-search::placeholder { color: #aaa; }
+
+    .oh-filter-group {
+      display: flex; gap: 0.35rem; background: #f0f3f1;
+      border-radius: 10px; padding: 0.2rem;
+    }
+    .oh-filter-btn {
+      padding: 0.45rem 0.85rem; border: none; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; color: #666; background: transparent;
+      transition: all 0.2s;
+    }
+    .oh-filter-btn.active { background: #0c4326; color: #fff; box-shadow: 0 2px 6px rgba(12,67,38,0.2); }
+    .oh-filter-btn:not(.active):hover { color: #0c4326; background: rgba(12,67,38,0.06); }
+
+    .oh-sort-select {
+      padding: 0.5rem 2rem 0.5rem 0.75rem;
+      border: 1.5px solid #dde3df; border-radius: 10px;
+      font-size: 0.8rem; font-family: inherit; color: #333;
+      background: #fff; cursor: pointer; outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.6rem center;
+    }
+    .oh-sort-select:focus { border-color: #0c4326; }
+
+    .oh-no-results {
+      text-align: center; padding: 2.5rem 1.5rem; color: #888;
+      font-size: 0.9rem;
+    }
+    .oh-no-results svg { display: block; margin: 0 auto 0.75rem; color: #ccc; }
+
     /* ── Mobile Responsive ── */
     @media (max-width: 600px) {
       .oh-header { padding: 1rem 1rem; }
@@ -224,6 +271,21 @@
         <div>
           <h1>Order History</h1>
           <p id="ohSubtitle">Your previous orders</p>
+        </div>
+      </div>
+
+      <div id="ohFilters" style="display:none;">
+        <div class="oh-filters">
+          <input type="text" class="oh-search" id="ohSearch" placeholder="Search orders...">
+          <div class="oh-filter-group">
+            <button class="oh-filter-btn active" data-filter="all">All</button>
+            <button class="oh-filter-btn" data-filter="whatsapp">WhatsApp</button>
+            <button class="oh-filter-btn" data-filter="email">Email</button>
+          </div>
+          <select class="oh-sort-select" id="ohSort">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
         </div>
       </div>
 
