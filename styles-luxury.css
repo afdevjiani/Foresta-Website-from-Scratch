@@ -1440,6 +1440,9 @@ p, li, label, input, button, textarea, select {
   color: var(--color-charcoal);
   position: relative;
   overflow: hidden;
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .contact-luxury-section::before {
@@ -3698,9 +3701,10 @@ p, li, label, input, button, textarea, select {
   position: relative;
   border-top: 4px solid var(--color-forest-green);
   z-index: 1;
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
 }
-
-.footer-top {
   background: #ffffff;
   padding: calc(var(--spacing-xl) * 2.5) 0;
 }

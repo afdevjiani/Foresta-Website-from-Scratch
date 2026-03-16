@@ -811,8 +811,12 @@ if ('IntersectionObserver' in window) {
       if (entry.isIntersecting) {
         const video = entry.target;
         if (video.dataset.src) {
-          video.src = video.dataset.src;
+          const source = document.createElement('source');
+          source.src = video.dataset.src;
+          source.type = 'video/mp4';
+          video.appendChild(source);
           video.load();
+          video.play().catch(function(){});
           delete video.dataset.src;
         }
         observer.unobserve(video);
