@@ -202,10 +202,14 @@ window.firebaseGetProfile = async function (email) {
 
 window.firebaseSaveOrder = async function (orderData) {
   try {
-    const docRef = await addDoc(collection(db, "orders"), {
+    // Attach Firebase Auth UID so orders are scoped per user
+    const currentUser = auth.currentUser;
+    const payload = {
       ...orderData,
+      userId: currentUser ? currentUser.uid : null,
       createdAt: new Date().toISOString()
-    });
+    };
+    const docRef = await addDoc(collection(db, "orders"), payload);
     console.log("[Firebase] Order saved:", docRef.id);
     return docRef.id;
   } catch (err) {
@@ -214,18 +218,40 @@ window.firebaseSaveOrder = async function (orderData) {
   }
 };
 
-window.firebaseGetOrders = async function (email, maxResults = 20) {
-  if (!email) return [];
-  const key = email.toLowerCase().trim();
+/**
+ * Fetch orders by userId (primary) with email fallback for legacy orders.
+ * @param {string} emailOrUid - email or userId to query
+ * @param {number} maxResults
+ */
+window.firebaseGetOrders = async function (emailOrUid, maxResults = 20) {
+  if (!emailOrUid) return [];
   try {
-    const q = query(
+    // 1. Try querying by userId first (preferred)
+    const currentUser = auth.currentUser;
+    if (currentUser && currentUser.uid) {
+      const uidQuery = query(
+        collection(db, "orders"),
+        where("userId", "==", currentUser.uid),
+        orderBy("createdAt", "desc"),
+        limit(maxResults)
+      );
+      const uidSnap = await getDocs(uidQuery);
+      if (uidSnap.docs.length > 0) {
+        return uidSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      }
+    }
+
+    // 2. Fallback: query by email (for legacy orders without userId)
+    const key = (typeof emailOrUid === 'string') ? emailOrUid.toLowerCase().trim() : '';
+    if (!key) return [];
+    const emailQuery = query(
       collection(db, "orders"),
       where("email", "==", key),
       orderBy("createdAt", "desc"),
       limit(maxResults)
     );
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const emailSnap = await getDocs(emailQuery);
+    return emailSnap.docs.map(d => ({ id: d.id, ...d.data() }));
   } catch (err) {
     console.error("[Firebase] Error getting orders:", err);
     return [];

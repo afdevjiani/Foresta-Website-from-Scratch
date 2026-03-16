@@ -224,4 +224,4 @@ The Foresta website is a fully custom-built, luxury e-commerce platform designed
 
 ---
 
-*Prepared for Foresta Wood Industries LLC — March 2026*
+*Prepared for Foresta Wood Industries LLC 

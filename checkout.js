@@ -185,20 +185,27 @@ async function getProfileByEmail(email) {
 }
 
 // ===== Order History =====
+// Get a user-scoped localStorage key for orders
+function getUserOrdersKey() {
+  const user = window._forestaUser || (window.forestaAuth && window.forestaAuth.getCurrentUser());
+  if (user && user.uid) return CONFIG.ordersKey + '_' + user.uid;
+  return CONFIG.ordersKey;
+}
+
 function getOrderHistory() {
   try {
-    return JSON.parse(localStorage.getItem(CONFIG.ordersKey) || '[]');
+    return JSON.parse(localStorage.getItem(getUserOrdersKey()) || '[]');
   } catch (_) { return []; }
 }
 
 function saveOrder(orderData) {
-  // Save locally
+  // Save locally (user-scoped)
   const orders = getOrderHistory();
   orders.unshift(orderData);
   if (orders.length > 50) orders.length = 50;
-  localStorage.setItem(CONFIG.ordersKey, JSON.stringify(orders));
+  localStorage.setItem(getUserOrdersKey(), JSON.stringify(orders));
 
-  // Sync to Firestore (fire-and-forget)
+  // Sync to Firestore with userId (fire-and-forget)
   if (window.firebaseSaveOrder) {
     window.firebaseSaveOrder({
       ...orderData,
@@ -221,15 +228,14 @@ function getOrdersForEmail(email) {
   return getOrderHistory().filter(o => (o.email || '').toLowerCase().trim() === key);
 }
 
-// Async version that also checks Firestore
+// Async version that also checks Firestore (userId-scoped)
 async function getOrdersForEmailAsync(email) {
   if (!email) return [];
-  const key = email.toLowerCase().trim();
 
-  // Get local orders
+  // Get local orders (user-scoped)
   let orders = getOrdersForEmail(email);
 
-  // Try fetching from Firestore for any orders not stored locally
+  // Try fetching from Firestore (will use userId first, email fallback)
   if (window.firebaseGetOrders) {
     try {
       const remote = await window.firebaseGetOrders(email, 20);
@@ -241,11 +247,11 @@ async function getOrdersForEmailAsync(email) {
           orders = [...newOrders, ...orders].sort((a, b) =>
             new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt)
           );
-          // Update local cache
+          // Update local cache (user-scoped)
           const allLocal = getOrderHistory();
           newOrders.forEach(o => allLocal.unshift(o));
           if (allLocal.length > 50) allLocal.length = 50;
-          localStorage.setItem(CONFIG.ordersKey, JSON.stringify(allLocal));
+          localStorage.setItem(getUserOrdersKey(), JSON.stringify(allLocal));
         }
       }
     } catch (_) {}

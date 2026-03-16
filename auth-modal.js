@@ -507,12 +507,12 @@
       } catch (_) {}
     }
 
-    // 2. Cache order history from Firestore
+    // 2. Cache order history from Firestore (user-scoped by UID)
     if (window.firebaseGetOrders) {
       try {
         const orders = await window.firebaseGetOrders(user.email, 20);
         if (orders.length > 0) {
-          const localKey = 'foresta_orders';
+          const localKey = 'foresta_orders_' + user.uid;
           const local = JSON.parse(localStorage.getItem(localKey) || '[]');
           const localRefs = new Set(local.map(o => o.ref));
           const newOnes = orders.filter(o => !localRefs.has(o.ref));
