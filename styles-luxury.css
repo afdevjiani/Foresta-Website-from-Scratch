@@ -646,7 +646,7 @@ p, li, label, input, button, textarea, select {
   display: flex;
   align-items: center;
   padding: var(--section-padding);
-  margin-top: -10rem;
+  margin-top: -6rem;
   background: var(--color-cream);
   position: relative;
   overflow: hidden;
@@ -2062,8 +2062,8 @@ p, li, label, input, button, textarea, select {
 
 /* ===== STEP 1: CATEGORY SELECTION (Kitchens, Bedrooms, Wardrobes) ===== */
 .category-selection-container {
-  margin-top: var(--spacing-lg);
-  padding: var(--spacing-lg) 0;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
 }
 
 .step-title {
@@ -4069,6 +4069,14 @@ p, li, label, input, button, textarea, select {
   .contact-container {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+  }
+
+  .contact-container {
+    gap: var(--spacing-sm);
+  }
+
+  .contact-details-grid {
+    margin-bottom: var(--spacing-sm);
   }
 
   .products-grid {
