@@ -52,7 +52,7 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes scrollMove{0%,100%{transform:translateY(0);opacity:0}50%{transform:translateY(10px);opacity:1}}
-    .sidebar-overlay{position:fixed;pointer-events:none;opacity:0;z-index:9999}.sidebar-content{transform:translateX(-100%)}
+    .sidebar-overlay{position:fixed;pointer-events:none;opacity:0;z-index:9999}.sidebar-overlay.active{opacity:1}.sidebar-content{transform:translateX(-100%)}
     @media(max-width:768px){.hero-luxury{height:100dvh}.hero-video{min-height:100dvh;object-position:center}}
   </style>
   <!-- Main stylesheet -->
@@ -138,10 +138,24 @@
           <li><a href="#home" class="sidebar-link">Home</a></li>
           <li><a href="#products" class="sidebar-link">Products</a></li>
           <li><a href="#contact" class="sidebar-link">Contact</a></li>
+          <li id="sidebarOrderHistory" style="display:none;"><a href="order-history.html" class="sidebar-link">Order History</a></li>
         </ul>
       </nav>
     </div>
   </div>
+
+  <script>
+    // Show/hide Order History sidebar link based on login state
+    (function(){
+      function toggleOH(user){
+        var el=document.getElementById('sidebarOrderHistory');
+        if(el) el.style.display = (user && user.email) ? '' : 'none';
+      }
+      var s=localStorage.getItem('foresta_auth_session');
+      if(s){try{toggleOH(JSON.parse(s));}catch(_){}}
+      window.addEventListener('forestaAuthChanged',function(e){toggleOH(e.detail.user);});
+    })();
+  </script>
 
   <main>
     <!-- Hero Section - Full Screen Cinematic -->
