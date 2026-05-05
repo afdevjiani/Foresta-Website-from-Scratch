@@ -30,6 +30,12 @@ import {
   signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
 
 // ── Firebase config ──
 const firebaseConfig = {
@@ -47,10 +53,11 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
 
 // Export for use by other scripts
-window._forestaFirebase = { app, analytics, db, auth };
+window._forestaFirebase = { app, analytics, db, auth, storage };
 
 // ═══════════════════════════════════════════════════
 // AUTHENTICATION
@@ -330,6 +337,30 @@ window.firebaseSaveInquiry = async function (inquiryData) {
     return docRef.id;
   } catch (err) {
     console.error("[Firebase] Error saving inquiry:", err);
+    return null;
+  }
+};
+
+// ═══════════════════════════════════════════════════
+// PDF UPLOAD TO FIREBASE STORAGE
+// ═══════════════════════════════════════════════════
+
+/**
+ * Upload a PDF blob to Firebase Storage and return a public download URL.
+ * @param {Blob} pdfBlob - The PDF file blob
+ * @param {string} fileName - e.g. "FWI-QT-2303-001.pdf"
+ * @returns {Promise<string|null>} The public download URL or null on failure
+ */
+window.firebaseUploadPDF = async function (pdfBlob, fileName) {
+  try {
+    const path = `quotations/${fileName}`;
+    const fileRef = storageRef(storage, path);
+    await uploadBytes(fileRef, pdfBlob, { contentType: 'application/pdf' });
+    const downloadURL = await getDownloadURL(fileRef);
+    console.log('[Firebase] PDF uploaded:', downloadURL);
+    return downloadURL;
+  } catch (err) {
+    console.error('[Firebase] PDF upload failed:', err);
     return null;
   }
 };

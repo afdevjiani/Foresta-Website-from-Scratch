@@ -2980,6 +2980,38 @@ p, li, label, input, button, textarea, select {
     scrollbar-width: none;
   }
 
+  /* Always show the vertical split line on mobile cards */
+  .color-item-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.92) 22%,
+      rgba(255, 255, 255, 0.92) 78%,
+      rgba(255, 255, 255, 0.18) 100%
+    );
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.22);
+    z-index: 4;
+    pointer-events: none;
+    animation: mobile-separator-pulse 1.8s ease-in-out infinite;
+  }
+
+  /* When JS slider is active, hide the static separator line */
+  .color-item-image-wrapper.slider-ready::after {
+    display: none;
+  }
+
+  @keyframes mobile-separator-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
   .color-item-image-wrapper::-webkit-scrollbar {
     display: none;
     width: 0;
@@ -3010,7 +3042,7 @@ p, li, label, input, button, textarea, select {
     width: 2px;
     height: 100%;
     background: rgba(255, 255, 255, 0.85);
-    z-index: 3;
+    z-index: 6;
     transform: translateX(-50%) translateZ(0);
     pointer-events: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 0, 0, 0.1);
@@ -3034,7 +3066,7 @@ p, li, label, input, button, textarea, select {
       0 2px 8px rgba(0, 0, 0, 0.2),
       0 0 0 1px rgba(255, 255, 255, 0.4),
       inset 0 1px 2px rgba(255, 255, 255, 1);
-    pointer-events: auto;
+    pointer-events: none;
     touch-action: none;
     cursor: ew-resize;
     backdrop-filter: blur(4px);
@@ -5372,7 +5404,7 @@ body.page-loaded {
 .cart-qty-overlay {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: 10100;
   background: rgba(0,0,0,0.45);
   display: flex;
   align-items: center;
@@ -5783,6 +5815,32 @@ body.page-loaded {
   border-radius: 4px;
   font-weight: 500;
   white-space: nowrap;
+}
+.cart-drawer-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: #0c4326;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  letter-spacing: 0.01em;
+}
+.cart-drawer-edit-btn:hover,
+.cart-drawer-edit-btn:active {
+  background: #186741;
+}
+@media (max-width: 480px) {
+  .cart-drawer-edit-btn {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+  }
 }
 .cart-drawer-item-bottom {
   display: flex;

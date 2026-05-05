@@ -10,7 +10,7 @@
   <link rel="canonical" href="https://foresta-web.netlify.app/color-detail.html">
   <link rel="stylesheet" href="styles-luxury.css">
   <link rel="stylesheet" href="color-detail.css">
-  <link rel="stylesheet" href="product-wizard.css">
+
   <link rel="stylesheet" href="auth-modal.css">
   <link rel="icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,8 +313,26 @@
     <p>&copy; 2026 Foresta Wood Industries LLC. All rights reserved.</p>
   </footer>
 
+  <!-- EmailJS SDK -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="module" src="firebase-init.js"></script>
   <script src="auth-modal.js"></script>
   <script src="color-detail.js"></script>
+
+  <!-- Fallback: webp → png → jpeg for any failing image -->
+  <script>
+    document.addEventListener('error', function(e) {
+      var img = e.target;
+      if (img.tagName !== 'IMG') return;
+      var src = img.src;
+      if (src.endsWith('.webp')) {
+        img.dataset.origExt = '.webp';
+        img.src = src.replace(/\.webp$/, '.png');
+      } else if (src.endsWith('.png') && img.dataset.origExt === '.webp') {
+        img.src = src.replace(/\.png$/, '.jpeg');
+        delete img.dataset.origExt;
+      }
+    }, true);
+  </script>
 </body>
 </html>

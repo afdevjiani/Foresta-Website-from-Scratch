@@ -512,7 +512,7 @@ function initContactForm() {
       const sdkLoaded = await emailJSReady;
       if (sdkLoaded && typeof emailjs !== 'undefined') {
         await emailjs.send('service_zhe4wif', 'template_jqeuisq', {
-          to_email: 'afdevjiani@gmail.com',
+          to_email: 'support@foresta.ae',
           from_name: formData.name,
           from_email: formData.email,
           reply_to: formData.email,
@@ -523,7 +523,22 @@ function initContactForm() {
           message: formData.message,
           title: formData.interest || 'General Inquiry'
         });
-        console.log('[EmailJS] Email sent successfully');
+        console.log('[EmailJS] Email sent to owner successfully');
+
+        // Send confirmation email to customer
+        if (formData.email) {
+          await emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+            to_email: formData.email,
+            from_name: 'Foresta Wood Industries',
+            name: formData.name,
+            email: 'support@foresta.ae',
+            phone: '+971 54 757 8687',
+            interest: formData.interest || 'General Inquiry',
+            message: `Dear ${formData.name},\n\nThank you for reaching out to Foresta Wood Industries!\n\nWe have received your inquiry regarding: ${formData.interest || 'General Inquiry'}.\nOur team will review your message and get back to you shortly.\n\nIf you need immediate assistance, feel free to contact us at:\n📧 support@foresta.ae\n📱 +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+            title: 'Thank You for Contacting Foresta Wood Industries'
+          });
+          console.log('[EmailJS] Confirmation email sent to customer');
+        }
       } else {
         console.warn('[EmailJS] SDK not available, skipping email');
       }

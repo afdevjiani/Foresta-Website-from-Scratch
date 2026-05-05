@@ -5,8 +5,8 @@
 
 // ===== Configuration =====
 const CONFIG = {
-  whatsappNumber: '971547862986',
-  email: 'reachus@foresta.ae',
+  whatsappNumber: '971547578687',
+  email: 'support@foresta.ae',
   storageKey: 'foresta_cart',
   customerKey: 'foresta_customer',
   ordersKey: 'foresta_orders',
@@ -44,8 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const nameInput = document.getElementById('customerName');
       if (nameInput && !nameInput.value) nameInput.value = user.displayName || '';
 
-      // Refresh previous orders
-      await renderPreviousOrders();
+
     }
   });
 });
@@ -284,42 +283,7 @@ async function showWelcomeBack() {
   if (stepContent) stepContent.parentElement.insertBefore(banner, stepContent);
 }
 
-// Render previous orders section
-async function renderPreviousOrders() {
-  const container = document.getElementById('previousOrders');
-  if (!container) return;
 
-  const email = customerData.email;
-  const orders = await getOrdersForEmailAsync(email);
-
-  if (orders.length === 0) {
-    container.closest('.previous-orders-section').style.display = 'none';
-    return;
-  }
-
-  container.closest('.previous-orders-section').style.display = 'block';
-  container.innerHTML = orders.slice(0, 10).map((order, i) => {
-    const date = new Date(order.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    const items = (order.items || []).map(it => it.name).join(', ');
-    const totalQty = (order.items || []).reduce((s, it) => s + (it.quantity || 1), 0);
-    return `
-      <div class="prev-order-card">
-        <div class="prev-order-header">
-          <span class="prev-order-ref">#${order.ref || (i + 1)}</span>
-          <span class="prev-order-date">${date}</span>
-        </div>
-        <div class="prev-order-body">
-          <p class="prev-order-items">${items || 'No items'}</p>
-          <span class="prev-order-qty">${totalQty} panel${totalQty !== 1 ? 's' : ''}</span>
-        </div>
-        <button class="prev-order-reorder" onclick="reorderFromHistory(${i})">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          Reorder
-        </button>
-      </div>
-    `;
-  }).join('');
-}
 
 // Reorder: load items from a previous order back into the cart
 window.reorderFromHistory = async function(index) {
@@ -839,8 +803,16 @@ function goToNextStep() {
     collectFormData();
     goToStep(3);
   } else if (currentStep === 3) {
-    // Show booking options
-    showBookingOptions();
+    // Check if user is logged in before showing booking options
+    if (window.forestaAuthModal && !window.forestaAuthModal.isLoggedIn()) {
+      window.forestaAuthModal.open(function() {
+        // After successful login, show booking options
+        showBookingOptions();
+      });
+    } else {
+      // Already logged in, show booking options
+      showBookingOptions();
+    }
   }
 }
 
@@ -1434,9 +1406,9 @@ async function generatePDFBlob() {
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...white);
-  doc.text('reachus@foresta.ae', PAGE_W / 2 - 42, footerY + 14);
+  doc.text('support@foresta.ae', PAGE_W / 2 - 42, footerY + 14);
   doc.text('|', PAGE_W / 2 - 14, footerY + 14);
-  doc.text('+971 54 786 2986', PAGE_W / 2 - 10, footerY + 14);
+  doc.text('+971 54 757 8687', PAGE_W / 2 - 10, footerY + 14);
   doc.text('|', PAGE_W / 2 + 16, footerY + 14);
   doc.text('www.foresta.ae', PAGE_W / 2 + 20, footerY + 14);
 
@@ -1479,43 +1451,104 @@ async function generateAndDownloadPDF() {
 }
 
 // ===== Booking Functions =====
+let _bmOpen = false;
 function showBookingOptions() {
-  // Create modal for booking options
+  if (_bmOpen) return;  // prevent double-open
+  _bmOpen = true;
+
+  // Remove any existing booking modal to prevent duplicates
+  document.querySelectorAll('.booking-modal').forEach(el => el.remove());
+  document.querySelectorAll('style[data-bm]').forEach(el => el.remove());
+
   const modal = document.createElement('div');
   modal.className = 'booking-modal';
   modal.innerHTML = `
     <div class="booking-modal-backdrop"></div>
     <div class="booking-modal-content">
-      <h3>Send Your Quotation</h3>
-      <p>How would you like to receive your quotation?</p>
-      <div class="booking-options">
-        <button class="booking-option whatsapp" onclick="bookViaWhatsApp()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span>WhatsApp</span>
-          <small>Instant response</small>
-        </button>
-        <button class="booking-option email" onclick="bookViaEmail()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          <span>Email</span>
-          <small>Detailed quotation</small>
-        </button>
-      </div>
       <button class="close-modal" onclick="closeBookingModal()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
+
+      <!-- Step 1: Review & Confirm -->
+      <div id="bm-step1">
+        <div class="bm-header">
+          <div class="bm-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0c4326" stroke-width="2">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h3>Review Your Details</h3>
+          <p>Check your info and add a message before sending</p>
+        </div>
+        <div class="bm-fields">
+          <div class="bm-field">
+            <label>Full Name</label>
+            <input type="text" id="bm-name" placeholder="Your name" value="${customerData.name || ''}">
+          </div>
+          <div class="bm-field">
+            <label>Phone Number</label>
+            <input type="tel" id="bm-phone" placeholder="+971 XX XXX XXXX" value="${customerData.phone || ''}">
+          </div>
+          <div class="bm-field">
+            <label>Email Address</label>
+            <input type="email" id="bm-email" placeholder="your@email.com" value="${customerData.email || ''}">
+          </div>
+          <div class="bm-field">
+            <label>Additional Message <span style="color:#94a3b8;font-weight:400">(optional)</span></label>
+            <textarea id="bm-message" rows="3" placeholder="Any special requirements, questions or notes for our team…">${customerData.notes || ''}</textarea>
+          </div>
+        </div>
+        <button type="button" class="bm-continue-btn" id="bm-continue-btn">
+          Continue to Send
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Step 2: Choose Send Method -->
+      <div id="bm-step2" style="display:none">
+        <div class="bm-header">
+          <div class="bm-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0c4326" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </div>
+          <h3>Send Quotation</h3>
+          <p>Choose how you'd like to send your request</p>
+        </div>
+        <div class="booking-options">
+          <button class="booking-option whatsapp" onclick="bookViaWhatsApp()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span>WhatsApp</span>
+            <small>Instant response</small>
+          </button>
+          <button class="booking-option email" onclick="bookViaEmail()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Email</span>
+            <small>Detailed quotation</small>
+          </button>
+        </div>
+        <button class="bm-back-btn" onclick="bmGoBack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Back
+        </button>
+      </div>
     </div>
   `;
-  
-  // Add modal styles
+
   const modalStyle = document.createElement('style');
+  modalStyle.setAttribute('data-bm', '1');
   modalStyle.textContent = `
     .booking-modal {
       position: fixed;
@@ -1529,37 +1562,108 @@ function showBookingOptions() {
     .booking-modal-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0,0,0,0.6);
       backdrop-filter: blur(4px);
+      pointer-events: none;
     }
     .booking-modal-content {
       position: relative;
+      z-index: 1;
       background: white;
       border-radius: 20px;
-      padding: 2.5rem;
-      max-width: 400px;
+      padding: 2rem 2rem 1.75rem;
+      max-width: 440px;
       width: 100%;
-      text-align: center;
       animation: modalSlideIn 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     @keyframes modalSlideIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from { transform: scale(0.92); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
     }
-    .booking-modal-content h3 {
-      font-size: 1.5rem;
+    .bm-header { text-align: center; margin-bottom: 1.5rem; }
+    .bm-icon {
+      width: 52px; height: 52px;
+      background: #f0f9f4;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+    .bm-header h3 { font-size: 1.35rem; color: #1a1a1a; margin: 0 0 0.3rem; }
+    .bm-header p  { font-size: 0.9rem; color: #64748b; margin: 0; }
+    .bm-fields { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.25rem; }
+    .bm-field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .bm-field input,
+    .bm-field textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.95rem;
       color: #1a1a1a;
-      margin: 0 0 0.5rem;
+      background: #f8fafc;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+      font-family: inherit;
+      resize: vertical;
     }
-    .booking-modal-content > p {
+    .bm-field input:focus,
+    .bm-field textarea:focus {
+      outline: none;
+      border-color: #0c4326;
+      background: white;
+    }
+    .bm-continue-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: #0c4326;
+      color: white;
+      border: none;
+      border-radius: 12px;
       font-size: 1rem;
-      color: #64748b;
-      margin: 0 0 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.15s;
     }
+    .bm-continue-btn:hover {
+      background: #0a3620;
+      transform: translateY(-1px);
+    }
+    .bm-back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.6rem;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .bm-back-btn:hover { background: #f1f5f9; color: #1a1a1a; }
     .booking-options {
       display: flex;
       gap: 1rem;
       justify-content: center;
+      margin-bottom: 0.25rem;
     }
     .booking-option {
       flex: 1;
@@ -1567,8 +1671,8 @@ function showBookingOptions() {
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      padding: 1.5rem;
-      border: 2px solid rgba(26, 69, 46, 0.12);
+      padding: 1.5rem 1rem;
+      border: 2px solid rgba(26,69,46,0.12);
       border-radius: 16px;
       background: white;
       cursor: pointer;
@@ -1577,56 +1681,77 @@ function showBookingOptions() {
     .booking-option:hover {
       border-color: #0c4326;
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(12, 67, 38, 0.15);
+      box-shadow: 0 8px 20px rgba(12,67,38,0.15);
     }
-    .booking-option.whatsapp:hover {
-      border-color: #25D366;
-    }
-    .booking-option.whatsapp svg {
-      color: #25D366;
-    }
-    .booking-option.email svg {
-      color: #0c4326;
-    }
-    .booking-option span {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-    .booking-option small {
-      font-size: 0.75rem;
-      color: #64748b;
-    }
+    .booking-option.whatsapp:hover { border-color: #25D366; }
+    .booking-option.whatsapp svg  { color: #25D366; }
+    .booking-option.email svg      { color: #0c4326; }
+    .booking-option span { font-size: 1rem; font-weight: 600; color: #1a1a1a; }
+    .booking-option small { font-size: 0.75rem; color: #64748b; }
     .close-modal {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 36px;
-      height: 36px;
+      top: 1rem; right: 1rem;
+      width: 34px; height: 34px;
       border: none;
       background: #f1f5f9;
       border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       color: #64748b;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
     }
-    .close-modal:hover {
-      background: #e2e8f0;
-      color: #1a1a1a;
-    }
+    .close-modal:hover { background: #e2e8f0; color: #1a1a1a; }
   `;
-  
+
   document.head.appendChild(modalStyle);
   document.body.appendChild(modal);
-  
-  // Store reference for cleanup
   modal._style = modalStyle;
+
+  // Attach button listeners directly (more reliable than inline onclick)
+  const continueBtn = document.getElementById('bm-continue-btn');
+  console.log('[BM] Continue button found:', continueBtn);
+  continueBtn.addEventListener('click', function() {
+    console.log('[BM] Continue to Send clicked');
+    const name  = document.getElementById('bm-name')?.value.trim();
+    const phone = document.getElementById('bm-phone')?.value.trim();
+    const email = document.getElementById('bm-email')?.value.trim();
+    const msg   = document.getElementById('bm-message')?.value.trim();
+    console.log('[BM] Values:', { name, phone, email, msg });
+    if (name)  customerData.name  = name;
+    if (phone) customerData.phone = phone;
+    if (email) customerData.email = email;
+    customerData.customMessage = msg;
+    const step1 = document.getElementById('bm-step1');
+    const step2 = document.getElementById('bm-step2');
+    console.log('[BM] step1:', step1, ' step2:', step2);
+    if (step1) step1.style.display = 'none';
+    if (step2) step2.style.display = 'block';
+  });
 }
 
+window.bmGoToSend = function() {
+  // Capture updated values from the review form into customerData
+  const name  = document.getElementById('bm-name')?.value.trim();
+  const phone = document.getElementById('bm-phone')?.value.trim();
+  const email = document.getElementById('bm-email')?.value.trim();
+  const msg   = document.getElementById('bm-message')?.value.trim();
+
+  if (name)  customerData.name  = name;
+  if (phone) customerData.phone = phone;
+  if (email) customerData.email = email;
+  customerData.customMessage = msg; // store for use in emails/WhatsApp
+
+  document.getElementById('bm-step1').style.display = 'none';
+  document.getElementById('bm-step2').style.display = 'block';
+};
+
+window.bmGoBack = function() {
+  document.getElementById('bm-step2').style.display = 'none';
+  document.getElementById('bm-step1').style.display = 'block';
+};
+
 window.closeBookingModal = function() {
+  _bmOpen = false;
   const modal = document.querySelector('.booking-modal');
   if (modal) {
     if (modal._style) modal._style.remove();
@@ -1634,40 +1759,55 @@ window.closeBookingModal = function() {
   }
 };
 
-window.bookViaWhatsApp = async function() {
-  // 1. Generate the PDF blob
-  const result = await generatePDFBlob();
-  if (!result) return;
+window.bookViaWhatsApp = function() {
+  // Generate reference number
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const rand = String(Math.floor(100 + Math.random() * 900));
+  const refNum = `FWI-QT-${dd}${mm}-${rand}`;
 
-  const { blob, fileName, refNum } = result;
-  const pdfFile = new File([blob], fileName, { type: 'application/pdf' });
+  // Inline helpers
+  const boardLabel = bt => bt === 'mr' ? 'MR Grade' : 'Standard';
+  const faceLabel  = f  => f === '1face' ? 'Single Face' : f === '2face' ? 'Double Face' : f || '';
 
-  // 2. Try native Web Share API (supports file attachment on mobile)
-  if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
-    try {
-      await navigator.share({
-        title: 'Foresta Quotation',
-        text: `Quotation Request – Foresta Wood Industries (Ref: ${refNum})`,
-        files: [pdfFile]
-      });
-      closeBookingModal();
-      showSuccessStep('WhatsApp', refNum);
-      return;
-    } catch (err) {
-      if (err.name === 'AbortError') { return; } // user cancelled
-      // Fall through to WhatsApp link method
-    }
-  }
+  // Build product lines
+  const productLines = cart.map((item, i) => {
+    const qty = item.quantity || 1;
+    let line = `${i + 1}. ${item.name || '-'}`;
+    if (item.code)       line += `\n• Code: ${item.code}`;
+    if (item.size)       line += `\n• Size: ${item.size}`;
+    if (item.boardType)  line += `\n• Board: ${boardLabel(item.boardType)}`;
+    if (item.faceOption) line += `\n• Face: ${faceLabel(item.faceOption)}`;
+    line += `\n• Qty: ${qty} ${qty === 1 ? 'panel' : 'panels'}`;
+    return line;
+  }).join('\n\n');
 
-  // 3. Fallback: download PDF + open WhatsApp with text prompt
-  triggerDownload(blob, fileName);
-  const message = generateBookingMessage(refNum);
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodedMessage}`;
-  setTimeout(() => { window.open(whatsappUrl, '_blank'); }, 600);
+  const totalQty = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  const panelWord = totalQty === 1 ? 'panel' : 'panels';
+  const companyLine = customerData.company ? `\n\n• Company: ${customerData.company}\n` : '';
+  const extra = customerData.customMessage ? `\n\nMessage from Customer:\n${customerData.customMessage}\n` : '';
+
+  const message =
+`New Quotation Request — Foresta
+
+━━━━━━━━━━━━━━━━━━━━
+Customer Details:
+• Name: ${customerData.name || '-'}
+• Phone: ${customerData.phone || '-'}
+• Email: ${customerData.email || '-'}${companyLine}
+━━━━━━━━━━━━━━━━━━━━
+Products Requested (${totalQty} ${panelWord} total):
+${productLines}
+
+━━━━━━━━━━━━━━━━━━━━${extra}`;
+
+  const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  setTimeout(() => { window.open(whatsappUrl, '_blank'); }, 300);
 
   closeBookingModal();
   showSuccessStep('WhatsApp', refNum);
+  sendOrderEmailNotification(refNum);
 };
 
 window.bookViaEmail = async function() {
@@ -1704,6 +1844,9 @@ window.bookViaEmail = async function() {
 
   closeBookingModal();
   showSuccessStep('Email', refNum);
+  
+  // Send email notification to owner
+  sendOrderEmailNotification(refNum);
 };
 
 // Helper to trigger a file download from a Blob
@@ -1771,6 +1914,45 @@ function generateBookingMessage(refNum) {
   return message;
 }
 
+// Send email notification to owner when order is placed
+function sendOrderEmailNotification(refNum) {
+  if (typeof emailjs === 'undefined') return;
+  try {
+    emailjs.init('pXjb_eNTYwPMbAh7q');
+    const itemsList = cart.map(item => `${item.name} (${item.code}) x${item.quantity}`).join(', ');
+    const totalQty = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    emailjs.send('service_zhe4wif', 'template_dpde9uz', {
+      to_email: 'support@foresta.ae',
+      from_name: customerData.name || 'Customer',
+      reply_to: customerData.email || '',
+      reference_id: refNum || 'N/A',
+      name: customerData.name || '-',
+      email: customerData.email || '-',
+      phone: customerData.phone || '-',
+      product: itemsList,
+      quantity: String(totalQty)
+    });
+    console.log('[EmailJS] Order notification email sent to owner');
+
+    // Send confirmation email to customer
+    if (customerData.email) {
+      emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+        to_email: customerData.email,
+        from_name: 'Foresta Wood Industries',
+        name: customerData.name || 'Valued Customer',
+        phone: customerData.phone || '-',
+        email: 'support@foresta.ae',
+        interest: `Your Order Ref: ${refNum || 'N/A'}`,
+        message: `Dear ${customerData.name || 'Customer'},\n\nThank you for your quotation request with Foresta Wood Industries!\n\nWe have received your inquiry and our team will get back to you within 1-2 business days.\n\nIf you have any questions, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+        title: 'Thank You for Your Order – Foresta Wood Industries'
+      });
+      console.log('[EmailJS] Order confirmation email sent to customer');
+    }
+  } catch (err) {
+    console.warn('[EmailJS] Failed to send order email:', err);
+  }
+}
+
 function showSuccessStep(method, refNum) {
   // Save order to history before clearing cart
   saveOrder({
@@ -1780,13 +1962,13 @@ function showSuccessStep(method, refNum) {
     customer: customerData.name || '',
     method: method,
     items: cart.map(item => ({
-      id: item.id,
-      name: item.name,
-      code: item.code,
-      type: item.type,
-      category: item.category,
-      productCategory: item.productCategory,
-      frontImage: item.frontImage,
+      id: item.id || null,
+      name: item.name || null,
+      code: item.code || null,
+      type: item.type || null,
+      category: item.category || null,
+      productCategory: item.productCategory || null,
+      frontImage: item.frontImage || null,
       size: item.size || '',
       boardType: item.boardType || '',
       faceOption: item.faceOption || '',
@@ -1813,6 +1995,7 @@ function showSuccessStep(method, refNum) {
     }
   }
   
+  _bmOpen = false;
   goToStep(4);
   
   // Clear cart after successful booking

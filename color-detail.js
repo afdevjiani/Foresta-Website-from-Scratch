@@ -11,6 +11,8 @@ class ColorDetailPage {
         this.colorCode = this.urlParams.get('code');
         this.colorImage = this.urlParams.get('image');
         this.colorType = this.urlParams.get('type');
+        this.colorSpace = this.urlParams.get('space');
+        this.colorPreview = this.urlParams.get('preview');
         
         // Product data structure (same as configurator)
         this.categories = {
@@ -186,6 +188,8 @@ class ColorDetailPage {
             code: decodeURIComponent(this.colorCode),
             image: decodeURIComponent(this.colorImage),
             type: decodeURIComponent(this.colorType),
+            space: this.colorSpace ? decodeURIComponent(this.colorSpace) : 'kitchens',
+            preview: this.colorPreview ? decodeURIComponent(this.colorPreview) : null,
             hex: '#808080' // Default hex
         };
         
@@ -301,12 +305,20 @@ class ColorDetailPage {
             mainImage.alt = colorData.name;
         }
         
-        // Load kitchen preview image
-        if (kitchenImage && colorData.image) {
-            const kitchenPath = this.getKitchenImagePath(colorData.image, colorData.type);
-            if (kitchenPath) {
-                kitchenImage.src = kitchenPath;
-                kitchenImage.alt = `${colorData.name} Kitchen Preview`;
+        // Load room preview image (kitchen/wardrobe/bedroom)
+        if (kitchenImage) {
+            // Use preview param passed directly from the main page (most reliable)
+            if (colorData.preview) {
+                kitchenImage.src = colorData.preview;
+                const spaceName = colorData.space === 'wardrobes' ? 'Wardrobe' : colorData.space === 'bedrooms' ? 'Bedroom' : 'Kitchen';
+                kitchenImage.alt = `${colorData.name} ${spaceName} Preview`;
+            } else if (colorData.image) {
+                // Fallback: try to derive the preview path
+                const kitchenPath = this.getKitchenImagePath(colorData.image, colorData.type);
+                if (kitchenPath) {
+                    kitchenImage.src = kitchenPath;
+                    kitchenImage.alt = `${colorData.name} Preview`;
+                }
             }
         }
     }
@@ -711,11 +723,48 @@ function initQuoteForm() {
         // Encode the entire message properly
         const encodedMessage = encodeURIComponent(messageText);
         
-        // Foresta WhatsApp Business number (with country code)
-        const whatsappNumber = '923282216497';
+        // Foresta WhatsApp Business number (UAE)
+        const whatsappNumber = '971547578687';
         
         // Use WhatsApp API link - proper format
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        // Send email notification via EmailJS
+        if (typeof emailjs !== 'undefined') {
+            try {
+                emailjs.init('pXjb_eNTYwPMbAh7q');
+                const customerEmail = document.getElementById('quoteEmail')?.value || '';
+                emailjs.send('service_zhe4wif', 'template_dpde9uz', {
+                    to_email: 'support@foresta.ae',
+                    from_name: name,
+                    reply_to: customerEmail,
+                    reference_id: `FWI-QT-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
+                    name: name,
+                    email: customerEmail,
+                    phone: phone,
+                    product: `${color} (${code}) — Size: ${size}`,
+                    quantity: String(quantity)
+                });
+                console.log('[EmailJS] Quote notification email sent to owner');
+
+                // Send confirmation email to customer
+                if (customerEmail) {
+                    emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+                        to_email: customerEmail,
+                        from_name: 'Foresta Wood Industries',
+                        name: name,
+                        phone: '+971 54 757 8687',
+                        email: 'support@foresta.ae',
+                        interest: `Quote: ${color} (${code})`,
+                        message: `Dear ${name},\n\nThank you for requesting a quotation from Foresta Wood Industries!\n\nYour quote details:\n- Product: ${color} (${code})\n- Size: ${size}\n- Quantity: ${quantity} panels\n\nOur team will review your request and contact you shortly via WhatsApp or email.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+                        title: 'Thank You for Your Quote Request – Foresta Wood Industries'
+                    });
+                    console.log('[EmailJS] Quote confirmation email sent to customer');
+                }
+            } catch (err) {
+                console.warn('[EmailJS] Failed to send email:', err);
+            }
+        }
         
         // Open WhatsApp in new window
         const whatsappWindow = window.open(whatsappLink, '_blank');
@@ -781,11 +830,47 @@ function initContactForm() {
         // Encode the entire message properly
         const encodedMessage = encodeURIComponent(messageText);
         
-        // Foresta WhatsApp Business number (with country code)
-        const whatsappNumber = '923282216497';
+        // Foresta WhatsApp Business number (UAE)
+        const whatsappNumber = '971547578687';
         
         // Use WhatsApp API link - proper format
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        // Send email notification via EmailJS
+        if (typeof emailjs !== 'undefined') {
+            try {
+                emailjs.init('pXjb_eNTYwPMbAh7q');
+                emailjs.send('service_zhe4wif', 'template_dpde9uz', {
+                    to_email: 'support@foresta.ae',
+                    from_name: name,
+                    reply_to: email,
+                    reference_id: `FWI-CF-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    product: 'Contact Form Inquiry',
+                    quantity: 'N/A'
+                });
+                console.log('[EmailJS] Contact notification email sent to owner');
+
+                // Send confirmation email to customer
+                if (email) {
+                    emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+                        to_email: email,
+                        from_name: 'Foresta Wood Industries',
+                        name: name,
+                        phone: '+971 54 757 8687',
+                        email: 'support@foresta.ae',
+                        interest: 'Contact Form Inquiry',
+                        message: `Dear ${name},\n\nThank you for contacting Foresta Wood Industries!\n\nWe have received your message and our team will get back to you shortly.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+                        title: 'Thank You for Contacting Foresta Wood Industries'
+                    });
+                    console.log('[EmailJS] Contact confirmation email sent to customer');
+                }
+            } catch (err) {
+                console.warn('[EmailJS] Failed to send email:', err);
+            }
+        }
         
         // Open WhatsApp in new window
         const whatsappWindow = window.open(whatsappLink, '_blank');
@@ -915,17 +1000,51 @@ function updateCartButtonState() {
     }
 }
 
-// Auth-gated Add to Cart wrapper
-function addToCartWithAuth() {
-    if (window.forestaAuthModal) {
-        window.forestaAuthModal.requireAuth(addToCart, []);
-    } else {
-        addToCart();
+// ─── Product Pricing (same as main page) ─────────────────
+const PRODUCT_PRICING = {
+    'lami-gloss': {
+        label: 'Lami Gloss',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: true,
+        hasMR: true,
+        prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
+    },
+    'lami-matt': {
+        label: 'Lami Matt',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: true,
+        hasMR: true,
+        prices: { 'standard-1face': 290, 'standard-2face': 330, 'mr-1face': 310, 'mr-2face': 350 }
+    },
+    'marble-acrylic': {
+        label: 'Acrylic',
+        sizes: ['2800 × 1220 × 18 mm', '2440 × 1220 × 18 mm', '3050 × 1220 × 18 mm'],
+        hasFace: false,
+        hasMR: false,
+        prices: { 'standard': 450 }
     }
+};
+
+// Detect category from product type
+function detectCategory(type) {
+    if (!type) return 'lami-gloss';
+    const t = type.toLowerCase();
+    if (t.includes('acrylic') || t.includes('marble')) return 'marble-acrylic';
+    if (t.includes('matt') || t.includes('mat')) return 'lami-matt';
+    return 'lami-gloss';
 }
 
-// Add current product to cart (same structure as main page grid)
-function addToCart() {
+// Pending product for modal
+let _pendingProduct = null;
+
+// Add to Cart button click - opens modal directly (no auth check yet)
+function addToCartWithAuth() {
+    // Open modal first - auth check happens when user confirms
+    openCartQtyModal();
+}
+
+// Open the cart quantity modal (same as main page)
+function openCartQtyModal() {
     const urlParams = new URLSearchParams(window.location.search);
     const productName = urlParams.get('name') || '';
     const productCode = urlParams.get('code') || '';
@@ -938,32 +1057,260 @@ function addToCart() {
         return;
     }
 
-    const id = `${productCode}_${productSpace}`;
+    const productCategory = detectCategory(productType);
+    
+    _pendingProduct = {
+        name: productName,
+        code: productCode,
+        type: productType,
+        space: productSpace,
+        frontImage: productImage,
+        productCategory: productCategory
+    };
 
-    let cart = getCart();
-    const existingIndex = cart.findIndex(item => item.id === id);
+    injectCartQtyModal();
+    document.getElementById('cartQtyName').textContent = productName + ' (' + productCode + ')';
+    document.getElementById('cartQtyInput').value = 1;
+    updatePriceDisplay();
+    document.getElementById('cartQtyModal').classList.add('active');
+}
 
-    if (existingIndex !== -1) {
-        // Same behaviour as the main grid: increment quantity
-        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
-    } else {
-        cart.push({
-            id,
-            name: productName,
-            code: productCode,
-            type: productType,
-            category: productSpace,
-            frontImage: productImage,
-            quantity: 1,
-            width: '',
-            height: '',
-            depth: ''
-        });
+// Build modal content
+function buildModalContent(pricing) {
+    let html = '';
+
+    // Size (selectable)
+    html += `
+      <div class="cart-qty-row">
+        <label class="cart-qty-label">Panel Size</label>
+        <div class="cart-qty-sizes">
+          ${pricing.sizes.map((s, i) => `
+            <button type="button" class="cart-qty-size-btn${i === 0 ? ' active' : ''}" data-size="${s}">${s}</button>
+          `).join('')}
+        </div>
+      </div>`;
+
+    // Board Type (Standard / MR)
+    if (pricing.hasMR) {
+        html += `
+      <div class="cart-qty-row">
+        <label class="cart-qty-label">Board Type</label>
+        <div class="cart-qty-toggle-group">
+          <button type="button" class="cart-qty-board-btn active" data-board="standard">Standard</button>
+          <button type="button" class="cart-qty-board-btn" data-board="mr">MR (Water Resistant)</button>
+        </div>
+      </div>`;
     }
 
-    saveCart(cart);
-    updateCartButtonState();
-    showCartNotification(productName);
+    // Face Option (1 Face / 2 Face)
+    if (pricing.hasFace) {
+        html += `
+      <div class="cart-qty-row">
+        <label class="cart-qty-label">Face Option</label>
+        <div class="cart-qty-toggle-group">
+          <button type="button" class="cart-qty-face-btn active" data-face="1face">
+            <span class="face-label">1 Face</span>
+            <span class="face-desc">White melamine backside</span>
+          </button>
+          <button type="button" class="cart-qty-face-btn" data-face="2face">
+            <span class="face-label">2 Face</span>
+            <span class="face-desc">Same color both sides</span>
+          </button>
+        </div>
+      </div>`;
+    }
+
+    // Quantity
+    html += `
+      <div class="cart-qty-row">
+        <label class="cart-qty-label">Quantity (sheets)</label>
+        <div class="cart-qty-stepper">
+          <button type="button" class="cart-qty-minus" id="cartQtyMinus">−</button>
+          <input type="number" class="cart-qty-input" id="cartQtyInput" value="1" min="1" max="999">
+          <button type="button" class="cart-qty-plus" id="cartQtyPlus">+</button>
+        </div>
+      </div>`;
+
+    // Price Summary
+    html += `
+      <div class="cart-qty-price-summary">
+        <div class="cart-qty-price-row">
+          <span>Price per sheet</span>
+          <span id="cartQtyUnitPrice" class="cart-qty-price-val">AED 0</span>
+        </div>
+        <div class="cart-qty-price-row cart-qty-price-total">
+          <span>Total</span>
+          <span id="cartQtyTotalPrice" class="cart-qty-price-val">AED 0</span>
+        </div>
+      </div>`;
+
+    return html;
+}
+
+// Get unit price based on selections
+function getUnitPrice() {
+    if (!_pendingProduct) return 0;
+    const pricing = PRODUCT_PRICING[_pendingProduct.productCategory];
+    if (!pricing) return 0;
+
+    const overlay = document.getElementById('cartQtyModal');
+    if (!overlay) return 0;
+
+    const board = overlay.querySelector('.cart-qty-board-btn.active')?.dataset.board || 'standard';
+    const face = overlay.querySelector('.cart-qty-face-btn.active')?.dataset.face || '1face';
+
+    if (pricing.hasFace) {
+        return pricing.prices[board + '-' + face] || 0;
+    }
+    return pricing.prices[board] || pricing.prices['standard'] || 0;
+}
+
+// Update price display
+function updatePriceDisplay() {
+    const overlay = document.getElementById('cartQtyModal');
+    if (!overlay) return;
+    const unitPrice = getUnitPrice();
+    const qty = Math.max(1, parseInt(document.getElementById('cartQtyInput')?.value) || 1);
+    const total = unitPrice * qty;
+
+    const unitEl = document.getElementById('cartQtyUnitPrice');
+    const totalEl = document.getElementById('cartQtyTotalPrice');
+    if (unitEl) unitEl.textContent = 'AED ' + unitPrice;
+    if (totalEl) totalEl.textContent = 'AED ' + total.toLocaleString();
+
+    const confirmBtn = document.getElementById('cartQtyConfirm');
+    if (confirmBtn) {
+        confirmBtn.querySelector('.confirm-total').textContent = 'AED ' + total.toLocaleString();
+    }
+}
+
+// Inject cart quantity modal
+function injectCartQtyModal() {
+    const existing = document.getElementById('cartQtyModal');
+    if (existing) existing.remove();
+
+    const pricing = PRODUCT_PRICING[_pendingProduct?.productCategory] || PRODUCT_PRICING['lami-gloss'];
+
+    const html = `
+    <div class="cart-qty-overlay" id="cartQtyModal">
+      <div class="cart-qty-dialog">
+        <button class="cart-qty-close" id="cartQtyClose" aria-label="Close">&times;</button>
+        <h3 class="cart-qty-title">Add to Cart</h3>
+        <p class="cart-qty-product-name" id="cartQtyName"></p>
+        <div class="cart-qty-body">${buildModalContent(pricing)}</div>
+        <button type="button" class="cart-qty-confirm" id="cartQtyConfirm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Add to Cart — <span class="confirm-total">AED 0</span>
+        </button>
+      </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    // Events
+    const overlay = document.getElementById('cartQtyModal');
+    document.getElementById('cartQtyClose').addEventListener('click', closeCartQtyModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeCartQtyModal(); });
+
+    // Size selection
+    overlay.querySelectorAll('.cart-qty-size-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            overlay.querySelectorAll('.cart-qty-size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // Board type toggle
+    overlay.querySelectorAll('.cart-qty-board-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            overlay.querySelectorAll('.cart-qty-board-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePriceDisplay();
+        });
+    });
+
+    // Face toggle
+    overlay.querySelectorAll('.cart-qty-face-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            overlay.querySelectorAll('.cart-qty-face-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePriceDisplay();
+        });
+    });
+
+    // Quantity stepper
+    const qtyInput = document.getElementById('cartQtyInput');
+    document.getElementById('cartQtyMinus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        if (v > 1) { qtyInput.value = v - 1; updatePriceDisplay(); }
+    });
+    document.getElementById('cartQtyPlus').addEventListener('click', () => {
+        const v = parseInt(qtyInput.value) || 1;
+        qtyInput.value = v + 1;
+        updatePriceDisplay();
+    });
+    qtyInput.addEventListener('input', updatePriceDisplay);
+
+    // Confirm button - add to cart directly (no auth check)
+    document.getElementById('cartQtyConfirm').addEventListener('click', () => {
+        if (!_pendingProduct) return;
+        
+        // Prepare product data
+        const pricing = PRODUCT_PRICING[_pendingProduct.productCategory];
+        const board = overlay.querySelector('.cart-qty-board-btn.active')?.dataset.board || 'standard';
+        const face = overlay.querySelector('.cart-qty-face-btn.active')?.dataset.face || '1face';
+        const qty = Math.max(1, parseInt(qtyInput.value) || 1);
+        const unitPrice = getUnitPrice();
+
+        _pendingProduct.size = overlay.querySelector('.cart-qty-size-btn.active')?.dataset.size || pricing?.sizes?.[0] || '2800 × 1220 × 18 mm';
+        _pendingProduct.boardType = board;
+        _pendingProduct.faceOption = pricing?.hasFace ? face : 'standard';
+        _pendingProduct.quantity = qty;
+        _pendingProduct.unitPrice = unitPrice;
+        _pendingProduct.totalPrice = unitPrice * qty;
+        
+        // Add to cart directly - auth check happens at checkout
+        commitToCart(_pendingProduct);
+        closeCartQtyModal();
+    });
+}
+
+// Close modal
+function closeCartQtyModal() {
+    const overlay = document.getElementById('cartQtyModal');
+    if (overlay) overlay.classList.remove('active');
+    _pendingProduct = null;
+}
+
+// Commit to cart (same as main page)
+function commitToCart(productData) {
+    try {
+        const CART_STORAGE_KEY = 'foresta_cart';
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        let cart = stored ? JSON.parse(stored) : [];
+        const itemId = productData.code + '_' + (productData.boardType || '') + '_' + (productData.faceOption || '');
+        const existingIndex = cart.findIndex(item => item.id === itemId);
+        if (existingIndex !== -1) {
+            cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + (productData.quantity || 1);
+            cart[existingIndex].totalPrice = cart[existingIndex].unitPrice * cart[existingIndex].quantity;
+        } else {
+            cart.push({
+                ...productData,
+                id: itemId,
+                quantity: productData.quantity || 1
+            });
+        }
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateCartBadge();
+        updateCartButtonState();
+        showCartNotification(productData.name);
+    } catch (e) {
+        console.error('Error adding to cart:', e);
+    }
+}
+
+// Legacy addToCart function (kept for compatibility)
+function addToCart() {
+    openCartQtyModal();
 }
 
 // View cart → go to checkout
