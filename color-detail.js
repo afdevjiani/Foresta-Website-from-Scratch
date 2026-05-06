@@ -1,4 +1,21 @@
 // Color Detail Page JavaScript
+
+// Email sending is done server-side via Netlify Function — API keys never exposed to browser
+async function sendEmailViaFunction(templateId, params) {
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ templateId, params })
+    });
+    if (!res.ok) throw new Error('Function responded ' + res.status);
+    return true;
+  } catch (err) {
+    console.warn('[Email] Failed to send via function:', err);
+    return false;
+  }
+}
+
 class ColorDetailPage {
     constructor() {
         this.urlParams = new URLSearchParams(window.location.search);
@@ -729,41 +746,38 @@ function initQuoteForm() {
         // Use WhatsApp API link - proper format
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
-        // Send email notification via EmailJS
-        if (typeof emailjs !== 'undefined') {
-            try {
-                emailjs.init('pXjb_eNTYwPMbAh7q');
-                const customerEmail = document.getElementById('quoteEmail')?.value || '';
-                emailjs.send('service_zhe4wif', 'template_dpde9uz', {
-                    to_email: 'support@foresta.ae',
-                    from_name: name,
-                    reply_to: customerEmail,
-                    reference_id: `FWI-QT-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
-                    name: name,
-                    email: customerEmail,
-                    phone: phone,
-                    product: `${color} (${code}) — Size: ${size}`,
-                    quantity: String(quantity)
-                });
-                console.log('[EmailJS] Quote notification email sent to owner');
+        // Send email notification via Netlify Function (server-side — keys never exposed)
+        try {
+            const customerEmail = document.getElementById('quoteEmail')?.value || '';
+            sendEmailViaFunction('owner', {
+                to_email: 'reachus@foresta.ae',
+                from_name: name,
+                reply_to: customerEmail,
+                reference_id: `FWI-QT-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
+                name: name,
+                email: customerEmail,
+                phone: phone,
+                product: `${color} (${code}) — Size: ${size}`,
+                quantity: String(quantity)
+            });
+            console.log('[Email] Quote notification email sent to owner');
 
-                // Send confirmation email to customer
-                if (customerEmail) {
-                    emailjs.send('service_zhe4wif', 'template_jqeuisq', {
-                        to_email: customerEmail,
-                        from_name: 'Foresta Wood Industries',
-                        name: name,
-                        phone: '+971 54 757 8687',
-                        email: 'support@foresta.ae',
-                        interest: `Quote: ${color} (${code})`,
-                        message: `Dear ${name},\n\nThank you for requesting a quotation from Foresta Wood Industries!\n\nYour quote details:\n- Product: ${color} (${code})\n- Size: ${size}\n- Quantity: ${quantity} panels\n\nOur team will review your request and contact you shortly via WhatsApp or email.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
-                        title: 'Thank You for Your Quote Request – Foresta Wood Industries'
-                    });
-                    console.log('[EmailJS] Quote confirmation email sent to customer');
-                }
-            } catch (err) {
-                console.warn('[EmailJS] Failed to send email:', err);
+            // Send confirmation email to customer
+            if (customerEmail) {
+                sendEmailViaFunction('customer', {
+                    to_email: customerEmail,
+                    from_name: 'Foresta Wood Industries',
+                    name: name,
+                    phone: '+971 54 786 2986',
+                    email: 'reachus@foresta.ae',
+                    interest: `Quote: ${color} (${code})`,
+                    message: `Dear ${name},\n\nThank you for requesting a quotation from Foresta Wood Industries!\n\nYour quote details:\n- Product: ${color} (${code})\n- Size: ${size}\n- Quantity: ${quantity} panels\n\nOur team will review your request and contact you shortly via WhatsApp or email.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: reachus@foresta.ae\nPhone: +971 54 786 2986\n\nWarm regards,\nForesta Wood Industries`,
+                    title: 'Thank You for Your Quote Request – Foresta Wood Industries'
+                });
+                console.log('[Email] Quote confirmation email sent to customer');
             }
+        } catch (err) {
+            console.warn('[Email] Failed to send email:', err);
         }
         
         // Open WhatsApp in new window
@@ -836,40 +850,37 @@ function initContactForm() {
         // Use WhatsApp API link - proper format
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
-        // Send email notification via EmailJS
-        if (typeof emailjs !== 'undefined') {
-            try {
-                emailjs.init('pXjb_eNTYwPMbAh7q');
-                emailjs.send('service_zhe4wif', 'template_dpde9uz', {
-                    to_email: 'support@foresta.ae',
-                    from_name: name,
-                    reply_to: email,
-                    reference_id: `FWI-CF-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    product: 'Contact Form Inquiry',
-                    quantity: 'N/A'
-                });
-                console.log('[EmailJS] Contact notification email sent to owner');
+        // Send email notification via Netlify Function (server-side — keys never exposed)
+        try {
+            sendEmailViaFunction('owner', {
+                to_email: 'reachus@foresta.ae',
+                from_name: name,
+                reply_to: email,
+                reference_id: `FWI-CF-${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','')}-${Math.floor(Math.random()*900)+100}`,
+                name: name,
+                email: email,
+                phone: phone,
+                product: 'Contact Form Inquiry',
+                quantity: 'N/A'
+            });
+            console.log('[Email] Contact notification email sent to owner');
 
-                // Send confirmation email to customer
-                if (email) {
-                    emailjs.send('service_zhe4wif', 'template_jqeuisq', {
-                        to_email: email,
-                        from_name: 'Foresta Wood Industries',
-                        name: name,
-                        phone: '+971 54 757 8687',
-                        email: 'support@foresta.ae',
-                        interest: 'Contact Form Inquiry',
-                        message: `Dear ${name},\n\nThank you for contacting Foresta Wood Industries!\n\nWe have received your message and our team will get back to you shortly.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
-                        title: 'Thank You for Contacting Foresta Wood Industries'
-                    });
-                    console.log('[EmailJS] Contact confirmation email sent to customer');
-                }
-            } catch (err) {
-                console.warn('[EmailJS] Failed to send email:', err);
+            // Send confirmation email to customer
+            if (email) {
+                sendEmailViaFunction('customer', {
+                    to_email: email,
+                    from_name: 'Foresta Wood Industries',
+                    name: name,
+                    phone: '+971 54 786 2986',
+                    email: 'reachus@foresta.ae',
+                    interest: 'Contact Form Inquiry',
+                    message: `Dear ${name},\n\nThank you for contacting Foresta Wood Industries!\n\nWe have received your message and our team will get back to you shortly.\n\nIf you need immediate assistance, feel free to reach us at:\nEmail: reachus@foresta.ae\nPhone: +971 54 786 2986\n\nWarm regards,\nForesta Wood Industries`,
+                    title: 'Thank You for Contacting Foresta Wood Industries'
+                });
+                console.log('[Email] Contact confirmation email sent to customer');
             }
+        } catch (err) {
+            console.warn('[Email] Failed to send email:', err);
         }
         
         // Open WhatsApp in new window

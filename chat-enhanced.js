@@ -20,7 +20,7 @@ COMPANY PROFILE:
 - Certifications: ISO 9001:2015, E1 Grade emissions, FSC certified
 - 100% sustainable, eco-friendly materials
 - Strategic location at world's busiest port
-- Contact: +971 54 757 8687 | support@foresta.ae
+- Contact: +971 54 786 2986 | reachus@foresta.ae
 - Location: Umm Al Quwain, UAE
 - Hours: Sunday-Thursday, 9 AM - 6 PM GST
 
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
     pricing: {
       messages: [
         "Our pricing depends on several factors including panel type, quantity, and specifications.",
-        "For accurate pricing tailored to your project:\n\nPhone: +971 54 757 8687\nEmail: support@foresta.ae\nContact: Islam Gaafar"
+        "For accurate pricing tailored to your project:\n\nPhone: +971 54 786 2986\nEmail: reachus@foresta.ae\nContact: Sameer Hassan"
       ],
       options: [
         { text: "Request Quote", action: "quote" },
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     contact: {
       messages: [
         "Get in touch with our expert team:",
-        "Phone: +971 54 757 8687\nEmail: support@foresta.ae\nLocation: Umm Al Quwain, UAE\nHours: Sunday-Thursday, 9 AM - 6 PM GST"
+        "Phone: +971 54 786 2986\nEmail: reachus@foresta.ae\nLocation: Umm Al Quwain, UAE\nHours: Sunday-Thursday, 9 AM - 6 PM GST"
       ],
       options: [
         { text: "Send Email", action: "email" },
@@ -311,14 +311,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }, index * 600);
       });
     } else if (action === 'call') {
-      addMessage("Calling +971 54 757 8687...", 'bot');
+      addMessage("Calling +971 54 786 2986...", 'bot');
       setTimeout(() => {
-        window.location.href = 'tel:+971547578687';
+        window.location.href = 'tel:+971547862986';
       }, 1000);
     } else if (action === 'email') {
       addMessage("Opening email client...", 'bot');
       setTimeout(() => {
-        window.location.href = 'mailto:support@foresta.ae?subject=Inquiry from Website';
+        window.location.href = 'mailto:reachus@foresta.ae?subject=Inquiry from Website';
       }, 1000);
     } else if (action === 'download') {
       addMessage("Our product catalogs are available in the Products section of our website. Redirecting...", 'bot');
@@ -327,8 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
         closeChat.click();
       }, 1500);
     } else if (action === 'quote') {
-      addMessage("Please provide your project details, and our team will prepare a customized quote for you:", 'bot');
-      addMessage("Phone: +971 54 757 8687\\nEmail: support@foresta.ae", 'bot');
+      addMessage("Please provide your project details to email us or directly contact us:\n\nEmail: reachus@foresta.ae\nPhone: +971 54 786 2986", 'bot');
     }
   }
 
@@ -533,12 +532,12 @@ INSTRUCTIONS:
     
     // Pricing inquiries
     if (msg.includes('price') || msg.includes('cost') || msg.includes('quote')) {
-      return "Our pricing varies by product and quantity. For accurate quotes, please contact us at +971 54 757 8687 or email support@foresta.ae with your requirements.";
+      return "Our pricing varies by product and quantity. For accurate quotes, please contact us at +971 54 786 2986 or email reachus@foresta.ae with your requirements.";
     }
     
     // Contact inquiries
     if (msg.includes('contact') || msg.includes('phone') || msg.includes('email') || msg.includes('reach')) {
-      return "You can reach us at:\n📞 +971 54 757 8687\n📧 support@foresta.ae\n🕐 Sunday-Thursday, 9 AM - 6 PM GST\n📍 Umm Al Quwain, UAE";
+      return "You can reach us at:\n📞 +971 54 786 2986\n📧 reachus@foresta.ae\n🕐 Sunday-Thursday, 9 AM - 6 PM GST\n📍 Umm Al Quwain, UAE";
     }
     
     // Quality/certification inquiries

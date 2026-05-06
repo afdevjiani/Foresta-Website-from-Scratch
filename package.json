@@ -1,8 +1,14 @@
 {
+  "scripts": {
+    "build": "npm run minify",
+    "minify": "npx terser script-luxury.js -o script-luxury.js --compress --mangle && npx terser checkout.js -o checkout.js --compress --mangle && npx terser color-detail.js -o color-detail.js --compress --mangle && npx terser chat-enhanced.js -o chat-enhanced.js --compress --mangle && npx terser auth-modal.js -o auth-modal.js --compress --mangle && npx terser firebase-init.js -o firebase-init.js --compress --mangle && npx terser video-control.js -o video-control.js --compress --mangle && npx cleancss -o styles-luxury.css styles-luxury.css && npx cleancss -o chat-styles-modern.css chat-styles-modern.css && npx cleancss -o auth-modal.css auth-modal.css && npx cleancss -o checkout.css checkout.css && npx cleancss -o color-detail.css color-detail.css"
+  },
   "dependencies": {
     "firebase": "^12.2.1"
   },
   "devDependencies": {
-    "@google-cloud/storage": "^7.19.0"
+    "@google-cloud/storage": "^7.19.0",
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.46.2"
   }
 }

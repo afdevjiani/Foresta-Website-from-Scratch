@@ -10,7 +10,7 @@
       "https://forestawebsite.web.app",
       "https://forestawebsite.firebaseapp.com",
       "https://forestawoodindustries.netlify.app",
-      "*"
+      "https://forestaw26.netlify.app"
     ],
     "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
     "maxAgeSeconds": 3600,

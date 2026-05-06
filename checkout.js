@@ -6,7 +6,7 @@
 // ===== Configuration =====
 const CONFIG = {
   whatsappNumber: '971547578687',
-  email: 'support@foresta.ae',
+  email: 'reachus@foresta.ae',
   storageKey: 'foresta_cart',
   customerKey: 'foresta_customer',
   ordersKey: 'foresta_orders',
@@ -651,7 +651,8 @@ function updateSummary() {
   if (notesSummarySection && notesSummary) {
     if (customerData.notes) {
       notesSummarySection.style.display = '';
-      notesSummary.innerHTML = `<p style="margin:0;color:var(--checkout-text-muted);line-height:1.6;">${customerData.notes}</p>`;
+      const safeNotes = customerData.notes.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+      notesSummary.innerHTML = `<p style="margin:0;color:var(--checkout-text-muted);line-height:1.6;">${safeNotes}</p>`;
     } else {
       notesSummarySection.style.display = 'none';
     }
@@ -1406,9 +1407,9 @@ async function generatePDFBlob() {
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...white);
-  doc.text('support@foresta.ae', PAGE_W / 2 - 42, footerY + 14);
+  doc.text('reachus@foresta.ae', PAGE_W / 2 - 42, footerY + 14);
   doc.text('|', PAGE_W / 2 - 14, footerY + 14);
-  doc.text('+971 54 757 8687', PAGE_W / 2 - 10, footerY + 14);
+  doc.text('+971 54 786 2986', PAGE_W / 2 - 10, footerY + 14);
   doc.text('|', PAGE_W / 2 + 16, footerY + 14);
   doc.text('www.foresta.ae', PAGE_W / 2 + 20, footerY + 14);
 
@@ -1431,7 +1432,7 @@ async function generatePDFBlob() {
   return { blob, fileName, refNum };
 }
 
-/**
+/*
  * Backward-compatible wrapper: generates and downloads the PDF, returns refNum.
  */
 async function generateAndDownloadPDF() {
@@ -1915,14 +1916,28 @@ function generateBookingMessage(refNum) {
 }
 
 // Send email notification to owner when order is placed
-function sendOrderEmailNotification(refNum) {
-  if (typeof emailjs === 'undefined') return;
+// Email sending is done server-side via Netlify Function — API keys never exposed to browser
+async function sendEmailViaFunction(templateId, params) {
   try {
-    emailjs.init('pXjb_eNTYwPMbAh7q');
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ templateId, params })
+    });
+    if (!res.ok) throw new Error('Function responded ' + res.status);
+    return true;
+  } catch (err) {
+    console.warn('[Email] Failed to send via function:', err);
+    return false;
+  }
+}
+
+function sendOrderEmailNotification(refNum) {
+  try {
     const itemsList = cart.map(item => `${item.name} (${item.code}) x${item.quantity}`).join(', ');
     const totalQty = cart.reduce((s, i) => s + (i.quantity || 1), 0);
-    emailjs.send('service_zhe4wif', 'template_dpde9uz', {
-      to_email: 'support@foresta.ae',
+    sendEmailViaFunction('owner', {
+      to_email: 'reachus@foresta.ae',
       from_name: customerData.name || 'Customer',
       reply_to: customerData.email || '',
       reference_id: refNum || 'N/A',
@@ -1932,24 +1947,24 @@ function sendOrderEmailNotification(refNum) {
       product: itemsList,
       quantity: String(totalQty)
     });
-    console.log('[EmailJS] Order notification email sent to owner');
+    console.log('[Email] Order notification email sent to owner');
 
     // Send confirmation email to customer
     if (customerData.email) {
-      emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+      sendEmailViaFunction('customer', {
         to_email: customerData.email,
         from_name: 'Foresta Wood Industries',
         name: customerData.name || 'Valued Customer',
         phone: customerData.phone || '-',
-        email: 'support@foresta.ae',
+        email: 'reachus@foresta.ae',
         interest: `Your Order Ref: ${refNum || 'N/A'}`,
-        message: `Dear ${customerData.name || 'Customer'},\n\nThank you for your quotation request with Foresta Wood Industries!\n\nWe have received your inquiry and our team will get back to you within 1-2 business days.\n\nIf you have any questions, feel free to reach us at:\nEmail: support@foresta.ae\nPhone: +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+        message: `Dear ${customerData.name || 'Customer'},\n\nThank you for your quotation request with Foresta Wood Industries!\n\nWe have received your inquiry and our team will get back to you within 1-2 business days.\n\nIf you have any questions, feel free to reach us at:\nEmail: reachus@foresta.ae\nPhone: +971 54 786 2986\n\nWarm regards,\nForesta Wood Industries`,
         title: 'Thank You for Your Order – Foresta Wood Industries'
       });
-      console.log('[EmailJS] Order confirmation email sent to customer');
+      console.log('[Email] Order confirmation email sent to customer');
     }
   } catch (err) {
-    console.warn('[EmailJS] Failed to send order email:', err);
+    console.warn('[Email] Failed to send order email:', err);
   }
 }
 

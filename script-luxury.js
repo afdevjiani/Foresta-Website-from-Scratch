@@ -447,38 +447,27 @@ function initMobileMenu() {
   // Kept for backward compatibility
 }
 
-// ===== CONTACT FORM SUBMISSION (EmailJS + Firebase) =====
+// ===== CONTACT FORM SUBMISSION (EmailJS via Netlify Function + Firebase) =====
+// Email sending is done server-side — API keys never exposed to browser
+async function sendEmailViaFunction(templateId, params) {
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ templateId, params })
+    });
+    if (!res.ok) throw new Error('Function responded ' + res.status);
+    return true;
+  } catch (err) {
+    console.warn('[Email] Failed to send via function:', err);
+    return false;
+  }
+}
+
 function initContactForm() {
   const form = document.getElementById('luxuryContactForm');
   
   if (!form) return;
-
-  // Initialize EmailJS — wait for SDK if not loaded yet
-  function ensureEmailJS() {
-    return new Promise((resolve) => {
-      if (typeof emailjs !== 'undefined') {
-        emailjs.init("pXjb_eNTYwPMbAh7q");
-        resolve(true);
-      } else {
-        // SDK still loading, retry
-        let attempts = 0;
-        const check = setInterval(() => {
-          attempts++;
-          if (typeof emailjs !== 'undefined') {
-            clearInterval(check);
-            emailjs.init("pXjb_eNTYwPMbAh7q");
-            resolve(true);
-          } else if (attempts > 50) {
-            clearInterval(check);
-            console.warn('[EmailJS] SDK failed to load');
-            resolve(false);
-          }
-        }, 100);
-      }
-    });
-  }
-
-  const emailJSReady = ensureEmailJS();
   
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -508,11 +497,9 @@ function initContactForm() {
     };
 
     try {
-      // 1) Send email via EmailJS
-      const sdkLoaded = await emailJSReady;
-      if (sdkLoaded && typeof emailjs !== 'undefined') {
-        await emailjs.send('service_zhe4wif', 'template_jqeuisq', {
-          to_email: 'support@foresta.ae',
+      // 1) Send email via Netlify Function (server-side — keys never exposed)
+      await sendEmailViaFunction('owner', {
+          to_email: 'reachus@foresta.ae',
           from_name: formData.name,
           from_email: formData.email,
           reply_to: formData.email,
@@ -523,25 +510,22 @@ function initContactForm() {
           message: formData.message,
           title: formData.interest || 'General Inquiry'
         });
-        console.log('[EmailJS] Email sent to owner successfully');
+        console.log('[Email] Email sent to owner successfully');
 
         // Send confirmation email to customer
         if (formData.email) {
-          await emailjs.send('service_zhe4wif', 'template_jqeuisq', {
+          await sendEmailViaFunction('customer', {
             to_email: formData.email,
             from_name: 'Foresta Wood Industries',
             name: formData.name,
-            email: 'support@foresta.ae',
-            phone: '+971 54 757 8687',
+            email: 'reachus@foresta.ae',
+            phone: '+971 54 786 2986',
             interest: formData.interest || 'General Inquiry',
-            message: `Dear ${formData.name},\n\nThank you for reaching out to Foresta Wood Industries!\n\nWe have received your inquiry regarding: ${formData.interest || 'General Inquiry'}.\nOur team will review your message and get back to you shortly.\n\nIf you need immediate assistance, feel free to contact us at:\n📧 support@foresta.ae\n📱 +971 54 757 8687\n\nWarm regards,\nForesta Wood Industries`,
+            message: `Dear ${formData.name},\n\nThank you for reaching out to Foresta Wood Industries!\n\nWe have received your inquiry regarding: ${formData.interest || 'General Inquiry'}.\nOur team will review your message and get back to you shortly.\n\nIf you need immediate assistance, feel free to contact us at:\n📧 reachus@foresta.ae\n📱 +971 54 786 2986\n\nWarm regards,\nForesta Wood Industries`,
             title: 'Thank You for Contacting Foresta Wood Industries'
           });
-          console.log('[EmailJS] Confirmation email sent to customer');
+          console.log('[Email] Confirmation email sent to customer');
         }
-      } else {
-        console.warn('[EmailJS] SDK not available, skipping email');
-      }
 
       // 2) Save inquiry to Firebase Firestore
       if (window.firebaseSaveInquiry) {
