@@ -42,17 +42,12 @@
     Cache-Control = "public, max-age=604800"
 
 [[headers]]
-  for = "/assets/*.mp4"
+  for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/assets/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/assets/*.webp"
+  for = "/assets/**/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
