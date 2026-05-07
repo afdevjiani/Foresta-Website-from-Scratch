@@ -14,6 +14,12 @@
 # EMAILJS_TEMPLATE_CUSTOMER = template_h9yk2mp
 
 [[redirects]]
+  from = "/__/auth/*"
+  to = "https://forestawebsite.firebaseapp.com/__/auth/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/pdf/:ref"
   to = "/.netlify/functions/pdf-view?ref=:ref"
   status = 200
